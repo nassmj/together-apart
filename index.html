@@ -80,7 +80,16 @@
 <link rel="stylesheet" href="/index.css">
 </head>
   <body class="transition-colors duration-300">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Loading state while React app loads -->
+      <div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green mx-auto mb-4"></div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Together Apart</h1>
+          <p class="text-gray-600 dark:text-gray-400">Loading your relationship app...</p>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>
