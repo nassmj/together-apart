@@ -22,25 +22,25 @@ const ConnectionCard: React.FC<{ connection: Connection, index: number }> = ({ c
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white dark:bg-white/5 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-white/10"
+            className="bg-white dark:bg-white/5 p-8 rounded-2xl shadow-lg border border-rose/10"
         >
-            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3">
+            <p className="text-sm font-semibold text-cool-gray dark:text-gray-400 mb-4">
                 {new Date(connection.date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
-            <div className="mb-4 p-4 bg-green/10 rounded-lg">
-                <p className="font-semibold text-green italic">"{connection.question}"</p>
+            <div className="mb-6 p-5 bg-lavender/10 rounded-xl border border-lavender/20">
+                <p className="font-semibold text-lavender-600 dark:text-lavender-400 text-lg italic">"{connection.question}"</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-6">
                 <div>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white mb-2">Your Answer</p>
-                    <div className="bg-green/10 p-3 rounded-lg text-green/90 text-sm">
-                        {userAnswer || <span className="italic text-gray-400">No answer given.</span>}
+                    <p className="text-sm font-bold text-charcoal dark:text-white mb-3">Your Answer</p>
+                    <div className="bg-coral/10 p-4 rounded-xl border border-coral/20 text-coral/90 text-sm">
+                        {userAnswer || <span className="italic text-cool-gray">No answer given.</span>}
                     </div>
                 </div>
                 <div>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white mb-2">{partner?.full_name || 'Partner'}'s Answer</p>
-                    <div className="bg-pink/10 p-3 rounded-lg text-pink/90 text-sm">
-                        {partnerAnswer || <span className="italic text-gray-400">Waiting for an answer...</span>}
+                    <p className="text-sm font-bold text-charcoal dark:text-white mb-3">{partner?.full_name || 'Partner'}'s Answer</p>
+                    <div className="bg-rose/10 p-4 rounded-xl border border-rose/20 text-rose/90 text-sm">
+                        {partnerAnswer || <span className="italic text-cool-gray">Waiting for an answer...</span>}
                     </div>
                 </div>
             </div>
@@ -81,15 +81,15 @@ const DailyConnectionPage: React.FC = () => {
     }, [couple, toast]);
 
     return (
-        <div className="space-y-8 max-w-3xl mx-auto">
-            <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">📜 Connection History</h1>
-                <p className="mt-1 text-gray-500 dark:text-gray-400">A look back at your shared moments and conversations.</p>
+        <div className="space-y-8 max-w-4xl mx-auto p-6">
+            <div className="text-center">
+                <h1 className="text-4xl font-bold text-charcoal dark:text-white tracking-tight mb-3">📜 Connection History</h1>
+                <p className="text-lg text-cool-gray dark:text-gray-400">A look back at your shared moments and conversations.</p>
             </div>
             
-            <div className="space-y-6">
+            <div className="space-y-8">
                 {loading ? (
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                         {Array.from({ length: 3 }).map((_, index) => (
                             <SkeletonCard key={index} />
                         ))}
@@ -104,16 +104,16 @@ const DailyConnectionPage: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center py-16"
                     >
-                        <div className="bg-white dark:bg-white/5 p-8 rounded-xl shadow-lg border border-gray-200 dark:border-white/10">
-                            <div className="text-6xl mb-4">💕</div>
-                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        <div className="bg-white dark:bg-white/5 p-12 rounded-2xl shadow-lg border border-rose/10">
+                            <div className="text-8xl mb-6">💕</div>
+                            <h3 className="text-2xl font-semibold text-charcoal dark:text-white mb-4">
                                 Start Your Journey Together
                             </h3>
-                            <p className="text-gray-500 dark:text-gray-400 mb-6">
+                            <p className="text-cool-gray dark:text-gray-400 mb-8 text-lg">
                                 Your connection history will appear here once you start sharing daily questions and answers with your partner.
                             </p>
-                            <div className="bg-green/10 p-4 rounded-lg">
-                                <p className="text-green font-medium">
+                            <div className="bg-lavender/10 p-6 rounded-xl border border-lavender/20">
+                                <p className="text-lavender-600 dark:text-lavender-400 font-medium text-lg">
                                     💡 Tip: Check the "Daily Connection" page to start your first conversation!
                                 </p>
                             </div>

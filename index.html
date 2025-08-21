@@ -15,19 +15,72 @@
       theme: {
         extend: {
           colors: {
-            black: '#292323',
+            // Primary - Soft Rose / Blush Pink
+            rose: {
+              DEFAULT: '#F28B82',
+              '50': '#FEF2F2',
+              '100': '#FEE2E2',
+              '200': '#FECACA',
+              '300': '#FCA5A5',
+              '400': '#F87171',
+              '500': '#F28B82', // Primary
+              '600': '#DC2626',
+              '700': '#B91C1C',
+              '800': '#991B1B',
+              '900': '#7F1D1D',
+            },
+            // Secondary - Calm Lavender / Periwinkle
+            lavender: {
+              DEFAULT: '#A5B4FC',
+              '50': '#F8FAFF',
+              '100': '#F0F4FF',
+              '200': '#E0E7FF',
+              '300': '#C7D2FE',
+              '400': '#A5B4FC', // Secondary
+              '500': '#818CF8',
+              '600': '#6366F1',
+              '700': '#4F46E5',
+              '800': '#4338CA',
+              '900': '#3730A3',
+            },
+            // Accent - Sunset Coral / Warm Peach
+            coral: {
+              DEFAULT: '#FFB085',
+              '50': '#FFF7ED',
+              '100': '#FFEDD5',
+              '200': '#FED7AA',
+              '300': '#FDBA74',
+              '400': '#FB923C',
+              '500': '#FFB085', // Accent
+              '600': '#EA580C',
+              '700': '#C2410C',
+              '800': '#9A3412',
+              '900': '#7C2D12',
+            },
+            // Neutrals
+            charcoal: '#333333',
+            'soft-white': '#FAFAFA',
+            'cool-gray': '#9CA3AF',
+            // Legacy support
             pink: {
-              DEFAULT: '#FFA9D6',
-              '500': '#FFA9D6'
+              DEFAULT: '#F28B82',
+              '500': '#F28B82',
             },
             green: {
-              DEFAULT: '#CBD861',
-              '500': '#CBD861'
+              DEFAULT: '#A5B4FC',
+              '500': '#A5B4FC',
             },
             gray: {
-              '1': '#ADA9A6',
-              '2': '#ADA9A6', // Using the same for simplicity as they are identical in the image
+              '1': '#9CA3AF',
+              '2': '#9CA3AF',
             }
+          },
+          fontFamily: {
+            'sans': ['Inter', 'sans-serif'],
+          },
+          backgroundImage: {
+            'sunset-gradient': 'linear-gradient(135deg, #F28B82 0%, #A5B4FC 50%, #FFB085 100%)',
+            'romantic-gradient': 'linear-gradient(135deg, #FEE2E2 0%, #E0E7FF 100%)',
           }
         }
       }
@@ -51,14 +104,14 @@
 <style>
   :root {
     font-family: 'Inter', sans-serif;
-    --scrollbar-track: #f1f1f1;
-    --scrollbar-thumb: #c1c1c1;
-    --scrollbar-thumb-hover: #a8a8a8;
+    --scrollbar-track: #fafafa;
+    --scrollbar-thumb: #e5e7eb;
+    --scrollbar-thumb-hover: #d1d5db;
   }
   .dark {
-     --scrollbar-track: #292323;
-     --scrollbar-thumb: #4a4a4a;
-     --scrollbar-thumb-hover: #6a6a6a;
+     --scrollbar-track: #1f2937;
+     --scrollbar-thumb: #4b5563;
+     --scrollbar-thumb-hover: #6b7280;
   }
 
   /* Custom scrollbar for a more integrated look */
@@ -79,14 +132,14 @@
 </style>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="transition-colors duration-300">
+  <body class="transition-colors duration-300 bg-soft-white dark:bg-gray-900">
     <div id="root">
       <!-- Loading state while React app loads -->
-      <div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div class="min-h-screen bg-romantic-gradient dark:bg-gray-900 flex items-center justify-center">
         <div class="text-center">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green mx-auto mb-4"></div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Together Apart</h1>
-          <p class="text-gray-600 dark:text-gray-400">Loading your relationship app...</p>
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-rose mx-auto mb-4"></div>
+          <h1 class="text-2xl font-bold text-charcoal dark:text-white mb-2">Together Apart</h1>
+          <p class="text-cool-gray dark:text-gray-400">Loading your relationship app...</p>
         </div>
       </div>
     </div>
