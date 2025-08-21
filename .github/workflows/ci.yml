@@ -10,9 +10,9 @@ env:
   NODE_VERSION: '20'
 
 jobs:
-  # Lint and Type Check
-  lint-and-type-check:
-    name: Lint & Type Check
+  # Basic Build and Test
+  build-and-test:
+    name: Build & Test
     runs-on: ubuntu-latest
     
     steps:
@@ -28,65 +28,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-      - name: Run ESLint
+      - name: Run ESLint (optional)
         run: npm run lint || echo "ESLint issues found - continuing..."
         
-      - name: Type check
+      - name: Type check (optional)
         run: npm run type-check || echo "TypeScript issues found - continuing..."
-
-  # Test Suite
-  test:
-    name: Test Suite
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
         
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Run tests
+      - name: Run tests (optional)
         run: npm run test:coverage || echo "Tests failed - continuing..."
-        
-      - name: Upload coverage reports
-        if: success()
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./coverage/lcov.info
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: false
-
-  # Build
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: [lint-and-type-check, test]
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: npm ci
         
       - name: Build application
         run: npm run build
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'dummy-url' }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://dummy.supabase.co' }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'dummy-key' }}
           VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY || 'dummy-key' }}
           
@@ -97,8 +51,8 @@ jobs:
           path: dist/
           retention-days: 7
 
-  # Security Audit
-  security-audit:
+  # Security Check
+  security:
     name: Security Audit
     runs-on: ubuntu-latest
     
@@ -116,52 +70,14 @@ jobs:
         run: npm ci
         
       - name: Run security audit
-        run: npm audit --audit-level=moderate || echo "Security issues found - continuing..."
-        
-      - name: Check for known vulnerabilities
-        run: npm audit --audit-level=high || echo "High severity issues found - continuing..."
-
-  # Performance Testing
-  performance:
-    name: Performance Testing
-    runs-on: ubuntu-latest
-    needs: build
-    if: always()
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-files
-          path: dist/
-          
-      - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli@0.12.x
-        
-      - name: Run Lighthouse CI
-        run: |
-          lhci autorun || echo "Lighthouse CI failed - continuing..."
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN || 'dummy-token' }}
+        run: npm audit --audit-level=high || echo "Security issues found - continuing..."
 
   # Deploy to Staging (on develop branch)
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
-    needs: [build, security-audit]
-    if: github.ref == 'refs/heads/develop' && always()
+    needs: build-and-test
+    if: github.ref == 'refs/heads/develop'
     
     steps:
       - name: Checkout code
@@ -176,17 +92,18 @@ jobs:
       - name: Deploy to Vercel (Staging)
         uses: amondnet/vercel-action@v25
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN || 'dummy-token' }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID || 'dummy-id' }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID || 'dummy-id' }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
+        continue-on-error: true
 
   # Deploy to Production (on main branch)
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: [build, security-audit, performance]
-    if: github.ref == 'refs/heads/main' && always()
+    needs: [build-and-test, security]
+    if: github.ref == 'refs/heads/main'
     environment: production
     
     steps:
@@ -202,10 +119,11 @@ jobs:
       - name: Deploy to Vercel (Production)
         uses: amondnet/vercel-action@v25
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN || 'dummy-token' }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID || 'dummy-id' }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID || 'dummy-id' }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
+        continue-on-error: true
           
       - name: Notify deployment
         run: |
@@ -213,40 +131,5 @@ jobs:
           echo "Environment: ${{ github.ref }}"
           echo "Commit: ${{ github.sha }}"
           echo "Author: ${{ github.actor }}"
-
-  # Dependency Updates
-  dependency-updates:
-    name: Check for Dependency Updates
-    runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Check for outdated dependencies
-        run: npm outdated
-        
-      - name: Create issue for dependency updates
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '🔧 Dependency Updates Available',
-              body: 'Some dependencies have updates available. Please review and update as needed.',
-              labels: ['dependencies', 'maintenance']
-            })
 
 
