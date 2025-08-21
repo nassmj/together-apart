@@ -6,8 +6,8 @@
 
 > **A comprehensive relationship management app that helps couples stay connected even when physically apart**
 
-[![CI/CD Pipeline](https://github.com/YOUR_USERNAME/together-apart/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/YOUR_USERNAME/together-apart/actions)
-[![Test Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen)](https://github.com/YOUR_USERNAME/together-apart)
+[![CI/CD Pipeline](https://github.com/nassmj/together-apart/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/nassmj/together-apart/actions)
+[![Test Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen)](https://github.com/nassmj/together-apart)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.2-blue)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19.1.1-blue)](https://reactjs.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -63,7 +63,7 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/together-apart.git
+   git clone https://github.com/nassmj/together-apart.git
    cd together-apart
    ```
 
@@ -268,8 +268,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/YOUR_USERNAME/together-apart/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/YOUR_USERNAME/together-apart/discussions)
+- **Issues**: [GitHub Issues](https://github.com/nassmj/together-apart/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/nassmj/together-apart/discussions)
 - **Email**: your-email@example.com
 
 ---
