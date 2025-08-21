@@ -17,6 +17,7 @@ import GrowthHubPage from './pages/dashboard/GrowthHubPage';
 import DiscoveryExchangePage from './pages/dashboard/DiscoveryExchangePage';
 import SettingsPage from './pages/dashboard/SettingsPage';
 import ConnectPartnerPage from './pages/dashboard/ConnectPartnerPage';
+import ProfilePage from './pages/dashboard/ProfilePage';
 
 import { ToastProvider } from './components/ToastProvider';
 import { useAuth } from './contexts/AuthContext';
@@ -95,6 +96,7 @@ const App: React.FC = () => {
           <Route path="discovery" element={<DiscoveryExchangePage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="connect" element={<ConnectPartnerPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Routes>
       

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
     PaperAirplaneIcon, 
     SparklesIcon,
@@ -8,32 +8,53 @@ import {
     HeartIcon,
     CalendarDaysIcon,
     TrophyIcon,
-    MusicalNoteIcon
+    MusicalNoteIcon,
+    BellIcon,
+    Cog6ToothIcon,
+    UserCircleIcon
 } from '@heroicons/react/24/solid';
 import { useToast } from '../../components/ToastProvider';
 import { useAuth } from '../../contexts/AuthContext';
 import { usePartner } from '../../contexts/PartnerContext';
 import { LoadingSpinner, Skeleton } from '../../components/LoadingSpinner';
+import BottomNav from '../../components/dashboard/BottomNav';
 
 // --- WIDGET COMPONENTS ---
 
-const WelcomeHeader: React.FC = () => {
+const HeaderSection: React.FC = () => {
     const { user } = useAuth();
     const userName = user?.user_metadata?.full_name || user?.email || 'there';
 
     return (
-        <div className="bg-sunset-gradient p-8 rounded-2xl border border-rose/20 shadow-lg">
-            <h1 className="text-3xl font-bold text-white mb-3">
-                Welcome back, {userName}! 💕
-            </h1>
-            <p className="text-white/90 text-lg">
-                Ready to strengthen your relationship today?
-            </p>
+        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-full bg-rose/20 flex items-center justify-center border-2 border-rose/30">
+                        <UserCircleIcon className="h-8 w-8 text-rose" />
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-bold text-charcoal dark:text-white">
+                            Hello, {userName}
+                        </h1>
+                        <p className="text-cool-gray dark:text-gray-400">
+                            Ready to connect today?
+                        </p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-3">
+                    <button className="p-2 rounded-full bg-soft-white dark:bg-white/10 hover:bg-rose/10 transition-colors">
+                        <BellIcon className="h-6 w-6 text-charcoal dark:text-white" />
+                    </button>
+                    <Link to="/dashboard/settings" className="p-2 rounded-full bg-soft-white dark:bg-white/10 hover:bg-rose/10 transition-colors">
+                        <Cog6ToothIcon className="h-6 w-6 text-charcoal dark:text-white" />
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 };
 
-const DailyConnectionWidget: React.FC = () => {
+const DailyConnectionCard: React.FC = () => {
     const { user } = useAuth();
     const { partner } = usePartner();
     
@@ -45,7 +66,6 @@ const DailyConnectionWidget: React.FC = () => {
         if (!userAnswerText.trim()) return;
         
         setIsSubmitting(true);
-        // Simulate submission
         setTimeout(() => {
             setIsSubmitting(false);
             setUserAnswerText('');
@@ -53,12 +73,19 @@ const DailyConnectionWidget: React.FC = () => {
     };
 
     return (
-        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-lg border border-rose/10">
-            <h3 className="text-xl font-bold text-charcoal dark:text-white mb-2">Daily Connection</h3>
-            <p className="text-cool-gray dark:text-gray-400 mb-6">Your shared question for today.</p>
+        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <div>
+                    <h3 className="text-xl font-bold text-charcoal dark:text-white">How do you feel today?</h3>
+                    <p className="text-cool-gray dark:text-gray-400">Submit today by 11:00 am</p>
+                </div>
+                <button className="px-4 py-2 bg-charcoal text-white rounded-xl font-medium hover:bg-charcoal/90 transition-colors">
+                    Start
+                </button>
+            </div>
 
-            <div className="mb-6 p-5 bg-lavender/10 rounded-xl border border-lavender/20">
-                <p className="font-semibold text-lavender-600 dark:text-lavender-400 text-lg">
+            <div className="mb-6 p-4 bg-lavender/10 rounded-xl border border-lavender/20">
+                <p className="font-semibold text-lavender-600 dark:text-lavender-400">
                     "What's one thing you're grateful for about your relationship today?"
                 </p>
             </div>
@@ -66,7 +93,7 @@ const DailyConnectionWidget: React.FC = () => {
             <div className="space-y-4">
                 {/* Partner's Answer */}
                 <div className="flex items-end gap-3">
-                    <div className="h-10 w-10 rounded-full bg-rose/20 flex items-center justify-center flex-shrink-0 border-2 border-rose/30">
+                    <div className="h-10 w-10 rounded-full bg-rose/20 flex items-center justify-center border-2 border-rose/30">
                         <span className="font-bold text-rose text-sm">{partner?.full_name?.[0] || 'P'}</span>
                     </div>
                     <div className="bg-lavender/10 p-4 rounded-2xl rounded-bl-none max-w-md border border-lavender/20">
@@ -97,65 +124,115 @@ const DailyConnectionWidget: React.FC = () => {
                     </div>
                 </form>
             </div>
-            
-            <Link to="/dashboard/daily-connection" className="text-sm text-rose hover:text-rose/80 text-center block mt-6 font-medium">
-                View connection history →
-            </Link>
         </div>
     );
 };
 
-const QuickActionsWidget: React.FC = () => {
-    const actions = [
-        { title: 'Add Memory', icon: HeartIcon, color: 'bg-rose/20 text-rose border-rose/20', path: '/dashboard/timeline' },
-        { title: 'Plan Activity', icon: CalendarDaysIcon, color: 'bg-lavender/20 text-lavender border-lavender/20', path: '/dashboard/planner' },
-        { title: 'Growth Hub', icon: TrophyIcon, color: 'bg-coral/20 text-coral border-coral/20', path: '/dashboard/growth-hub' },
-        { title: 'Discover', icon: SparklesIcon, color: 'bg-purple-400/20 text-purple-400 border-purple-400/20', path: '/dashboard/discovery' },
+const ProgressCard: React.FC = () => {
+    return (
+        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <div>
+                    <h3 className="text-xl font-bold text-charcoal dark:text-white">Improve relationship strength</h3>
+                    <p className="text-cool-gray dark:text-gray-400">Your current goal</p>
+                </div>
+                <div className="p-2 rounded-lg bg-lavender/10">
+                    <ArrowUpRightIcon className="h-5 w-5 text-lavender" />
+                </div>
+            </div>
+
+            <div className="flex items-center gap-6">
+                <div className="relative">
+                    <div className="h-20 w-20 rounded-full border-4 border-lavender/20 flex items-center justify-center">
+                        <div className="h-16 w-16 rounded-full border-4 border-lavender bg-lavender/10 flex items-center justify-center">
+                            <span className="text-lg font-bold text-lavender">79%</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex-1">
+                    <div className="mb-2">
+                        <p className="text-sm text-cool-gray dark:text-gray-400">Connection score</p>
+                        <p className="text-xl font-bold text-charcoal dark:text-white">24.6 / 30</p>
+                    </div>
+                    <div>
+                        <p className="text-sm text-cool-gray dark:text-gray-400">Goal score</p>
+                        <p className="text-xl font-bold text-charcoal dark:text-white">30.0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const ScheduleCard: React.FC = () => {
+    const activities = [
+        { title: 'Daily Check-in', time: '10:00 am - 11:00 am', type: 'current', participants: 2 },
+        { title: 'Memory Sharing', time: '12:00 pm - 1:00 pm', type: 'upcoming', participants: 2 },
+        { title: 'Evening Reflection', time: '8:00 pm - 9:00 pm', type: 'upcoming', participants: 2 },
     ];
 
     return (
-        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-lg border border-rose/10">
-            <h3 className="text-xl font-bold text-charcoal dark:text-white mb-6">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-4">
-                {actions.map((action) => (
-                    <Link
-                        key={action.title}
-                        to={action.path}
-                        className="flex items-center gap-3 p-4 rounded-xl border hover:shadow-md transition-all duration-200 hover:scale-105"
-                        style={{ borderColor: action.color.split(' ')[2]?.replace('border-', '').replace('/20', '') + '/20' }}
-                    >
-                        <div className={`p-3 rounded-lg ${action.color.split(' ').slice(0, 2).join(' ')}`}>
-                            <action.icon className="h-6 w-6" />
+        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-charcoal dark:text-white">Today's Schedule</h3>
+                <Link to="/dashboard/planner" className="text-lavender font-medium hover:text-lavender/80">
+                    View all
+                </Link>
+            </div>
+
+            <div className="space-y-3">
+                {activities.map((activity, index) => (
+                    <div key={index} className={`p-4 rounded-xl border-l-4 ${
+                        activity.type === 'current' 
+                            ? 'bg-rose/5 border-rose' 
+                            : 'bg-lavender/5 border-lavender'
+                    }`}>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="flex -space-x-2">
+                                    <div className="h-8 w-8 rounded-full bg-rose/20 border-2 border-white flex items-center justify-center">
+                                        <span className="text-xs font-bold text-rose">Y</span>
+                                    </div>
+                                    <div className="h-8 w-8 rounded-full bg-lavender/20 border-2 border-white flex items-center justify-center">
+                                        <span className="text-xs font-bold text-lavender">P</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-charcoal dark:text-white">{activity.title}</p>
+                                    <p className="text-sm text-cool-gray dark:text-gray-400">{activity.time}</p>
+                                </div>
+                            </div>
                         </div>
-                        <span className="font-semibold text-charcoal dark:text-white">{action.title}</span>
-                    </Link>
+                    </div>
                 ))}
             </div>
         </div>
     );
 };
 
-const RecentActivityWidget: React.FC = () => {
-    const activities = [
-        { title: 'Our First Date', icon: HeartIcon, color: 'bg-rose/20 text-rose', time: '2 hours ago' },
-        { title: 'Memory Lane', icon: TrophyIcon, color: 'bg-lavender/20 text-lavender', time: 'Yesterday' },
-        { title: 'Punisher by Phoebe Bridgers', icon: MusicalNoteIcon, color: 'bg-coral/20 text-coral', time: '3 days ago' },
+const QuickActionsCard: React.FC = () => {
+    const actions = [
+        { title: 'Add Memory', icon: HeartIcon, color: 'bg-rose/20 text-rose', path: '/dashboard/timeline' },
+        { title: 'Plan Activity', icon: CalendarDaysIcon, color: 'bg-lavender/20 text-lavender', path: '/dashboard/planner' },
+        { title: 'Growth Hub', icon: TrophyIcon, color: 'bg-coral/20 text-coral', path: '/dashboard/growth-hub' },
+        { title: 'Discover', icon: SparklesIcon, color: 'bg-purple-400/20 text-purple-400', path: '/dashboard/discovery' },
     ];
 
     return (
-        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-lg border border-rose/10">
-            <h3 className="text-xl font-bold text-charcoal dark:text-white mb-6">Recent Activity</h3>
-            <div className="space-y-4">
-                {activities.map((activity, index) => (
-                    <div key={index} className="flex items-center gap-4 p-4 rounded-xl hover:bg-soft-white dark:hover:bg-white/5 transition-colors border border-transparent hover:border-rose/10">
-                        <div className={`p-3 rounded-xl ${activity.color}`}>
-                            <activity.icon className="h-5 w-5" />
+        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
+            <h3 className="text-xl font-bold text-charcoal dark:text-white mb-4">Quick Actions</h3>
+            <div className="grid grid-cols-2 gap-4">
+                {actions.map((action) => (
+                    <Link
+                        key={action.title}
+                        to={action.path}
+                        className="flex items-center gap-3 p-4 rounded-xl border border-rose/10 hover:shadow-md transition-all duration-200 hover:scale-105"
+                    >
+                        <div className={`p-3 rounded-lg ${action.color}`}>
+                            <action.icon className="h-6 w-6" />
                         </div>
-                        <div className="flex-1">
-                            <p className="font-semibold text-charcoal dark:text-white">{activity.title}</p>
-                        </div>
-                        <span className="text-sm text-cool-gray dark:text-gray-400">{activity.time}</span>
-                    </div>
+                        <span className="font-semibold text-charcoal dark:text-white">{action.title}</span>
+                    </Link>
                 ))}
             </div>
         </div>
@@ -175,15 +252,15 @@ const DashboardPage: React.FC = () => {
     }
 
     return (
-        <div className="space-y-8 max-w-5xl mx-auto p-6">
-            <WelcomeHeader />
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <DailyConnectionWidget />
-                <QuickActionsWidget />
+        <div className="max-w-md mx-auto bg-soft-white dark:bg-gray-900 min-h-screen">
+            <div className="p-4 pb-24">
+                <HeaderSection />
+                <DailyConnectionCard />
+                <ProgressCard />
+                <ScheduleCard />
+                <QuickActionsCard />
             </div>
-            
-            <RecentActivityWidget />
+            <BottomNav />
         </div>
     );
 };
