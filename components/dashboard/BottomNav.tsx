@@ -3,10 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
     HomeIcon, 
     CalendarDaysIcon, 
-    ChatBubbleLeftRightIcon, 
-    ChartBarIcon,
-    UserCircleIcon,
-    Cog6ToothIcon
+    HeartIcon, 
+    TrophyIcon,
+    SparklesIcon
 } from '@heroicons/react/24/solid';
 
 const BottomNav: React.FC = () => {
@@ -14,34 +13,34 @@ const BottomNav: React.FC = () => {
 
     const navItems = [
         { 
-            name: 'Home', 
+            name: 'Dashboard', 
             icon: HomeIcon, 
             path: '/dashboard',
             color: 'text-rose'
         },
         { 
-            name: 'Calendar', 
+            name: 'Memory', 
+            icon: HeartIcon, 
+            path: '/dashboard/timeline',
+            color: 'text-rose'
+        },
+        { 
+            name: 'Shared Plans', 
             icon: CalendarDaysIcon, 
             path: '/dashboard/planner',
             color: 'text-lavender'
         },
         { 
-            name: 'Chat', 
-            icon: ChatBubbleLeftRightIcon, 
-            path: '/dashboard/daily-connection',
+            name: 'Growth Hub', 
+            icon: TrophyIcon, 
+            path: '/dashboard/growth-hub',
             color: 'text-coral'
         },
         { 
-            name: 'Progress', 
-            icon: ChartBarIcon, 
-            path: '/dashboard/growth-hub',
+            name: 'Discovery', 
+            icon: SparklesIcon, 
+            path: '/dashboard/discovery',
             color: 'text-purple-400'
-        },
-        { 
-            name: 'Profile', 
-            icon: UserCircleIcon, 
-            path: '/dashboard/profile',
-            color: 'text-rose'
         }
     ];
 
