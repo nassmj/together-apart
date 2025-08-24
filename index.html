@@ -9,73 +9,21 @@
     <!-- Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-      :root {
-        /* Design Tokens from Brief */
-        --bg: #F8FAFF;
-        --surface: #FFFFFF;
-        --text: #0A0D14;
-        --muted: #6B7380;
-        --primary: #5B8CFF;
-        --love: #FF7FA3;
-        --growth: #41C8A5;
-        --caution: #FDBA4D;
-        --danger: #F97066;
-        --ringBg: #ECF3FF;
-        
-        /* Radii */
-        --radius-8: 8px;
-        --radius-12: 12px;
-        --radius-16: 16px;
-        --radius-20: 20px;
-        
-        /* Spacing */
-        --space-4: 4px;
-        --space-8: 8px;
-        --space-12: 12px;
-        --space-16: 16px;
-        --space-24: 24px;
-        --space-32: 32px;
-        --space-48: 48px;
-        
-        /* Typography */
-        --font-display: 'Inter Tight', 'Inter', sans-serif;
-        --font-ui: 'Inter', sans-serif;
-      }
-      
-      [data-theme="dark"] {
-        --bg: #0D1117;
-        --surface: #161B22;
-        --text: #EAEFF6;
-        --muted: #A8B0BD;
-        --primary: #7AA5FF;
-        --love: #FF94B3;
-        --growth: #55D2B1;
-        --caution: #F6C76D;
-        --danger: #FF8F87;
-        --ringBg: #1E2733;
-      }
-      
-      * {
+      /* Simple loading state while React app loads */
+      body {
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+        background: #0f0f23;
+        color: #ffffff;
       }
       
-      body {
-        font-family: var(--font-ui);
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.5;
-        transition: background-color 0.3s ease, color 0.3s ease;
-      }
-      
-      /* Loading State with Design System */
       .loading-container {
         min-height: 100vh;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--love) 100%);
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -89,7 +37,7 @@
         border-top: 4px solid white;
         border-radius: 50%;
         animation: spin 1s linear infinite;
-        margin-bottom: var(--space-24);
+        margin-bottom: 24px;
       }
       
       @keyframes spin {
@@ -98,11 +46,10 @@
       }
       
       .loading-title {
-        font-family: var(--font-display);
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 700;
         color: white;
-        margin-bottom: var(--space-8);
+        margin-bottom: 8px;
         text-align: center;
       }
       
@@ -112,44 +59,8 @@
         text-align: center;
       }
       
-      /* App Container */
       #root {
         min-height: 100vh;
-        background: var(--bg);
-      }
-      
-      /* Utility Classes */
-      .text-display {
-        font-family: var(--font-display);
-        font-weight: 700;
-      }
-      
-      .text-ui {
-        font-family: var(--font-ui);
-      }
-      
-      .bg-surface {
-        background: var(--surface);
-      }
-      
-      .text-primary {
-        color: var(--text);
-      }
-      
-      .text-muted {
-        color: var(--muted);
-      }
-      
-      .text-love {
-        color: var(--love);
-      }
-      
-      .text-growth {
-        color: var(--growth);
-      }
-      
-      .text-primary-accent {
-        color: var(--primary);
       }
     </style>
   </head>
@@ -159,7 +70,7 @@
       <div class="loading-container">
         <div class="loading-ring"></div>
         <h1 class="loading-title">Together Apart</h1>
-        <p class="loading-subtitle">Loading your shared space...</p>
+        <p class="loading-subtitle">Loading your beautiful relationship app...</p>
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>

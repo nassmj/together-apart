@@ -13,19 +13,29 @@ const Root = () => {
       <div style={{ 
         padding: '20px', 
         fontFamily: 'Inter, sans-serif',
-        background: '#F8FAFF',
+        background: 'var(--bg-primary)',
+        color: 'var(--text-primary)',
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column'
       }}>
-        <h1 style={{ color: '#0A0D14', marginBottom: '20px' }}>Together Apart</h1>
-        <p style={{ color: '#6B7380', marginBottom: '20px' }}>Loading your beautiful relationship app...</p>
+        <h1 style={{ 
+          color: 'var(--text-primary)', 
+          marginBottom: '20px',
+          fontSize: 'var(--font-size-3xl)',
+          fontWeight: '700'
+        }}>Together Apart</h1>
+        <p style={{ 
+          color: 'var(--text-secondary)', 
+          marginBottom: '20px',
+          fontSize: 'var(--font-size-base)'
+        }}>Loading your beautiful relationship app...</p>
         <div style={{ 
           width: '40px', 
           height: '40px', 
-          border: '3px solid #5B8CFF',
+          border: '3px solid var(--accent-primary)',
           borderTop: '3px solid transparent',
           borderRadius: '50%',
           animation: 'spin 1s linear infinite'
