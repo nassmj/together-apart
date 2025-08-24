@@ -8,12 +8,12 @@ import {
     HeartIcon,
     CalendarDaysIcon,
     TrophyIcon,
-    MusicalNoteIcon,
     BellIcon,
     Cog6ToothIcon,
     UserCircleIcon,
     ClockIcon,
-    CheckCircleIcon
+    CheckCircleIcon,
+    PlusIcon
 } from '@heroicons/react/24/solid';
 import { useToast } from '../../components/ToastProvider';
 import { useAuth } from '../../contexts/AuthContext';
@@ -25,34 +25,55 @@ import BottomNav from '../../components/dashboard/BottomNav';
 
 const HeaderSection: React.FC = () => {
     const { user } = useAuth();
+    const { partner } = usePartner();
     const userName = user?.user_metadata?.full_name || user?.email || 'there';
+    const partnerName = partner?.full_name || 'your partner';
 
     return (
-        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-full bg-rose/20 flex items-center justify-center border-2 border-rose/30">
-                        <UserCircleIcon className="h-8 w-8 text-rose" />
+        <motion.div 
+            className="card mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className="card-body">
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-4">
+                        <div className="relative">
+                            <div className="h-12 w-12 rounded-full bg-rose-20 flex items-center justify-center border-2 border-rose-40">
+                                <UserCircleIcon className="h-8 w-8 text-rose-80" />
+                            </div>
+                            {partner && (
+                                <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-lavender-20 flex items-center justify-center border-2 border-lavender-40">
+                                    <span className="text-xs font-bold text-lavender-80">
+                                        {partnerName[0]?.toUpperCase()}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-bold text-neutral-ink">
+                                Hello, {userName}
+                            </h1>
+                            <p className="text-neutral-muted">
+                                Ready to connect with {partnerName} today?
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <h1 className="text-2xl font-bold text-charcoal dark:text-white">
-                            Hello, {userName}
-                        </h1>
-                        <p className="text-cool-gray dark:text-gray-400">
-                            Ready to connect today?
-                        </p>
+                    <div className="flex items-center gap-3">
+                        <button className="p-2 rounded-full bg-neutral-bg hover:bg-rose-20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-80">
+                            <BellIcon className="h-6 w-6 text-neutral-ink" />
+                        </button>
+                        <Link 
+                            to="/dashboard/settings" 
+                            className="p-2 rounded-full bg-neutral-bg hover:bg-rose-20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-80"
+                        >
+                            <Cog6ToothIcon className="h-6 w-6 text-neutral-ink" />
+                        </Link>
                     </div>
-                </div>
-                <div className="flex items-center gap-3">
-                    <button className="p-2 rounded-full bg-soft-white dark:bg-white/10 hover:bg-rose/10 transition-colors">
-                        <BellIcon className="h-6 w-6 text-charcoal dark:text-white" />
-                    </button>
-                    <Link to="/dashboard/settings" className="p-2 rounded-full bg-soft-white dark:bg-white/10 hover:bg-rose/10 transition-colors">
-                        <Cog6ToothIcon className="h-6 w-6 text-charcoal dark:text-white" />
-                    </Link>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
@@ -81,225 +102,304 @@ const DailyMessagesCard: React.FC = () => {
     };
 
     return (
-        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-charcoal dark:text-white">Today's Messages</h3>
-                <span className="text-sm text-cool-gray dark:text-gray-400">Share your thoughts</span>
-            </div>
-
-            <div className="space-y-4">
-                {/* Partner's Message */}
-                <div className="flex items-start gap-3">
-                    <div className="h-10 w-10 rounded-full bg-rose/20 flex items-center justify-center border-2 border-rose/30 flex-shrink-0">
-                        <span className="font-bold text-rose text-sm">{partner?.full_name?.[0] || 'P'}</span>
-                    </div>
-                    <div className="bg-lavender/10 p-4 rounded-2xl rounded-tl-none max-w-full border border-lavender/20">
-                        <p className="text-sm text-charcoal dark:text-white leading-relaxed">
-                            {sampleMessages.partner}
-                        </p>
-                        <p className="text-xs text-cool-gray dark:text-gray-400 mt-2">2 hours ago</p>
-                    </div>
+        <motion.div 
+            className="card mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+        >
+            <div className="card-header">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-neutral-ink">Today's Messages</h3>
+                    <span className="text-sm text-neutral-muted">Share your thoughts</span>
                 </div>
-
-                {/* Your Message */}
-                <div className="flex items-start gap-3 justify-end">
-                    <div className="bg-coral/10 p-4 rounded-2xl rounded-tr-none max-w-full border border-coral/20">
-                        <p className="text-sm text-charcoal dark:text-white leading-relaxed">
-                            {sampleMessages.user}
-                        </p>
-                        <p className="text-xs text-cool-gray dark:text-gray-400 mt-2">1 hour ago</p>
-                    </div>
-                    <div className="h-10 w-10 rounded-full bg-coral/20 flex items-center justify-center border-2 border-coral/30 flex-shrink-0">
-                        <span className="font-bold text-coral text-sm">{user?.user_metadata?.full_name?.[0] || 'Y'}</span>
-                    </div>
-                </div>
-
-                {/* New Message Input */}
-                <form onSubmit={handleSubmit} className="mt-4">
-                    <div className="relative">
-                        <textarea
-                            value={userMessage}
-                            onChange={(e) => setUserMessage(e.target.value)}
-                            rows={3}
-                            className="block w-full rounded-xl border-rose/20 dark:border-rose/30 bg-soft-white dark:bg-white/10 text-charcoal dark:text-white shadow-sm focus:border-rose focus:ring-rose/20 sm:text-sm pr-12 resize-none"
-                            placeholder="Share what's on your mind today..."
-                            disabled={isSubmitting}
-                        />
-                        <button 
-                            type="submit" 
-                            disabled={!userMessage.trim() || isSubmitting} 
-                            className="absolute bottom-3 right-3 p-2 rounded-full bg-rose text-white hover:bg-rose/90 disabled:bg-cool-gray disabled:cursor-not-allowed shadow-md"
-                        >
-                            <PaperAirplaneIcon className="h-5 w-5" />
-                        </button>
-                    </div>
-                </form>
             </div>
-        </div>
+            <div className="card-body">
+                <div className="space-y-4">
+                    {/* Partner's Message */}
+                    <div className="flex items-start gap-3">
+                        <div className="h-10 w-10 rounded-full bg-lavender-20 flex items-center justify-center border-2 border-lavender-40 flex-shrink-0">
+                            <span className="font-bold text-lavender-80 text-sm">
+                                {partner?.full_name?.[0] || 'P'}
+                            </span>
+                        </div>
+                        <div className="bg-lavender-10 p-4 rounded-2xl rounded-tl-none max-w-full border border-lavender-20">
+                            <p className="text-sm text-neutral-ink leading-relaxed">
+                                {sampleMessages.partner}
+                            </p>
+                            <p className="text-xs text-neutral-muted mt-2">2 hours ago</p>
+                        </div>
+                    </div>
+
+                    {/* User's Message Input */}
+                    <form onSubmit={handleSubmit} className="space-y-3">
+                        <div className="flex items-start gap-3">
+                            <div className="h-10 w-10 rounded-full bg-rose-20 flex items-center justify-center border-2 border-rose-40 flex-shrink-0">
+                                <span className="font-bold text-rose-80 text-sm">
+                                    {user?.user_metadata?.full_name?.[0] || 'Y'}
+                                </span>
+                            </div>
+                            <div className="flex-1">
+                                <textarea
+                                    value={userMessage}
+                                    onChange={(e) => setUserMessage(e.target.value)}
+                                    placeholder="Share something with your partner..."
+                                    className="input resize-none h-20"
+                                    disabled={isSubmitting}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                                type="submit"
+                                disabled={!userMessage.trim() || isSubmitting}
+                                className="btn btn-primary btn-sm"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <LoadingSpinner size="sm" />
+                                        Sending...
+                                    </>
+                                ) : (
+                                    <>
+                                        <PaperAirplaneIcon className="h-4 w-4" />
+                                        Send Message
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </motion.div>
     );
 };
 
 const SharedPlansCard: React.FC = () => {
     const upcomingPlans = [
-        { 
-            title: 'Weekend Getaway', 
-            date: 'This Saturday', 
-            time: '2:00 PM',
-            type: 'trip',
-            participants: 2
+        {
+            id: 1,
+            title: "Coffee Date",
+            date: "Tomorrow, 3:00 PM",
+            location: "Starbucks Downtown",
+            type: "Date"
         },
-        { 
-            title: 'Cooking Class', 
-            date: 'Next Tuesday', 
-            time: '7:00 PM',
-            type: 'activity',
-            participants: 2
-        },
-        { 
-            title: 'Movie Night', 
-            date: 'Tomorrow', 
-            time: '8:00 PM',
-            type: 'entertainment',
-            participants: 2
-        },
+        {
+            id: 2,
+            title: "Movie Night",
+            date: "Saturday, 8:00 PM",
+            location: "Home",
+            type: "Activity"
+        }
     ];
 
     return (
-        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-charcoal dark:text-white">Shared Plans</h3>
-                <Link to="/dashboard/planner" className="text-lavender font-medium hover:text-lavender/80">
-                    View all
-                </Link>
+        <motion.div 
+            className="card mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+        >
+            <div className="card-header">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-neutral-ink">Shared Plans</h3>
+                    <Link 
+                        to="/dashboard/planner" 
+                        className="text-sm text-lavender-80 hover:text-lavender-100 transition-colors"
+                    >
+                        View All
+                    </Link>
+                </div>
             </div>
-
-            <div className="space-y-3">
-                {upcomingPlans.map((plan, index) => (
-                    <div key={index} className="p-4 rounded-xl border border-lavender/20 hover:bg-lavender/5 transition-colors">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="flex -space-x-2">
-                                    <div className="h-8 w-8 rounded-full bg-rose/20 border-2 border-white flex items-center justify-center">
-                                        <span className="text-xs font-bold text-rose">Y</span>
-                                    </div>
-                                    <div className="h-8 w-8 rounded-full bg-lavender/20 border-2 border-white flex items-center justify-center">
-                                        <span className="text-xs font-bold text-lavender">P</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-charcoal dark:text-white">{plan.title}</p>
-                                    <div className="flex items-center gap-2 text-sm text-cool-gray dark:text-gray-400">
-                                        <CalendarDaysIcon className="h-4 w-4" />
-                                        <span>{plan.date} • {plan.time}</span>
-                                    </div>
-                                </div>
+            <div className="card-body">
+                <div className="space-y-3">
+                    {upcomingPlans.map((plan) => (
+                        <div key={plan.id} className="flex items-center gap-3 p-3 rounded-lg bg-neutral-bg">
+                            <div className="h-10 w-10 rounded-full bg-lavender-20 flex items-center justify-center">
+                                <CalendarDaysIcon className="h-5 w-5 text-lavender-80" />
                             </div>
+                            <div className="flex-1">
+                                <h4 className="font-semibold text-neutral-ink">{plan.title}</h4>
+                                <p className="text-sm text-neutral-muted">{plan.date} • {plan.location}</p>
+                            </div>
+                            <span className="badge badge-secondary">{plan.type}</span>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                    <Link 
+                        to="/dashboard/planner" 
+                        className="btn btn-secondary w-full"
+                    >
+                        <PlusIcon className="h-4 w-4" />
+                        Plan Something New
+                    </Link>
+                </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
 const GrowthTasksCard: React.FC = () => {
-    const growthTasks = [
-        { 
-            title: 'Learn each other\'s love languages', 
+    const activeTasks = [
+        {
+            id: 1,
+            title: "Daily Gratitude",
             progress: 75,
-            dueDate: 'This week',
-            type: 'communication'
+            streak: 5,
+            type: "Routine"
         },
-        { 
-            title: 'Create a shared bucket list', 
+        {
+            id: 2,
+            title: "Communication Challenge",
             progress: 30,
-            dueDate: 'Next week',
-            type: 'planning'
-        },
-        { 
-            title: 'Practice active listening', 
-            progress: 90,
-            dueDate: 'Ongoing',
-            type: 'skill'
-        },
+            streak: 2,
+            type: "Challenge"
+        }
     ];
 
     return (
-        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-charcoal dark:text-white">Growth Hub Tasks</h3>
-                <Link to="/dashboard/growth-hub" className="text-coral font-medium hover:text-coral/80">
-                    View all
-                </Link>
+        <motion.div 
+            className="card mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+        >
+            <div className="card-header">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-neutral-ink">Growth Hub</h3>
+                    <Link 
+                        to="/dashboard/growth-hub" 
+                        className="text-sm text-peach-80 hover:text-peach-100 transition-colors"
+                    >
+                        View All
+                    </Link>
+                </div>
             </div>
-
-            <div className="space-y-4">
-                {growthTasks.map((task, index) => (
-                    <div key={index} className="p-4 rounded-xl border border-coral/20 hover:bg-coral/5 transition-colors">
-                        <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-semibold text-charcoal dark:text-white">{task.title}</h4>
-                            <span className="text-sm text-cool-gray dark:text-gray-400">{task.dueDate}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="flex-1 bg-coral/20 rounded-full h-2">
-                                <div 
-                                    className="bg-coral h-2 rounded-full transition-all duration-300"
-                                    style={{ width: `${task.progress}%` }}
-                                ></div>
+            <div className="card-body">
+                <div className="space-y-4">
+                    {activeTasks.map((task) => (
+                        <div key={task.id} className="space-y-2">
+                            <div className="flex items-center justify-between">
+                                <h4 className="font-semibold text-neutral-ink">{task.title}</h4>
+                                <span className="badge badge-accent">{task.type}</span>
                             </div>
-                            <span className="text-sm font-medium text-coral">{task.progress}%</span>
+                            <div className="space-y-1">
+                                <div className="flex justify-between text-sm">
+                                    <span className="text-neutral-muted">Progress</span>
+                                    <span className="text-neutral-ink">{task.progress}%</span>
+                                </div>
+                                <div className="w-full bg-neutral-divider rounded-full h-2">
+                                    <div 
+                                        className="bg-peach-80 h-2 rounded-full transition-all duration-300"
+                                        style={{ width: `${task.progress}%` }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-neutral-muted">
+                                <TrophyIcon className="h-4 w-4" />
+                                <span>{task.streak} day streak</span>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                    <Link 
+                        to="/dashboard/growth-hub" 
+                        className="btn btn-accent w-full"
+                    >
+                        <PlusIcon className="h-4 w-4" />
+                        Start New Quest
+                    </Link>
+                </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
 const QuickActionsCard: React.FC = () => {
-    const actions = [
-        { title: 'Add Memory', icon: HeartIcon, color: 'bg-rose/20 text-rose', path: '/dashboard/timeline' },
-        { title: 'Plan Activity', icon: CalendarDaysIcon, color: 'bg-lavender/20 text-lavender', path: '/dashboard/planner' },
-        { title: 'Growth Hub', icon: TrophyIcon, color: 'bg-coral/20 text-coral', path: '/dashboard/growth-hub' },
-        { title: 'Discover', icon: SparklesIcon, color: 'bg-purple-400/20 text-purple-400', path: '/dashboard/discovery' },
+    const quickActions = [
+        {
+            title: "Add Memory",
+            icon: HeartIcon,
+            path: "/dashboard/timeline",
+            color: "rose"
+        },
+        {
+            title: "Plan Date",
+            icon: CalendarDaysIcon,
+            path: "/dashboard/planner",
+            color: "lavender"
+        },
+        {
+            title: "Discover",
+            icon: SparklesIcon,
+            path: "/dashboard/discovery",
+            color: "peach"
+        },
+        {
+            title: "Growth",
+            icon: TrophyIcon,
+            path: "/dashboard/growth-hub",
+            color: "peach"
+        }
     ];
 
     return (
-        <div className="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-rose/10 mb-6">
-            <h3 className="text-xl font-bold text-charcoal dark:text-white mb-4">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-4">
-                {actions.map((action) => (
-                    <Link
-                        key={action.title}
-                        to={action.path}
-                        className="flex items-center gap-3 p-4 rounded-xl border border-rose/10 hover:shadow-md transition-all duration-200 hover:scale-105"
-                    >
-                        <div className={`p-3 rounded-lg ${action.color}`}>
-                            <action.icon className="h-6 w-6" />
-                        </div>
-                        <span className="font-semibold text-charcoal dark:text-white">{action.title}</span>
-                    </Link>
-                ))}
+        <motion.div 
+            className="card mb-20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.4 }}
+        >
+            <div className="card-header">
+                <h3 className="text-xl font-bold text-neutral-ink">Quick Actions</h3>
             </div>
-        </div>
+            <div className="card-body">
+                <div className="grid grid-cols-2 gap-3">
+                    {quickActions.map((action) => {
+                        const Icon = action.icon;
+                        return (
+                            <Link
+                                key={action.title}
+                                to={action.path}
+                                className="flex flex-col items-center p-4 rounded-xl bg-neutral-bg hover:bg-neutral-divider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lavender-80"
+                            >
+                                <div className={`h-12 w-12 rounded-full bg-${action.color}-20 flex items-center justify-center mb-2`}>
+                                    <Icon className={`h-6 w-6 text-${action.color}-80`} />
+                                </div>
+                                <span className="text-sm font-medium text-neutral-ink text-center">
+                                    {action.title}
+                                </span>
+                            </Link>
+                        );
+                    })}
+                </div>
+            </div>
+        </motion.div>
     );
 };
 
-const DashboardPage: React.FC = () => {
-    const { user } = useAuth();
-    const { partner } = usePartner();
+// --- MAIN DASHBOARD COMPONENT ---
 
-    if (!user) {
+const DashboardPage: React.FC = () => {
+    const { user, loading } = useAuth();
+    const { partner, loading: partnerLoading } = usePartner();
+
+    if (loading || partnerLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-romantic-gradient">
-                <LoadingSpinner />
+            <div className="min-h-screen bg-neutral-bg p-4">
+                <div className="container">
+                    <div className="space-y-6">
+                        <Skeleton className="h-32" />
+                        <Skeleton className="h-48" />
+                        <Skeleton className="h-48" />
+                        <Skeleton className="h-48" />
+                    </div>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-md mx-auto bg-soft-white dark:bg-gray-900 min-h-screen">
-            <div className="p-4 pb-24">
+        <div className="min-h-screen bg-neutral-bg">
+            <div className="container p-4">
                 <HeaderSection />
                 <DailyMessagesCard />
                 <SharedPlansCard />

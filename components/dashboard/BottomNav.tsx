@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { 
     HomeIcon, 
-    CalendarDaysIcon, 
     HeartIcon, 
+    CalendarDaysIcon, 
     TrophyIcon,
     SparklesIcon
 } from '@heroicons/react/24/solid';
@@ -16,38 +17,43 @@ const BottomNav: React.FC = () => {
             name: 'Dashboard', 
             icon: HomeIcon, 
             path: '/dashboard',
-            color: 'text-rose'
+            color: 'rose'
         },
         { 
             name: 'Memory', 
             icon: HeartIcon, 
             path: '/dashboard/timeline',
-            color: 'text-rose'
+            color: 'rose'
         },
         { 
             name: 'Shared Plans', 
             icon: CalendarDaysIcon, 
             path: '/dashboard/planner',
-            color: 'text-lavender'
+            color: 'lavender'
         },
         { 
             name: 'Growth Hub', 
             icon: TrophyIcon, 
             path: '/dashboard/growth-hub',
-            color: 'text-coral'
+            color: 'peach'
         },
         { 
             name: 'Discovery', 
             icon: SparklesIcon, 
             path: '/dashboard/discovery',
-            color: 'text-purple-400'
+            color: 'lavender'
         }
     ];
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-white/5 border-t border-rose/10 shadow-lg">
-            <div className="max-w-md mx-auto px-4 py-2">
-                <div className="flex items-center justify-between">
+        <motion.nav 
+            className="fixed bottom-0 left-0 right-0 bg-neutral-surface border-t border-neutral-divider shadow-2 z-docked"
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+            <div className="container max-w-md mx-auto">
+                <div className="flex items-center justify-between px-4 py-2">
                     {navItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = location.pathname === item.path;
@@ -56,14 +62,37 @@ const BottomNav: React.FC = () => {
                             <Link
                                 key={item.name}
                                 to={item.path}
-                                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
-                                    isActive 
-                                        ? `${item.color} bg-rose/10` 
-                                        : 'text-cool-gray hover:text-charcoal dark:hover:text-white'
-                                }`}
+                                className="flex flex-col items-center py-3 px-2 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lavender-80 focus-visible:ring-offset-2"
+                                aria-label={`${item.name}${isActive ? ', selected' : ''}`}
                             >
-                                <Icon className={`h-6 w-6 ${isActive ? item.color : ''}`} />
-                                <span className={`text-xs font-medium mt-1 ${isActive ? item.color : ''}`}>
+                                <motion.div
+                                    className="relative"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <Icon 
+                                        className={`h-6 w-6 transition-colors duration-200 ${
+                                            isActive 
+                                                ? `text-${item.color}-80` 
+                                                : 'text-neutral-muted'
+                                        }`} 
+                                    />
+                                    {isActive && (
+                                        <motion.div
+                                            className="absolute -top-1 -right-1 w-2 h-2 bg-rose-80 rounded-full"
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ duration: 0.2 }}
+                                        />
+                                    )}
+                                </motion.div>
+                                <span 
+                                    className={`text-xs font-medium mt-1 transition-colors duration-200 ${
+                                        isActive 
+                                            ? `text-${item.color}-80` 
+                                            : 'text-neutral-muted'
+                                    }`}
+                                >
                                     {item.name}
                                 </span>
                             </Link>
@@ -71,7 +100,7 @@ const BottomNav: React.FC = () => {
                     })}
                 </div>
             </div>
-        </div>
+        </motion.nav>
     );
 };
 
