@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
     tailwind.config = {
@@ -15,72 +16,103 @@
       theme: {
         extend: {
           colors: {
-            // Primary - Soft Rose / Blush Pink
+            // Primary - Rose
             rose: {
-              DEFAULT: '#F28B82',
-              '50': '#FEF2F2',
-              '100': '#FEE2E2',
-              '200': '#FECACA',
-              '300': '#FCA5A5',
-              '400': '#F87171',
-              '500': '#F28B82', // Primary
-              '600': '#DC2626',
-              '700': '#B91C1C',
-              '800': '#991B1B',
-              '900': '#7F1D1D',
+              10: '#FFF4F3',
+              20: '#FFE6E3',
+              40: '#FFCAC3',
+              60: '#FBA79E',
+              80: '#F28B82',
+              100: '#D86E68',
             },
-            // Secondary - Calm Lavender / Periwinkle
+            // Secondary - Lavender
             lavender: {
-              DEFAULT: '#A5B4FC',
-              '50': '#F8FAFF',
-              '100': '#F0F4FF',
-              '200': '#E0E7FF',
-              '300': '#C7D2FE',
-              '400': '#A5B4FC', // Secondary
-              '500': '#818CF8',
-              '600': '#6366F1',
-              '700': '#4F46E5',
-              '800': '#4338CA',
-              '900': '#3730A3',
+              10: '#F5F7FF',
+              20: '#E9ECFF',
+              40: '#D4DBFF',
+              60: '#B9C6FF',
+              80: '#A5B4FC',
+              100: '#7C8CF5',
             },
-            // Accent - Sunset Coral / Warm Peach
-            coral: {
-              DEFAULT: '#FFB085',
-              '50': '#FFF7ED',
-              '100': '#FFEDD5',
-              '200': '#FED7AA',
-              '300': '#FDBA74',
-              '400': '#FB923C',
-              '500': '#FFB085', // Accent
-              '600': '#EA580C',
-              '700': '#C2410C',
-              '800': '#9A3412',
-              '900': '#7C2D12',
+            // Accent - Peach
+            peach: {
+              10: '#FFF6F1',
+              20: '#FFE9DE',
+              40: '#FFD3BE',
+              60: '#FFBEA0',
+              80: '#FFB085',
+              100: '#FF8E54',
             },
             // Neutrals
-            charcoal: '#333333',
-            'soft-white': '#FAFAFA',
-            'cool-gray': '#9CA3AF',
-            // Legacy support
-            pink: {
-              DEFAULT: '#F28B82',
-              '500': '#F28B82',
+            neutral: {
+              bg: '#FAFAFA',
+              surface: '#FFFFFF',
+              card: '#FFFFFF',
+              ink: '#333333',
+              muted: '#9CA3AF',
+              divider: '#E5E7EB',
             },
-            green: {
-              DEFAULT: '#A5B4FC',
-              '500': '#A5B4FC',
+            // Dark mode
+            dark: {
+              bg: '#0F1115',
+              surface: '#16181D',
+              card: '#1C1F26',
+              ink: '#F5F7FA',
+              muted: '#C6CBD3',
+              divider: '#2D3748',
             },
-            gray: {
-              '1': '#9CA3AF',
-              '2': '#9CA3AF',
-            }
+            // Semantic colors
+            success: '#10B981',
+            warning: '#F59E0B',
+            error: '#EF4444',
+            info: '#3B82F6',
           },
           fontFamily: {
-            'sans': ['Inter', 'sans-serif'],
+            'display': ['Clash Display', 'UI-Sans-Serif', 'system-ui', 'sans-serif'],
+            'sans': ['Inter', 'system-ui', 'sans-serif'],
+          },
+          spacing: {
+            0: '0px',
+            1: '4px',
+            2: '8px',
+            3: '12px',
+            4: '16px',
+            5: '20px',
+            6: '24px',
+            8: '32px',
+            10: '40px',
+            12: '48px',
+            16: '64px',
+          },
+          borderRadius: {
+            'none': '0px',
+            'sm': '6px',
+            'md': '12px',
+            'lg': '16px',
+            'xl': '20px',
+            '2xl': '28px',
+            '3xl': '36px',
+            'full': '9999px',
+          },
+          boxShadow: {
+            '1': '0 6px 10px rgba(0,0,0,0.06)',
+            '2': '0 10px 18px rgba(0,0,0,0.10)',
+            '3': '0 18px 28px rgba(0,0,0,0.14)',
           },
           backgroundImage: {
-            'sunset-gradient': 'linear-gradient(135deg, #F28B82 0%, #A5B4FC 50%, #FFB085 100%)',
-            'romantic-gradient': 'linear-gradient(135deg, #FEE2E2 0%, #E0E7FF 100%)',
+            'romantic-sky': 'linear-gradient(135deg, #F28B82 0%, #A5B4FC 100%)',
+            'sunset-whisper': 'linear-gradient(135deg, #FFB085 0%, #F28B82 100%)',
+          },
+          zIndex: {
+            'docked': '10',
+            'dropdown': '1000',
+            'sticky': '1100',
+            'banner': '1200',
+            'overlay': '1300',
+            'modal': '1400',
+            'popover': '1500',
+            'toast': '1700',
+            'tooltip': '1800',
           }
         }
       }
