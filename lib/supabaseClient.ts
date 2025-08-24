@@ -408,6 +408,8 @@ export interface Database {
   }
 }
 
-import { config } from './config';
+// Direct Supabase configuration to ensure it works
+const supabaseUrl = 'https://bbjaadyoxeiodxyhsgzu.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiamFhZHlveGVpb2R4eWhzZ3p1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MTE2NjgsImV4cCI6MjA3MTM4NzY2OH0.t9mbqPZzoySneVbL1vrEtRHB2aedDSMmeRmsNw90HKg';
 
-export const supabase = createClient<Database>(config.supabase.url, config.supabase.anonKey)
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)

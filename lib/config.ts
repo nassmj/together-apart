@@ -26,10 +26,21 @@ const getRequiredEnvVar = (name: string): string => {
   return value;
 };
 
+// Fallback configuration for development/demo mode
+const getFallbackConfig = () => {
+  if (import.meta.env.DEV) {
+    return {
+      url: 'https://bbjaadyoxeiodxyhsgzu.supabase.co',
+      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiamFhZHlveGVpb2R4eWhzZ3p1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MTE2NjgsImV4cCI6MjA3MTM4NzY2OH0.t9mbqPZzoySneVbL1vrEtRHB2aedDSMmeRmsNw90HKg'
+    };
+  }
+  return null;
+};
+
 export const config: AppConfig = {
   supabase: {
-    url: getRequiredEnvVar('VITE_SUPABASE_URL'),
-    anonKey: getRequiredEnvVar('VITE_SUPABASE_ANON_KEY'),
+    url: getRequiredEnvVar('VITE_SUPABASE_URL') || getFallbackConfig()?.url || '',
+    anonKey: getRequiredEnvVar('VITE_SUPABASE_ANON_KEY') || getFallbackConfig()?.anonKey || '',
   },
   gemini: {
     apiKey: import.meta.env.VITE_GEMINI_API_KEY,
