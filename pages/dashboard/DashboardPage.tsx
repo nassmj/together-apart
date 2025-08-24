@@ -11,8 +11,6 @@ import {
     UserCircleIcon,
     PlusIcon
 } from '@heroicons/react/24/solid';
-import { useAuth } from '../../contexts/AuthContext';
-import { usePartner } from '../../contexts/PartnerContext';
 import BottomNav from '../../components/dashboard/BottomNav';
 
 // Mood Check-in Component
@@ -127,7 +125,7 @@ const MessagesPeek: React.FC = () => {
         <div className="card">
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-display text-18 text-text">Messages</h3>
-                <Link to="/dashboard/chat" className="text-primary text-14 font-500">View all</Link>
+                <Link to="/dashboard/daily-connection" className="text-primary text-14 font-500">View all</Link>
             </div>
             
             <div className="space-y-3">
@@ -156,10 +154,10 @@ const MessagesPeek: React.FC = () => {
 // Quick Actions Component
 const QuickActions: React.FC = () => {
     const actions = [
-        { title: 'Add Memory', icon: HeartIcon, color: 'bg-love', path: '/dashboard/memories' },
-        { title: 'Plan Date', icon: CalendarDaysIcon, color: 'bg-primary', path: '/dashboard/plans' },
-        { title: 'Start Call', icon: UserCircleIcon, color: 'bg-growth', path: '/dashboard/chat' },
-        { title: 'Discovery', icon: SparklesIcon, color: 'bg-caution', path: '/dashboard/discovery' },
+        { title: 'Add Memory', icon: HeartIcon, color: 'bg-love', path: '/dashboard/timeline' },
+        { title: 'Plan Date', icon: CalendarDaysIcon, color: 'bg-primary', path: '/dashboard/planner' },
+        { title: 'Start Call', icon: UserCircleIcon, color: 'bg-growth', path: '/dashboard/daily-connection' },
+        { title: 'Discovery', icon: SparklesIcon, color: 'bg-caution', path: '/dashboard/growth-hub' },
     ];
 
     return (
@@ -212,11 +210,8 @@ const WeeklyNudges: React.FC = () => {
 
 // Header Component
 const Header: React.FC = () => {
-    const { user } = useAuth();
-    const { partner } = usePartner();
-    
-    const userName = user?.user_metadata?.full_name || user?.email || 'there';
-    const partnerName = partner?.full_name || 'Partner';
+    const userName = "Nasser";
+    const partnerName = "Raghad";
 
     return (
         <div className="app-bar">
@@ -242,19 +237,6 @@ const Header: React.FC = () => {
 };
 
 const DashboardPage: React.FC = () => {
-    const { user } = useAuth();
-
-    if (!user) {
-        return (
-            <div className="min-h-screen bg-bg flex items-center justify-center">
-                <div className="text-center">
-                    <div className="loading-ring mx-auto mb-4"></div>
-                    <p className="text-muted">Loading...</p>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="min-h-screen bg-bg">
             <Header />

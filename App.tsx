@@ -1,115 +1,75 @@
 import React, { useState } from 'react';
-import { Routes, Route, Outlet, Navigate, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import JoinPage from './pages/JoinPage';
-import TestPage from './pages/TestPage';
-import SimpleTest from './pages/SimpleTest';
-
-import DashboardLayout from './components/dashboard/DashboardLayout';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet } from 'react-router-dom';
 import DashboardPage from './pages/dashboard/DashboardPage';
-import DailyConnectionPage from './pages/dashboard/DailyConnectionPage';
 import MemoryTimelinePage from './pages/dashboard/MemoryTimelinePage';
 import ActivityPlannerPage from './pages/dashboard/ActivityPlannerPage';
 import GrowthHubPage from './pages/dashboard/GrowthHubPage';
-import DiscoveryExchangePage from './pages/dashboard/DiscoveryExchangePage';
+import DailyConnectionPage from './pages/dashboard/DailyConnectionPage';
 import SettingsPage from './pages/dashboard/SettingsPage';
-import ConnectPartnerPage from './pages/dashboard/ConnectPartnerPage';
 import ProfilePage from './pages/dashboard/ProfilePage';
 
-import { ToastProvider } from './components/ToastProvider';
-import { useAuth } from './contexts/AuthContext';
-import { usePartner } from './contexts/PartnerContext';
-import { PerformanceMonitor } from './components/PerformanceMonitor';
-import { DevTools } from './components/ReactQueryDevTools';
-import { UserFeedback, FeedbackTrigger } from './components/UserFeedback';
+// Simple loading component
+const LoadingSpinner = () => (
+  <div className="min-h-screen bg-bg flex items-center justify-center">
+    <div className="text-center">
+      <div className="loading-ring mx-auto mb-4"></div>
+      <p className="text-muted">Loading...</p>
+    </div>
+  </div>
+);
+
+// Simple home page
+const HomePage = () => (
+  <div className="min-h-screen bg-bg flex items-center justify-center">
+    <div className="text-center">
+      <h1 className="text-display text-32 text-text mb-4">Together Apart</h1>
+      <p className="text-18 text-muted mb-8">Your relationship app is ready!</p>
+      <a href="/dashboard" className="btn btn-primary">
+        Go to Dashboard
+      </a>
+    </div>
+  </div>
+);
+
+// Simple login page
+const LoginPage = () => (
+  <div className="min-h-screen bg-bg flex items-center justify-center">
+    <div className="card w-full max-w-md">
+      <h1 className="text-display text-28 text-text mb-6 text-center">Welcome Back</h1>
+      <p className="text-muted text-center mb-8">This is a demo - you can access the dashboard directly</p>
+      <a href="/dashboard" className="btn btn-primary w-full">
+        Continue to Dashboard
+      </a>
+    </div>
+  </div>
+);
 
 const ProtectedRoute: React.FC = () => {
-  const { user, loading } = useAuth();
-  const location = useLocation();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
+  // For demo purposes, always allow access
   return <Outlet />;
 };
 
-const PublicLayout: React.FC = () => {
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
-    </div>
-  );
-};
-
 const App: React.FC = () => {
-  const [showFeedback, setShowFeedback] = useState(false);
-
-  const handlePerformanceMetrics = (metrics: any) => {
-    // In production, you would send these metrics to your analytics service
-    if (import.meta.env.DEV) {
-      console.log('App Performance Metrics:', metrics);
-    }
-  };
-
-  const handleFeedbackSubmit = (feedback: any) => {
-    // In production, you would send this to your backend
-    console.log('User feedback received:', feedback);
-  };
-
   return (
-    <ToastProvider>
-      <PerformanceMonitor onMetrics={handlePerformanceMetrics} />
+    <Router>
       <Routes>
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/test" element={<TestPage />} />
-          <Route path="/simple" element={<SimpleTest />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/join/:inviteCode" element={<JoinPage />} />
-        </Route>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
         
         <Route path="/dashboard" element={<ProtectedRoute />}>
           <Route index element={<DashboardPage />} />
-          <Route path="daily-connection" element={<DailyConnectionPage />} />
           <Route path="timeline" element={<MemoryTimelinePage />} />
           <Route path="planner" element={<ActivityPlannerPage />} />
           <Route path="growth-hub" element={<GrowthHubPage />} />
-          <Route path="discovery" element={<DiscoveryExchangePage />} />
+          <Route path="daily-connection" element={<DailyConnectionPage />} />
           <Route path="settings" element={<SettingsPage />} />
-          <Route path="connect" element={<ConnectPartnerPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
+        
+        {/* Redirect all other routes to dashboard */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
-      
-      {/* Feedback System */}
-      <FeedbackTrigger onOpen={() => setShowFeedback(true)} />
-      <UserFeedback
-        isOpen={showFeedback}
-        onClose={() => setShowFeedback(false)}
-        onFeedbackSubmit={handleFeedbackSubmit}
-      />
-      
-      <DevTools />
-    </ToastProvider>
+    </Router>
   );
 };
 
