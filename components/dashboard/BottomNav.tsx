@@ -1,65 +1,67 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-    HomeIcon, 
-    HeartIcon, 
-    CalendarDaysIcon, 
-    TrophyIcon,
-    SparklesIcon
-} from '@heroicons/react/24/solid';
+
+// Icons using emoji for simplicity
+const HomeIcon = () => <span>🏠</span>;
+const HeartIcon = () => <span>💕</span>;
+const CalendarIcon = () => <span>📅</span>;
+const TrophyIcon = () => <span>🏆</span>;
+const SparklesIcon = () => <span>✨</span>;
 
 const BottomNav: React.FC = () => {
-    const location = useLocation();
+  const location = useLocation();
 
-    const navItems = [
-        { 
-            name: 'Home', 
-            icon: HomeIcon, 
-            path: '/dashboard'
-        },
-        { 
-            name: 'Memories', 
-            icon: HeartIcon, 
-            path: '/dashboard/timeline'
-        },
-        { 
-            name: 'Plans', 
-            icon: CalendarDaysIcon, 
-            path: '/dashboard/planner'
-        },
-        { 
-            name: 'Growth', 
-            icon: TrophyIcon, 
-            path: '/dashboard/growth-hub'
-        },
-        { 
-            name: 'Chat', 
-            icon: SparklesIcon, 
-            path: '/dashboard/daily-connection'
-        }
-    ];
+  const navItems = [
+    {
+      path: '/dashboard',
+      label: 'Home',
+      icon: HomeIcon,
+    },
+    {
+      path: '/dashboard/timeline',
+      label: 'Memories',
+      icon: HeartIcon,
+    },
+    {
+      path: '/dashboard/planner',
+      label: 'Plans',
+      icon: CalendarIcon,
+    },
+    {
+      path: '/dashboard/growth-hub',
+      label: 'Growth',
+      icon: TrophyIcon,
+    },
+    {
+      path: '/dashboard/daily-connection',
+      label: 'Connect',
+      icon: SparklesIcon,
+    },
+  ];
 
-    return (
-        <div className="bottom-nav">
-            <div className="bottom-nav-content">
-                {navItems.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = location.pathname === item.path;
-                    
-                    return (
-                        <Link
-                            key={item.name}
-                            to={item.path}
-                            className={`nav-item ${isActive ? 'active' : ''}`}
-                        >
-                            <Icon className="w-6 h-6" />
-                            <span className="text-xs font-medium mt-1">{item.name}</span>
-                        </Link>
-                    );
-                })}
-            </div>
-        </div>
-    );
+  return (
+    <nav className="bottom-nav">
+      <div className="nav-items">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+          
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`nav-item ${isActive ? 'active' : ''}`}
+            >
+              <span className="nav-icon">
+                <Icon />
+              </span>
+              <span className="nav-label">{item.label}</span>
+            </Link>
+          );
+        })}
+      </div>
+    </nav>
+  );
 };
 
 export default BottomNav;

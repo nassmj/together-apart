@@ -1,258 +1,267 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-    PaperAirplaneIcon, 
-    SparklesIcon,
-    HeartIcon,
-    CalendarDaysIcon,
-    TrophyIcon,
-    BellIcon,
-    Cog6ToothIcon,
-    UserCircleIcon,
-    PlusIcon
-} from '@heroicons/react/24/solid';
 import BottomNav from '../../components/dashboard/BottomNav';
 
-// Mood Check-in Component
-const MoodCheckIn: React.FC = () => {
-    const moods = ['🌤️', '🙂', '😐', '😕', '🌧️'];
-    const [selectedMood, setSelectedMood] = useState<number | null>(null);
-
-    return (
-        <div className="flex items-center gap-4">
-            <span className="text-muted text-14">How's your weather today?</span>
-            <div className="flex gap-2">
-                {moods.map((mood, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setSelectedMood(index)}
-                        className={`p-2 rounded-12 transition-all ${
-                            selectedMood === index 
-                                ? 'bg-primary text-white scale-110' 
-                                : 'hover:bg-ringBg'
-                        }`}
-                    >
-                        <span className="text-18">{mood}</span>
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-// Relationship Ring Component
-const RelationshipRing: React.FC = () => {
-    return (
-        <div className="card text-center">
-            <div className="ring-container mx-auto mb-4">
-                <div className="ring ring-outer" style={{ 
-                    background: `conic-gradient(from 0deg, var(--primary) 0deg, var(--primary) 252deg, var(--ringBg) 252deg, var(--ringBg) 360deg)` 
-                }}></div>
-                <div className="ring ring-middle" style={{ 
-                    background: `conic-gradient(from 0deg, var(--love) 0deg, var(--love) 270deg, var(--ringBg) 270deg, var(--ringBg) 360deg)` 
-                }}></div>
-                <div className="ring ring-inner" style={{ 
-                    background: `conic-gradient(from 0deg, var(--growth) 0deg, var(--growth) 324deg, var(--ringBg) 324deg, var(--ringBg) 360deg)` 
-                }}></div>
-                <div className="ring-center">
-                    <div className="text-display text-22 text-text">79</div>
-                    <div className="text-14 text-muted">Together Score</div>
-                </div>
-            </div>
-            <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                    <div className="text-16 font-600 text-text">Intentional Time</div>
-                    <div className="text-14 text-muted">45/60 min</div>
-                </div>
-                <div>
-                    <div className="text-16 font-600 text-text">Touchpoints</div>
-                    <div className="text-14 text-muted">12/15</div>
-                </div>
-                <div>
-                    <div className="text-16 font-600 text-text">Growth Tasks</div>
-                    <div className="text-14 text-muted">3/4</div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-// Today Module Component
-const TodayModule: React.FC = () => {
-    const upcomingPlan = {
-        title: "Coffee Date",
-        time: "2:00 PM",
-        place: "Downtown Cafe",
-        attendees: 2
-    };
-
-    return (
-        <div className="card">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-display text-18 text-text">Today</h3>
-                <button className="btn btn-primary">
-                    <PlusIcon className="w-4 h-4 mr-2" />
-                    Plan a moment
-                </button>
-            </div>
-            
-            {upcomingPlan && (
-                <div className="bg-ringBg rounded-16 p-4 flex items-center justify-between">
-                    <div>
-                        <div className="text-16 font-600 text-text">{upcomingPlan.title}</div>
-                        <div className="text-14 text-muted">{upcomingPlan.time} • {upcomingPlan.place}</div>
-                    </div>
-                    <div className="avatar-pair">
-                        <div className="avatar">Y</div>
-                        <div className="avatar">P</div>
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-};
-
-// Messages Peek Component
-const MessagesPeek: React.FC = () => {
-    const lastMessages = [
-        { text: "Missing your morning texts already 💕", author: "Partner", time: "2h ago" },
-        { text: "Can't wait to see you tonight!", author: "You", time: "1h ago" }
-    ];
-
-    const quickReplies = ["❤️ Thanks", "🎙️ Voice", "📷 Add photo"];
-
-    return (
-        <div className="card">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-display text-18 text-text">Messages</h3>
-                <Link to="/dashboard/daily-connection" className="text-primary text-14 font-500">View all</Link>
-            </div>
-            
-            <div className="space-y-3">
-                {lastMessages.map((message, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                        <div className="avatar">{message.author === "You" ? "Y" : "P"}</div>
-                        <div className="flex-1">
-                            <div className="text-14 text-text">{message.text}</div>
-                            <div className="text-12 text-muted">{message.time}</div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            
-            <div className="flex gap-2 mt-4">
-                {quickReplies.map((reply, index) => (
-                    <button key={index} className="chip chip-filter">
-                        {reply}
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-// Quick Actions Component
-const QuickActions: React.FC = () => {
-    const actions = [
-        { title: 'Add Memory', icon: HeartIcon, color: 'bg-love', path: '/dashboard/timeline' },
-        { title: 'Plan Date', icon: CalendarDaysIcon, color: 'bg-primary', path: '/dashboard/planner' },
-        { title: 'Start Call', icon: UserCircleIcon, color: 'bg-growth', path: '/dashboard/daily-connection' },
-        { title: 'Discovery', icon: SparklesIcon, color: 'bg-caution', path: '/dashboard/growth-hub' },
-    ];
-
-    return (
-        <div className="card">
-            <h3 className="text-display text-18 text-text mb-4">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-3">
-                {actions.map((action) => {
-                    const Icon = action.icon;
-                    return (
-                        <Link
-                            key={action.title}
-                            to={action.path}
-                            className="flex items-center gap-3 p-4 rounded-16 border border-transparent hover:border-primary/20 transition-all"
-                        >
-                            <div className={`w-10 h-10 rounded-12 ${action.color} flex items-center justify-center`}>
-                                <Icon className="w-5 h-5 text-white" />
-                            </div>
-                            <span className="text-14 font-500 text-text">{action.title}</span>
-                        </Link>
-                    );
-                })}
-            </div>
-        </div>
-    );
-};
-
-// Weekly Nudges Component
-const WeeklyNudges: React.FC = () => {
-    const suggestions = [
-        "Movie night at home",
-        "Try a new restaurant",
-        "Take a sunset walk"
-    ];
-
-    return (
-        <div className="card bg-caution/10 border-caution/20">
-            <h3 className="text-display text-16 text-text mb-2">Weekly Ideas</h3>
-            <p className="text-14 text-muted mb-4">Haven't planned anything this week? Here are 3 ideas for Friday:</p>
-            <div className="space-y-2">
-                {suggestions.map((suggestion, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-caution rounded-full"></div>
-                        <span className="text-14 text-text">{suggestion}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-// Header Component
-const Header: React.FC = () => {
-    const userName = "Nasser";
-    const partnerName = "Raghad";
-
-    return (
-        <div className="app-bar">
-            <div className="flex items-center gap-4">
-                <div className="avatar-pair">
-                    <div className="avatar">{userName[0]}</div>
-                    <div className="avatar">{partnerName[0]}</div>
-                </div>
-                <div>
-                    <h1 className="text-display text-22 text-text">Good morning, {userName} & {partnerName}</h1>
-                </div>
-            </div>
-            <div className="flex items-center gap-3">
-                <button className="p-2 rounded-12 hover:bg-ringBg transition-all">
-                    <BellIcon className="w-6 h-6 text-muted" />
-                </button>
-                <Link to="/dashboard/settings" className="p-2 rounded-12 hover:bg-ringBg transition-all">
-                    <Cog6ToothIcon className="w-6 h-6 text-muted" />
-                </Link>
-            </div>
-        </div>
-    );
-};
+// Icons (using emoji for simplicity)
+const HeartIcon = () => <span>💕</span>;
+const CalendarIcon = () => <span>📅</span>;
+const TrophyIcon = () => <span>🏆</span>;
+const MessageIcon = () => <span>💬</span>;
+const StarIcon = () => <span>⭐</span>;
+const FireIcon = () => <span>🔥</span>;
+const ClockIcon = () => <span>⏰</span>;
+const CheckIcon = () => <span>✅</span>;
+const PlusIcon = () => <span>➕</span>;
+const ArrowIcon = () => <span>➡️</span>;
 
 const DashboardPage: React.FC = () => {
-    return (
-        <div className="min-h-screen bg-bg">
-            <Header />
-            
-            <div className="p-4 pb-24 space-y-4">
-                <MoodCheckIn />
-                <RelationshipRing />
-                <TodayModule />
-                <MessagesPeek />
-                <QuickActions />
-                <WeeklyNudges />
+  const [selectedMood, setSelectedMood] = useState('happy');
+  const [dailyStreak, setDailyStreak] = useState(7);
+  const [relationshipScore, setRelationshipScore] = useState(87);
+
+  const moods = [
+    { id: 'happy', emoji: '😊', label: 'Happy', color: 'var(--mood-happy)' },
+    { id: 'romantic', emoji: '💕', label: 'Romantic', color: 'var(--mood-romantic)' },
+    { id: 'excited', emoji: '🤩', label: 'Excited', color: 'var(--mood-excited)' },
+    { id: 'calm', emoji: '😌', label: 'Calm', color: 'var(--mood-calm)' },
+    { id: 'passionate', emoji: '🔥', label: 'Passionate', color: 'var(--mood-passionate)' },
+    { id: 'peaceful', emoji: '🌸', label: 'Peaceful', color: 'var(--mood-peaceful)' },
+  ];
+
+  const dailyActivities = [
+    {
+      id: 1,
+      title: "Morning Love Note",
+      description: "Send a sweet message to start their day",
+      category: "Communication",
+      time: "9:00 AM",
+      completed: true,
+      icon: MessageIcon,
+    },
+    {
+      id: 2,
+      title: "Virtual Coffee Date",
+      description: "15-minute video call over coffee",
+      category: "Connection",
+      time: "2:00 PM",
+      completed: false,
+      icon: CalendarIcon,
+    },
+    {
+      id: 3,
+      title: "Share Today's Wins",
+      description: "Tell each other about your achievements",
+      category: "Growth",
+      time: "6:00 PM",
+      completed: false,
+      icon: TrophyIcon,
+    },
+  ];
+
+  const weeklyGoals = [
+    { id: 1, title: "Plan Weekend Adventure", progress: 75, category: "Planning" },
+    { id: 2, title: "Learn Something New Together", progress: 40, category: "Growth" },
+    { id: 3, title: "Create Shared Playlist", progress: 100, category: "Fun" },
+  ];
+
+  const quickActions = [
+    { id: 1, title: "Send Love Note", icon: MessageIcon, color: "var(--accent-primary)" },
+    { id: 2, title: "Plan Date", icon: CalendarIcon, color: "var(--accent-secondary)" },
+    { id: 3, title: "Share Memory", icon: HeartIcon, color: "var(--accent-purple)" },
+    { id: 4, title: "Growth Task", icon: TrophyIcon, color: "var(--accent-success)" },
+  ];
+
+  return (
+    <div className="app-layout">
+      {/* Header */}
+      <header className="app-header">
+        <div className="container">
+          <div className="header-content">
+            <div className="header-left">
+              <h1 className="text-display">Together Apart</h1>
             </div>
-            
-            <BottomNav />
+            <div className="header-right">
+              <div className="flex items-center gap-md">
+                <span className="text-caption">Day {dailyStreak}</span>
+                <div className="progress-ring" style={{ '--progress': relationshipScore } as React.CSSProperties}>
+                  <svg>
+                    <circle className="bg" cx="30" cy="30" r="25" />
+                    <circle className="progress" cx="30" cy="30" r="25" />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-caption font-600">{relationshipScore}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    );
+      </header>
+
+      {/* Main Content */}
+      <main className="main-content">
+        <div className="container">
+          {/* Welcome Section */}
+          <section className="card card-accent animate-fade-in">
+            <div className="flex items-center justify-between mb-lg">
+              <div>
+                <h2 className="text-heading mb-sm">Hello, Love! 💕</h2>
+                <p className="text-body">How are you feeling about your relationship today?</p>
+              </div>
+              <div className="flex items-center gap-sm">
+                <FireIcon />
+                <span className="text-caption">{dailyStreak} day streak</span>
+              </div>
+            </div>
+
+            {/* Mood Check-in */}
+            <div className="mood-grid">
+              {moods.map((mood) => (
+                <div
+                  key={mood.id}
+                  className={`mood-item ${selectedMood === mood.id ? 'active' : ''}`}
+                  onClick={() => setSelectedMood(mood.id)}
+                  style={{ 
+                    backgroundColor: selectedMood === mood.id ? mood.color : undefined,
+                    color: selectedMood === mood.id ? 'var(--bg-primary)' : undefined
+                  }}
+                >
+                  <span className="mood-emoji">{mood.emoji}</span>
+                  <span className="mood-label">{mood.label}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Today's Activities */}
+          <section className="dashboard-section animate-fade-in">
+            <div className="section-header">
+              <h3 className="section-title">Today's Connection Activities</h3>
+              <Link to="/dashboard/planner" className="section-action">
+                View All <ArrowIcon />
+              </Link>
+            </div>
+
+            <div className="dashboard-grid">
+              {dailyActivities.map((activity) => (
+                <div key={activity.id} className="activity-card">
+                  <div className="activity-header">
+                    <div className="flex items-center gap-sm">
+                      <activity.icon />
+                      <h4 className="activity-title">{activity.title}</h4>
+                    </div>
+                    <span className="activity-time">{activity.time}</span>
+                  </div>
+                  <p className="activity-description">{activity.description}</p>
+                  <div className="activity-meta">
+                    <span className="activity-category">{activity.category}</span>
+                    <div className="activity-progress">
+                      {activity.completed ? (
+                        <span className="text-success">✅ Completed</span>
+                      ) : (
+                        <span className="text-muted">⏰ Pending</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Weekly Goals Progress */}
+          <section className="dashboard-section animate-fade-in">
+            <div className="section-header">
+              <h3 className="section-title">Weekly Growth Goals</h3>
+              <Link to="/dashboard/growth-hub" className="section-action">
+                View All <ArrowIcon />
+              </Link>
+            </div>
+
+            <div className="dashboard-grid">
+              {weeklyGoals.map((goal) => (
+                <div key={goal.id} className="card">
+                  <div className="flex items-center justify-between mb-md">
+                    <h4 className="text-subtitle">{goal.title}</h4>
+                    <span className="text-caption">{goal.progress}%</span>
+                  </div>
+                  <div className="progress-bar mb-sm">
+                    <div 
+                      className="progress-bar-fill" 
+                      style={{ width: `${goal.progress}%` }}
+                    />
+                  </div>
+                  <span className="activity-category">{goal.category}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Quick Actions */}
+          <section className="dashboard-section animate-fade-in">
+            <div className="section-header">
+              <h3 className="section-title">Quick Actions</h3>
+            </div>
+
+            <div className="stats-grid">
+              {quickActions.map((action) => (
+                <button key={action.id} className="stat-card">
+                  <div className="stat-value" style={{ color: action.color }}>
+                    <action.icon />
+                  </div>
+                  <div className="stat-label">{action.title}</div>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          {/* Relationship Stats */}
+          <section className="dashboard-section animate-fade-in">
+            <div className="section-header">
+              <h3 className="section-title">Your Relationship Stats</h3>
+            </div>
+
+            <div className="stats-grid">
+              <div className="stat-card">
+                <div className="stat-value">{dailyStreak}</div>
+                <div className="stat-label">Day Streak</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-value">12</div>
+                <div className="stat-label">Shared Memories</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-value">8</div>
+                <div className="stat-label">Growth Tasks</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-value">24</div>
+                <div className="stat-label">Love Notes</div>
+              </div>
+            </div>
+          </section>
+
+          {/* Daily Challenge */}
+          <section className="card card-glow animate-fade-in">
+            <div className="text-center">
+              <div className="mb-md">
+                <StarIcon />
+              </div>
+              <h3 className="text-heading mb-sm">Today's Challenge</h3>
+              <p className="text-body mb-lg">
+                Share one thing you're grateful for about your partner today
+              </p>
+              <button className="btn btn-primary">
+                <MessageIcon />
+                Share Gratitude
+              </button>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <BottomNav />
+    </div>
+  );
 };
 
 export default DashboardPage;
