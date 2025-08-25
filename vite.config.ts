@@ -29,6 +29,9 @@ export default defineConfig(({ mode }) => {
           },
         },
         chunkSizeWarningLimit: 1000,
+        minify: 'terser',
+        sourcemap: false,
+        target: 'es2020',
       },
       optimizeDeps: {
         include: [
