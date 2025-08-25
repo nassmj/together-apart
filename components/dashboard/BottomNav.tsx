@@ -47,7 +47,7 @@ const BottomNav: React.FC = () => {
 
     return (
                  <motion.nav
-             className="fixed bottom-0 left-0 right-0 bg-surface border-t border-border shadow-2 z-docked"
+             className="bottom-nav"
              initial={{ y: 100 }}
              animate={{ y: 0 }}
              transition={{ duration: 0.3, ease: "easeOut" }}

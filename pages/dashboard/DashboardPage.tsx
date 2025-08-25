@@ -52,23 +52,23 @@ const HeaderSection: React.FC = () => {
                              )}
                          </div>
                          <div>
-                             <h1 className="text-2xl font-bold text-text">
+                             <h1 className="text-2xl font-bold text-primary">
                                  Hello, {userName}
                              </h1>
-                             <p className="text-text-secondary">
+                             <p className="text-secondary">
                                  Ready to connect with {partnerName} today?
                              </p>
                          </div>
                      </div>
                      <div className="flex items-center gap-3">
-                         <button className="p-2 rounded-full bg-bg hover:bg-primary-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                             <BellIcon className="h-6 w-6 text-text" />
+                         <button className="p-2 rounded-full bg-bg hover:bg-primary-tint transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                             <BellIcon className="h-6 w-6 text-primary" />
                          </button>
                          <Link 
                              to="/dashboard/settings" 
-                             className="p-2 rounded-full bg-bg hover:bg-primary-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                             className="p-2 rounded-full bg-bg hover:bg-primary-tint transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                          >
-                             <Cog6ToothIcon className="h-6 w-6 text-text" />
+                             <Cog6ToothIcon className="h-6 w-6 text-primary" />
                          </Link>
                     </div>
                 </div>

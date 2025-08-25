@@ -2,39 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Together Apart Design System v1.0 - Simplified Colors */
+/* Together Apart Design System v1.0 - Production Ready */
 
-/* CSS Custom Properties - Simplified */
+/* CSS Custom Properties - Light Theme */
 :root {
-  /* Primary Colors - Clear and Simple */
-  --color-primary: #F28B82;      /* Main brand color - Rose */
-  --color-primary-light: #FFE6E3; /* Light background */
-  --color-primary-dark: #D86E68;  /* Darker for hover */
+  /* Brand & Core Colors */
+  --color-primary: #F28B82;           /* Primary / Rose */
+  --color-primary-hover: #E97B72;     /* Hover state */
+  --color-primary-pressed: #D86E68;   /* Pressed state */
+  --color-primary-tint: rgba(242,139,130,0.14); /* Selected tint */
   
-  /* Secondary Colors */
-  --color-secondary: #A5B4FC;     /* Lavender for secondary actions */
-  --color-secondary-light: #E9ECFF;
-  --color-secondary-dark: #7C8CF5;
+  --color-secondary: #A5B4FC;         /* Secondary / Lavender */
+  --color-secondary-hover: #9AA8FB;   /* Hover state */
+  --color-secondary-pressed: #7C8CF5; /* Pressed state */
+  --color-secondary-focus: #A5B4FC;   /* Focus ring */
   
-  /* Accent Colors */
-  --color-accent: #FFB085;        /* Peach for highlights */
-  --color-accent-light: #FFE9DE;
-  --color-accent-dark: #FF8E54;
+  --color-accent: #FFB085;            /* Accent / Peach */
+  --color-accent-hover: #FFA06B;      /* Hover state */
+  --color-accent-pressed: #FF8E54;    /* Pressed state */
   
-  /* Neutral Colors - Clear Hierarchy */
-  --color-white: #FFFFFF;
-  --color-bg: #FAFAFA;            /* Page background */
-  --color-surface: #FFFFFF;       /* Card/surface background */
-  --color-text: #333333;          /* Primary text */
-  --color-text-secondary: #6B7280; /* Secondary text */
-  --color-border: #E5E7EB;        /* Borders and dividers */
-  --color-muted: #9CA3AF;         /* Muted text and icons */
+  /* Neutral Colors - Light Theme */
+  --color-bg: #FAFAFA;                /* Background (app) */
+  --color-surface: #FFFFFF;           /* Surface / Card */
+  --color-card-alt: #F7F8FA;          /* Card Alt / Elevated */
+  --color-ink: #333333;               /* Ink / Text Primary */
+  --color-text-secondary: #4B5563;    /* Text Secondary */
+  --color-text-muted: #6B7280;        /* Text Tertiary / Muted */
+  --color-placeholder: #9CA3AF;       /* Placeholder / Disabled Text */
+  --color-border: #E5E7EB;            /* Borders / Dividers */
+  --color-overlay: rgba(0,0,0,0.50);  /* Overlay (modals) */
+  
+  /* Typography Colors */
+  --color-heading: #333333;           /* Headings / Titles */
+  --color-body: #333333;              /* Body / Labels */
+  --color-body-secondary: #4B5563;    /* Secondary body */
+  --color-meta: #6B7280;              /* Muted/Meta */
+  --color-inverse: #F5F7FA;           /* Inverse (on dark media/overlays) */
+  --color-link: #7C8CF5;              /* Link (default) */
+  --color-link-hover: #5B6FF2;        /* Link hover/visited */
+  
+  /* Icon Colors */
+  --color-icon-default: #6B7280;      /* Default */
+  --color-icon-active: #F28B82;       /* Active/Selected */
+  --color-icon-button: #FFFFFF;       /* On filled buttons */
+  --color-icon-disabled: #9CA3AF;     /* Disabled */
   
   /* Semantic Colors */
-  --color-success: #10B981;
+  --color-success: #22C55E;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
-  --color-info: #3B82F6;
+  --color-info: #0EA5E9;
   
   /* Typography */
   --font-display: 'Clash Display', 'UI-Sans-Serif', system-ui, sans-serif;
@@ -78,15 +95,29 @@
   --gradient-accent: linear-gradient(135deg, #FFB085 0%, #F28B82 100%);
 }
 
-/* Dark Mode - Simplified */
+/* Dark Mode - Production Ready */
 .dark {
-  --color-white: #1C1F26;
-  --color-bg: #0F1115;
-  --color-surface: #16181D;
-  --color-text: #F5F7FA;
-  --color-text-secondary: #C6CBD3;
-  --color-border: #2D3748;
-  --color-muted: #9CA3AF;
+  /* Core Surfaces */
+  --color-bg: #0F1115;                 /* Background (app) */
+  --color-surface: #16181D;            /* Surface / Card */
+  --color-card-alt: #1C1F26;           /* Elevated Card */
+  --color-border: #2A2F37;             /* Dividers */
+  --color-overlay: rgba(0,0,0,0.60);   /* Overlay */
+  
+  /* Typography Colors */
+  --color-ink: #F5F7FA;                /* Text Primary */
+  --color-text-secondary: #C6CBD3;     /* Text Secondary */
+  --color-text-muted: #9AA0AA;         /* Text Tertiary / Muted */
+  --color-placeholder: #7E8692;        /* Placeholder / Disabled */
+  --color-inverse: #111827;            /* Inverse on light chips */
+  --color-link: #A5B4FC;               /* Link */
+  --color-link-hover: #C3CCFF;         /* Link hover */
+  
+  /* Icon Colors */
+  --color-icon-default: #C6CBD3;       /* Default */
+  --color-icon-active: #F28B82;        /* Active/Selected */
+  --color-icon-button: #0F1115;        /* On filled buttons */
+  --color-icon-disabled: #7E8692;      /* Disabled */
 }
 
 /* Base Styles */
@@ -97,7 +128,7 @@
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg);
-  color: var(--color-text);
+  color: var(--color-ink);
   line-height: 1.5;
   transition: background-color var(--motion-base) ease, color var(--motion-base) ease;
   -webkit-font-smoothing: antialiased;
@@ -110,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: -0.01em;
-  color: var(--color-text);
+  color: var(--color-heading);
 }
 
 h1 { font-size: 2rem; }
@@ -118,12 +149,20 @@ h2 { font-size: 1.5rem; }
 h3 { font-size: 1.25rem; }
 
 p {
-  color: var(--color-text);
+  color: var(--color-body);
 }
+
+/* Text color utilities */
+.text-primary { color: var(--color-ink); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+.text-placeholder { color: var(--color-placeholder); }
+.text-link { color: var(--color-link); }
+.text-link:hover { color: var(--color-link-hover); }
 
 /* Component Library - Simplified */
 @layer components {
-  /* Buttons - Clear and Simple */
+  /* Buttons - Production Ready */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -139,6 +178,7 @@ p {
     border: none;
     text-decoration: none;
     min-height: 44px;
+    position: relative;
   }
   
   .btn:disabled {
@@ -147,55 +187,88 @@ p {
     pointer-events: none;
   }
   
-  /* Primary Button - Main actions */
+  /* Primary Button (Rose) */
   .btn-primary {
     background: var(--color-primary);
-    color: white;
+    color: var(--color-icon-button);
     box-shadow: var(--shadow-1);
   }
   
   .btn-primary:hover:not(:disabled) {
-    background: var(--color-primary-dark);
+    background: var(--color-primary-hover);
     transform: translateY(-1px);
     box-shadow: var(--shadow-2);
   }
   
-  /* Secondary Button - Secondary actions */
+  .btn-primary:active:not(:disabled) {
+    background: var(--color-primary-pressed);
+    transform: translateY(0);
+  }
+  
+  .btn-primary:focus-visible {
+    outline: 2px solid var(--color-secondary-focus);
+    outline-offset: 2px;
+  }
+  
+  /* Secondary Button (Lavender) */
   .btn-secondary {
     background: var(--color-secondary);
-    color: white;
+    color: var(--color-inverse);
     box-shadow: var(--shadow-1);
   }
   
   .btn-secondary:hover:not(:disabled) {
-    background: var(--color-secondary-dark);
+    background: var(--color-secondary-hover);
     transform: translateY(-1px);
     box-shadow: var(--shadow-2);
   }
   
-  /* Accent Button - Special actions */
+  .btn-secondary:active:not(:disabled) {
+    background: var(--color-secondary-pressed);
+    transform: translateY(0);
+  }
+  
+  .btn-secondary:focus-visible {
+    outline: 2px solid var(--color-secondary-focus);
+    outline-offset: 2px;
+  }
+  
+  /* Accent Button (Peach) */
   .btn-accent {
     background: var(--color-accent);
-    color: white;
+    color: var(--color-inverse);
     box-shadow: var(--shadow-1);
   }
   
   .btn-accent:hover:not(:disabled) {
-    background: var(--color-accent-dark);
+    background: var(--color-accent-hover);
     transform: translateY(-1px);
     box-shadow: var(--shadow-2);
   }
   
-  /* Ghost Button - Subtle actions */
+  .btn-accent:active:not(:disabled) {
+    background: var(--color-accent-pressed);
+    transform: translateY(0);
+  }
+  
+  /* Ghost Button (Tertiary) */
   .btn-ghost {
     background: transparent;
-    color: var(--color-text);
+    color: var(--color-ink);
     border: 1px solid var(--color-border);
   }
   
   .btn-ghost:hover:not(:disabled) {
-    background: var(--color-bg);
-    border-color: var(--color-muted);
+    background: rgba(0,0,0,0.04);
+  }
+  
+  .btn-ghost:active:not(:disabled) {
+    background: rgba(0,0,0,0.08);
+  }
+  
+  .btn-ghost:focus-visible {
+    outline: 2px solid var(--color-secondary-focus);
+    outline-offset: 2px;
   }
   
   /* Button Sizes */
@@ -211,7 +284,7 @@ p {
     min-height: 52px;
   }
   
-  /* Cards - Clean and Simple */
+  /* Cards - Production Ready */
   .card {
     background: var(--color-surface);
     border-radius: var(--radius-2xl);
@@ -243,22 +316,26 @@ p {
     background: var(--color-bg);
   }
   
-  /* Inputs - Clear and Accessible */
+  /* Inputs - Production Ready */
   .input {
     width: 100%;
     padding: var(--spacing-3) var(--spacing-4);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
-    color: var(--color-text);
+    color: var(--color-ink);
     font-size: 1rem;
     transition: all var(--motion-base) ease;
   }
   
+  .input:hover {
+    border-color: #D1D5DB;
+  }
+  
   .input:focus {
     outline: none;
-    border-color: var(--color-secondary);
-    box-shadow: 0 0 0 2px var(--color-secondary-light);
+    border-color: var(--color-secondary-focus);
+    box-shadow: 0 0 0 2px rgba(165, 180, 252, 0.1);
   }
   
   .input:disabled {
@@ -275,7 +352,7 @@ p {
     box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
   }
   
-  /* Badges - Clear Status Indicators */
+  /* Badges - Production Ready */
   .badge {
     display: inline-flex;
     align-items: center;
@@ -287,33 +364,39 @@ p {
   }
   
   .badge-primary {
-    background: var(--color-primary-light);
-    color: var(--color-primary-dark);
+    background: var(--color-primary-tint);
+    color: var(--color-ink);
+    border: 1px solid var(--color-primary);
   }
   
   .badge-secondary {
-    background: var(--color-secondary-light);
-    color: var(--color-secondary-dark);
+    background: rgba(165, 180, 252, 0.1);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-secondary);
   }
   
   .badge-accent {
-    background: var(--color-accent-light);
-    color: var(--color-accent-dark);
+    background: rgba(255, 176, 133, 0.1);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-accent);
   }
   
   .badge-success {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--color-success);
+    background: rgba(34, 197, 94, 0.1);
+    color: #065F46;
+    border: 1px solid var(--color-success);
   }
   
   .badge-warning {
     background: rgba(245, 158, 11, 0.1);
-    color: var(--color-warning);
+    color: #7C2D12;
+    border: 1px solid var(--color-warning);
   }
   
   .badge-error {
     background: rgba(239, 68, 68, 0.1);
-    color: var(--color-error);
+    color: #7F1D1D;
+    border: 1px solid var(--color-error);
   }
   
   /* Loading States */
@@ -382,6 +465,18 @@ p {
     50% { transform: scale(1.1); }
   }
   
+  /* Navigation - Production Ready */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
   /* Responsive Utilities */
   .container {
     width: 100%;
@@ -419,7 +514,7 @@ p {
   
   /* Focus Styles */
   .focus-visible:focus-visible {
-    outline: 2px solid var(--color-secondary);
+    outline: 2px solid var(--color-secondary-focus);
     outline-offset: 2px;
   }
   
