@@ -1,66 +1,207 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { Cog8ToothIcon, ChevronDoubleLeftIcon } from '@heroicons/react/24/outline';
-
-const navigation = [
-  { name: 'Connection History', href: '/dashboard/daily-connection', icon: '📜' },
-  { name: 'Memory Timeline', href: '/dashboard/timeline', icon: '📅' },
-  { name: 'Activity Planner', href: '/dashboard/planner', icon: '🎯' },
-  { name: 'Growth Hub', href: '/dashboard/growth-hub', icon: '🌱' },
-  { name: 'Discovery Exchange', href: '/dashboard/discovery', icon: '🎵' },
-];
+import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import {
+  HomeIcon,
+  HeartIcon,
+  CalendarDaysIcon,
+  TrophyIcon,
+  SparklesIcon,
+  ChartBarIcon,
+  BellIcon,
+  UserIcon,
+  Cog6ToothIcon,
+  QuestionMarkCircleIcon,
+  ArrowRightOnRectangleIcon,
+  StarIcon
+} from '@heroicons/react/24/outline';
 
 interface SidebarProps {
-  isCollapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
+  isCollapsed?: boolean;
+  onToggle?: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setCollapsed }) => {
-  const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
-    `group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-      isActive
-        ? 'bg-green text-black font-bold'
-        : 'text-gray-500 dark:text-gray-400 hover:bg-gray-200/50 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white'
-    } ${isCollapsed ? 'justify-center' : ''}`;
+const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
+  const location = useLocation();
+
+  const mainNavItems = [
+    {
+      name: 'Dashboard',
+      icon: HomeIcon,
+      path: '/dashboard',
+      description: 'Your relationship overview'
+    },
+    {
+      name: 'Memory Timeline',
+      icon: HeartIcon,
+      path: '/dashboard/timeline',
+      description: 'Cherish your shared moments'
+    },
+    {
+      name: 'Shared Plans',
+      icon: CalendarDaysIcon,
+      path: '/dashboard/planner',
+      description: 'Plan your adventures together'
+    },
+    {
+      name: 'Growth Hub',
+      icon: TrophyIcon,
+      path: '/dashboard/growth-hub',
+      description: 'Grow together through challenges'
+    },
+    {
+      name: 'Discovery',
+      icon: SparklesIcon,
+      path: '/dashboard/discovery',
+      description: 'Discover new experiences'
+    },
+    {
+      name: 'Relationship Insights',
+      icon: ChartBarIcon,
+      path: '/dashboard/insights',
+      description: 'Track your relationship health'
+    }
+  ];
+
+  const moreNavItems = [
+    {
+      name: 'Notifications',
+      icon: BellIcon,
+      path: '/dashboard/notifications',
+      description: 'Stay updated'
+    },
+    {
+      name: 'Profile',
+      icon: UserIcon,
+      path: '/dashboard/profile',
+      description: 'Manage your account'
+    },
+    {
+      name: 'Settings',
+      icon: Cog6ToothIcon,
+      path: '/dashboard/settings',
+      description: 'Customize your experience'
+    },
+    {
+      name: 'Help & Support',
+      icon: QuestionMarkCircleIcon,
+      path: '/dashboard/help',
+      description: 'Get help when needed'
+    }
+  ];
 
   return (
-    <div
-      className={`hidden md:flex md:flex-shrink-0 transition-all duration-300 ease-in-out ${
-        isCollapsed ? 'w-20' : 'w-72'
-      }`}
+    <motion.aside
+      className="sidebar"
+      initial={{ x: -280 }}
+      animate={{ x: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
-      <div className="flex flex-col w-full">
-        <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 dark:border-white/10 bg-white dark:bg-black">
-          <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-            <nav className="mt-5 flex-1 px-2 space-y-1">
-              <NavLink to="/dashboard" className={navLinkClasses} end>
-                  <span className={`text-xl ${isCollapsed ? '' : 'mr-4'}`}>🏠</span>
-                  {!isCollapsed && <span className="truncate">Dashboard</span>}
-              </NavLink>
-              {navigation.map((item) => (
-                <NavLink key={item.name} to={item.href} className={navLinkClasses}>
-                  <span className={`text-xl ${isCollapsed ? '' : 'mr-4'}`}>{item.icon}</span>
-                  {!isCollapsed && <span className="truncate">{item.name}</span>}
-                </NavLink>
-              ))}
-            </nav>
+      {/* Logo Section */}
+      <div className="p-6 border-b border-border-light">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <StarIcon className="w-5 h-5 text-white" />
           </div>
-          <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-white/10 p-4">
-            <div className="flex-shrink-0 w-full group block">
-                <div className="flex items-center">
-                    <Link to="/dashboard/settings" className={`w-full group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-200/50 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white ${isCollapsed ? 'justify-center' : ''}`}>
-                         <Cog8ToothIcon className={`h-6 w-6 text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-400 ${isCollapsed ? '' : 'mr-3'}`} />
-                         {!isCollapsed && <span className="truncate">Settings</span>}
-                    </Link>
-                    <button onClick={() => setCollapsed(!isCollapsed)} className="ml-2 p-1 rounded-full hover:bg-gray-200/50 dark:hover:bg-white/10">
-                        <ChevronDoubleLeftIcon className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} />
-                    </button>
-                </div>
-            </div>
-          </div>
+          <span className="text-xl font-bold text-primary">Together Apart</span>
         </div>
       </div>
-    </div>
+
+      {/* Navigation */}
+      <nav className="sidebar-nav">
+        {/* Main Navigation */}
+        <div className="mb-8">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 px-4">
+            Main
+          </h3>
+          <div className="space-y-1">
+            {mainNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              
+              return (
+                <motion.div
+                  key={item.name}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Link
+                    to={item.path}
+                    className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                    title={item.description}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span className="font-medium">{item.name}</span>
+                    {isActive && (
+                      <motion.div
+                        className="ml-auto w-2 h-2 bg-primary rounded-full"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* More Navigation */}
+        <div className="mb-8">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 px-4">
+            More
+          </h3>
+          <div className="space-y-1">
+            {moreNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              
+              return (
+                <motion.div
+                  key={item.name}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Link
+                    to={item.path}
+                    className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                    title={item.description}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span className="font-medium">{item.name}</span>
+                    {isActive && (
+                      <motion.div
+                        className="ml-auto w-2 h-2 bg-primary rounded-full"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Logout Button */}
+        <div className="mt-auto pt-6 border-t border-border-light">
+          <motion.button
+            className="w-full sidebar-nav-item text-error hover:bg-error/10 hover:text-error"
+            whileHover={{ x: 4 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => {
+              // Handle logout
+              console.log('Logout clicked');
+            }}
+          >
+            <ArrowRightOnRectangleIcon className="w-5 h-5" />
+            <span className="font-medium">Logout</span>
+          </motion.button>
+        </div>
+      </nav>
+    </motion.aside>
   );
 };
 

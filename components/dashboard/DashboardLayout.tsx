@@ -1,37 +1,55 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from './Header';
+import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './Sidebar';
-import BottomNav from './BottomNav';
+import Header from './Header';
 
 const DashboardLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   return (
-    <div className="h-screen flex overflow-hidden bg-bg text-ink">
-      {/* Desktop Sidebar */}
-      <Sidebar 
-        isCollapsed={sidebarCollapsed} 
-        setCollapsed={setSidebarCollapsed}
-      />
+    <div className="flex h-screen bg-bg">
+      {/* Sidebar */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            className="fixed inset-0 z-40 lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSidebarOpen(false)}
+          >
+            <div className="absolute inset-0 bg-black/50" />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <div className="flex flex-col w-0 flex-1 overflow-hidden">
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out`}>
+        <Sidebar />
+      </div>
+
+      {/* Main Content */}
+      <div className="main-layout">
+        {/* Header */}
         <Header 
-          onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-          onCollapseToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-          isSidebarCollapsed={sidebarCollapsed}
+          showMenuButton={true}
+          onMenuToggle={toggleSidebar}
         />
-        
-        {/* Main content */}
-        <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none pb-20 md:pb-0">
-          <div className="py-6 px-4 sm:px-6 lg:px-8">
-            <Outlet />
-          </div>
-        </main>
 
-        {/* Mobile Bottom Navigation */}
-        <BottomNav />
+        {/* Page Content */}
+        <main className="main-content">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Outlet />
+          </motion.div>
+        </main>
       </div>
     </div>
   );
