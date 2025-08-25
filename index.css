@@ -2,42 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Together Apart Design System v1.0 */
+/* Together Apart Design System v1.0 - Simplified Colors */
 
-/* CSS Custom Properties */
+/* CSS Custom Properties - Simplified */
 :root {
-  /* Primary - Rose */
-  --color-rose-10: #FFF4F3;
-  --color-rose-20: #FFE6E3;
-  --color-rose-40: #FFCAC3;
-  --color-rose-60: #FBA79E;
-  --color-rose-80: #F28B82;
-  --color-rose-100: #D86E68;
+  /* Primary Colors - Clear and Simple */
+  --color-primary: #F28B82;      /* Main brand color - Rose */
+  --color-primary-light: #FFE6E3; /* Light background */
+  --color-primary-dark: #D86E68;  /* Darker for hover */
   
-  /* Secondary - Lavender */
-  --color-lavender-10: #F5F7FF;
-  --color-lavender-20: #E9ECFF;
-  --color-lavender-40: #D4DBFF;
-  --color-lavender-60: #B9C6FF;
-  --color-lavender-80: #A5B4FC;
-  --color-lavender-100: #7C8CF5;
+  /* Secondary Colors */
+  --color-secondary: #A5B4FC;     /* Lavender for secondary actions */
+  --color-secondary-light: #E9ECFF;
+  --color-secondary-dark: #7C8CF5;
   
-  /* Accent - Sunset Peach */
-  --color-peach-10: #FFF6F1;
-  --color-peach-20: #FFE9DE;
-  --color-peach-40: #FFD3BE;
-  --color-peach-60: #FFBEA0;
-  --color-peach-80: #FFB085;
-  --color-peach-100: #FF8E54;
+  /* Accent Colors */
+  --color-accent: #FFB085;        /* Peach for highlights */
+  --color-accent-light: #FFE9DE;
+  --color-accent-dark: #FF8E54;
   
-  /* Neutrals - Light Mode */
-  --color-neutral-bg: #FAFAFA;
-  --color-neutral-surface: #FFFFFF;
-  --color-neutral-card: #FFFFFF;
-  --color-neutral-ink: #333333;
-  --color-neutral-muted: #9CA3AF;
-  --color-neutral-divider: #E5E7EB;
-  --color-neutral-overlay: rgba(0,0,0,0.5);
+  /* Neutral Colors - Clear Hierarchy */
+  --color-white: #FFFFFF;
+  --color-bg: #FAFAFA;            /* Page background */
+  --color-surface: #FFFFFF;       /* Card/surface background */
+  --color-text: #333333;          /* Primary text */
+  --color-text-secondary: #6B7280; /* Secondary text */
+  --color-border: #E5E7EB;        /* Borders and dividers */
+  --color-muted: #9CA3AF;         /* Muted text and icons */
   
   /* Semantic Colors */
   --color-success: #10B981;
@@ -83,19 +74,19 @@
   --motion-slow: 240ms;
   
   /* Gradients */
-  --gradient-romantic-sky: linear-gradient(135deg, #F28B82 0%, #A5B4FC 100%);
-  --gradient-sunset-whisper: linear-gradient(135deg, #FFB085 0%, #F28B82 100%);
+  --gradient-primary: linear-gradient(135deg, #F28B82 0%, #A5B4FC 100%);
+  --gradient-accent: linear-gradient(135deg, #FFB085 0%, #F28B82 100%);
 }
 
-/* Dark Mode Variables */
+/* Dark Mode - Simplified */
 .dark {
-  --color-neutral-bg: #0F1115;
-  --color-neutral-surface: #16181D;
-  --color-neutral-card: #1C1F26;
-  --color-neutral-ink: #F5F7FA;
-  --color-neutral-muted: #C6CBD3;
-  --color-neutral-divider: #2D3748;
-  --color-neutral-overlay: rgba(0,0,0,0.7);
+  --color-white: #1C1F26;
+  --color-bg: #0F1115;
+  --color-surface: #16181D;
+  --color-text: #F5F7FA;
+  --color-text-secondary: #C6CBD3;
+  --color-border: #2D3748;
+  --color-muted: #9CA3AF;
 }
 
 /* Base Styles */
@@ -105,8 +96,8 @@
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-neutral-bg);
-  color: var(--color-neutral-ink);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   line-height: 1.5;
   transition: background-color var(--motion-base) ease, color var(--motion-base) ease;
   -webkit-font-smoothing: antialiased;
@@ -119,15 +110,20 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: -0.01em;
+  color: var(--color-text);
 }
 
 h1 { font-size: 2rem; }
 h2 { font-size: 1.5rem; }
 h3 { font-size: 1.25rem; }
 
-/* Component Library */
+p {
+  color: var(--color-text);
+}
+
+/* Component Library - Simplified */
 @layer components {
-  /* Buttons */
+  /* Buttons - Clear and Simple */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -151,51 +147,55 @@ h3 { font-size: 1.25rem; }
     pointer-events: none;
   }
   
+  /* Primary Button - Main actions */
   .btn-primary {
-    background: var(--color-rose-80);
+    background: var(--color-primary);
     color: white;
     box-shadow: var(--shadow-1);
   }
   
   .btn-primary:hover:not(:disabled) {
-    background: var(--color-rose-100);
+    background: var(--color-primary-dark);
     transform: translateY(-1px);
     box-shadow: var(--shadow-2);
   }
   
+  /* Secondary Button - Secondary actions */
   .btn-secondary {
-    background: var(--color-lavender-80);
+    background: var(--color-secondary);
     color: white;
     box-shadow: var(--shadow-1);
   }
   
   .btn-secondary:hover:not(:disabled) {
-    background: var(--color-lavender-100);
+    background: var(--color-secondary-dark);
     transform: translateY(-1px);
     box-shadow: var(--shadow-2);
   }
   
+  /* Accent Button - Special actions */
   .btn-accent {
-    background: var(--color-peach-80);
+    background: var(--color-accent);
     color: white;
     box-shadow: var(--shadow-1);
   }
   
   .btn-accent:hover:not(:disabled) {
-    background: var(--color-peach-100);
+    background: var(--color-accent-dark);
     transform: translateY(-1px);
     box-shadow: var(--shadow-2);
   }
   
+  /* Ghost Button - Subtle actions */
   .btn-ghost {
     background: transparent;
-    color: var(--color-neutral-ink);
-    border: 1px solid var(--color-neutral-divider);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
   }
   
   .btn-ghost:hover:not(:disabled) {
-    background: var(--color-neutral-bg);
-    border-color: var(--color-neutral-muted);
+    background: var(--color-bg);
+    border-color: var(--color-muted);
   }
   
   /* Button Sizes */
@@ -211,12 +211,12 @@ h3 { font-size: 1.25rem; }
     min-height: 52px;
   }
   
-  /* Cards */
+  /* Cards - Clean and Simple */
   .card {
-    background: var(--color-neutral-card);
+    background: var(--color-surface);
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-1);
-    border: 1px solid var(--color-neutral-divider);
+    border: 1px solid var(--color-border);
     overflow: hidden;
     transition: all var(--motion-base) ease;
   }
@@ -228,35 +228,37 @@ h3 { font-size: 1.25rem; }
   
   .card-header {
     padding: var(--spacing-4);
-    border-bottom: 1px solid var(--color-neutral-divider);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
   }
   
   .card-body {
     padding: var(--spacing-4);
+    background: var(--color-surface);
   }
   
   .card-footer {
     padding: var(--spacing-4);
-    border-top: 1px solid var(--color-neutral-divider);
-    background: var(--color-neutral-bg);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg);
   }
   
-  /* Inputs */
+  /* Inputs - Clear and Accessible */
   .input {
     width: 100%;
     padding: var(--spacing-3) var(--spacing-4);
-    border: 1px solid var(--color-neutral-divider);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    background: var(--color-neutral-surface);
-    color: var(--color-neutral-ink);
+    background: var(--color-surface);
+    color: var(--color-text);
     font-size: 1rem;
     transition: all var(--motion-base) ease;
   }
   
   .input:focus {
     outline: none;
-    border-color: var(--color-lavender-80);
-    box-shadow: 0 0 0 2px var(--color-lavender-20);
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 2px var(--color-secondary-light);
   }
   
   .input:disabled {
@@ -273,7 +275,7 @@ h3 { font-size: 1.25rem; }
     box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
   }
   
-  /* Badges */
+  /* Badges - Clear Status Indicators */
   .badge {
     display: inline-flex;
     align-items: center;
@@ -285,26 +287,41 @@ h3 { font-size: 1.25rem; }
   }
   
   .badge-primary {
-    background: var(--color-rose-20);
-    color: var(--color-rose-80);
+    background: var(--color-primary-light);
+    color: var(--color-primary-dark);
   }
   
   .badge-secondary {
-    background: var(--color-lavender-20);
-    color: var(--color-lavender-80);
+    background: var(--color-secondary-light);
+    color: var(--color-secondary-dark);
   }
   
   .badge-accent {
-    background: var(--color-peach-20);
-    color: var(--color-peach-80);
+    background: var(--color-accent-light);
+    color: var(--color-accent-dark);
+  }
+  
+  .badge-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-success);
+  }
+  
+  .badge-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--color-warning);
+  }
+  
+  .badge-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-error);
   }
   
   /* Loading States */
   .loading-spinner {
     width: 20px;
     height: 20px;
-    border: 2px solid var(--color-neutral-divider);
-    border-top: 2px solid var(--color-rose-80);
+    border: 2px solid var(--color-border);
+    border-top: 2px solid var(--color-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -315,17 +332,17 @@ h3 { font-size: 1.25rem; }
   }
   
   /* Gradients */
-  .bg-romantic-sky {
-    background: var(--gradient-romantic-sky);
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
   }
   
-  .bg-sunset-whisper {
-    background: var(--gradient-sunset-whisper);
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
   }
   
   /* Text Gradients */
   .text-gradient {
-    background: var(--gradient-romantic-sky);
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -402,7 +419,7 @@ h3 { font-size: 1.25rem; }
   
   /* Focus Styles */
   .focus-visible:focus-visible {
-    outline: 2px solid var(--color-lavender-80);
+    outline: 2px solid var(--color-secondary);
     outline-offset: 2px;
   }
   
@@ -425,27 +442,14 @@ h3 { font-size: 1.25rem; }
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-neutral-bg);
+  background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-neutral-divider);
+  background: var(--color-border);
   border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neutral-muted);
-}
-
-/* Dark mode scrollbar */
-.dark ::-webkit-scrollbar-track {
-  background: var(--color-neutral-bg);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: var(--color-neutral-divider);
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neutral-muted);
+  background: var(--color-muted);
 }
