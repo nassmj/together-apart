@@ -20,7 +20,7 @@ import { usePartner } from '../../contexts/PartnerContext';
 const DailyConnectionPrompt: React.FC = () => {
   return (
     <motion.div
-      className="card bg-gradient-to-r from-primary-light to-secondary-light border-primary/20"
+      className="card bg-gradient-primary border-primary/20"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -121,7 +121,7 @@ const LatestNotes: React.FC = () => {
 const GrowthJourney: React.FC = () => {
   return (
     <motion.div
-      className="card bg-gradient-to-r from-accent-light to-primary-light border-accent/20"
+      className="card bg-gradient-accent border-accent/20"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.2 }}
@@ -276,12 +276,12 @@ const QuickActions: React.FC = () => {
                 to={action.path}
                 className="card hover:shadow-md transition-all duration-200 h-full"
               >
-                <div className="flex flex-col items-center text-center p-4">
-                  <div className={`w-12 h-12 bg-${action.color}-light rounded-xl flex items-center justify-center mb-3`}>
-                    <Icon className={`w-6 h-6 text-${action.color}`} />
-                  </div>
-                  <span className="font-medium text-primary">{action.title}</span>
-                </div>
+                                 <div className="flex flex-col items-center text-center p-4">
+                   <div className={`w-12 h-12 bg-${action.color === 'primary' ? 'primary-light' : action.color === 'secondary' ? 'secondary-light' : 'accent-light'} rounded-xl flex items-center justify-center mb-3`}>
+                     <Icon className={`w-6 h-6 text-${action.color}`} />
+                   </div>
+                   <span className="font-medium text-primary">{action.title}</span>
+                 </div>
               </Link>
             </motion.div>
           );
@@ -337,10 +337,10 @@ const StatsOverview: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 bg-${stat.color}-light rounded-lg flex items-center justify-center`}>
-                <Icon className={`w-5 h-5 text-${stat.color}`} />
-              </div>
+                         <div className="flex items-center gap-3">
+               <div className={`w-10 h-10 bg-${stat.color === 'primary' ? 'primary-light' : stat.color === 'secondary' ? 'secondary-light' : 'accent-light'} rounded-lg flex items-center justify-center`}>
+                 <Icon className={`w-5 h-5 text-${stat.color}`} />
+               </div>
               <div>
                 <p className="text-sm text-secondary">{stat.title}</p>
                 <p className="text-xl font-bold text-primary">{stat.value}</p>
@@ -360,17 +360,42 @@ const DashboardPage: React.FC = () => {
 
   if (loading || partnerLoading) {
     return (
-      <div className="space-y-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-surface-alt rounded-lg w-1/3 mb-6"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-20 bg-surface-alt rounded-xl"></div>
+      <div className="space-y-8">
+        {/* Welcome Section Skeleton */}
+        <div className="text-center mb-8">
+          <div className="skeleton h-10 rounded-lg w-1/2 mx-auto mb-4"></div>
+          <div className="skeleton h-6 rounded-lg w-2/3 mx-auto"></div>
+        </div>
+
+        {/* Stats Overview Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="card">
+              <div className="flex items-center gap-3">
+                <div className="skeleton w-10 h-10 rounded-lg"></div>
+                <div className="flex-1">
+                  <div className="skeleton h-4 rounded w-3/4 mb-2"></div>
+                  <div className="skeleton h-6 rounded w-1/2"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Main Content Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="card">
+                <div className="skeleton h-32 rounded-lg"></div>
+              </div>
             ))}
           </div>
-          <div className="space-y-4">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-32 bg-surface-alt rounded-xl"></div>
+          <div className="space-y-8">
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="card">
+                <div className="skeleton h-48 rounded-lg"></div>
+              </div>
             ))}
           </div>
         </div>
