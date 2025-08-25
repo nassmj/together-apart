@@ -67,5 +67,42 @@ const Skeleton: React.FC<SkeletonProps> = ({ className = '', lines = 1 }) => {
   );
 };
 
-export { LoadingSpinner, Skeleton };
+// LoadingButton component for buttons with loading states
+interface LoadingButtonProps {
+  children: React.ReactNode;
+  isLoading?: boolean;
+  loadingText?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  className?: string;
+  onClick?: () => void;
+}
+
+const LoadingButton: React.FC<LoadingButtonProps> = ({
+  children,
+  isLoading = false,
+  loadingText = 'Loading...',
+  disabled = false,
+  type = 'button',
+  className = '',
+  onClick
+}) => {
+  return (
+    <button
+      type={type}
+      disabled={disabled || isLoading}
+      className={`btn btn-primary flex items-center justify-center gap-2 ${className} ${
+        (disabled || isLoading) ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
+      onClick={onClick}
+    >
+      {isLoading && (
+        <LoadingSpinner size="sm" color="white" />
+      )}
+      {isLoading ? loadingText : children}
+    </button>
+  );
+};
+
+export { LoadingSpinner, Skeleton, LoadingButton };
 
