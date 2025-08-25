@@ -28,7 +28,7 @@ const DashboardLayout: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <div className={`fixed inset-y-0 left-0 z-50 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out`}>
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out`}>
         <Sidebar />
       </div>
 

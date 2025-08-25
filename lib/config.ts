@@ -39,8 +39,8 @@ const getFallbackConfig = () => {
 
 export const config: AppConfig = {
   supabase: {
-    url: import.meta.env.VITE_SUPABASE_URL || getFallbackConfig()?.url || '',
-    anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || getFallbackConfig()?.anonKey || '',
+    url: getRequiredEnvVar('VITE_SUPABASE_URL') || getFallbackConfig()?.url || '',
+    anonKey: getRequiredEnvVar('VITE_SUPABASE_ANON_KEY') || getFallbackConfig()?.anonKey || '',
   },
   gemini: {
     apiKey: import.meta.env.VITE_GEMINI_API_KEY,

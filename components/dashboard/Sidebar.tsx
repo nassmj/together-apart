@@ -93,9 +93,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
   return (
     <motion.aside
       className="sidebar"
-      id="sidebar-navigation"
-      role="navigation"
-      aria-label="Main navigation"
       initial={{ x: -280 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
@@ -114,10 +111,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
       <nav className="sidebar-nav">
         {/* Main Navigation */}
         <div className="mb-8">
-          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 px-4" id="main-nav-heading">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 px-4">
             Main
           </h3>
-          <div className="space-y-1" role="group" aria-labelledby="main-nav-heading">
+          <div className="space-y-1">
             {mainNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -132,8 +129,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
                     to={item.path}
                     className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
                     title={item.description}
-                    aria-label={`${item.name} - ${item.description}`}
-                    aria-current={isActive ? 'page' : undefined}
                   >
                     <Icon className="w-5 h-5" />
                     <span className="font-medium">{item.name}</span>
@@ -143,7 +138,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.2 }}
-                        aria-hidden="true"
                       />
                     )}
                   </Link>
@@ -155,10 +149,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
 
         {/* More Navigation */}
         <div className="mb-8">
-          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 px-4" id="more-nav-heading">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 px-4">
             More
           </h3>
-          <div className="space-y-1" role="group" aria-labelledby="more-nav-heading">
+          <div className="space-y-1">
             {moreNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -201,7 +195,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
               // Handle logout
               console.log('Logout clicked');
             }}
-            aria-label="Sign out of your account"
           >
             <ArrowRightOnRectangleIcon className="w-5 h-5" />
             <span className="font-medium">Logout</span>
