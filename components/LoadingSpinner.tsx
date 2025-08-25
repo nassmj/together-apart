@@ -104,5 +104,23 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
   );
 };
 
-export { LoadingSpinner, Skeleton, LoadingButton };
+// SkeletonCard component for card loading states
+interface SkeletonCardProps {
+  className?: string;
+}
+
+const SkeletonCard: React.FC<SkeletonCardProps> = ({ className = '' }) => {
+  return (
+    <div className={`bg-white dark:bg-white/5 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-white/10 ${className}`}>
+      <div className="space-y-4">
+        <div className="skeleton h-6 w-3/4 rounded-lg" />
+        <div className="skeleton h-4 w-full rounded-lg" />
+        <div className="skeleton h-4 w-2/3 rounded-lg" />
+        <div className="skeleton h-4 w-1/2 rounded-lg" />
+      </div>
+    </div>
+  );
+};
+
+export { LoadingSpinner, Skeleton, LoadingButton, SkeletonCard };
 

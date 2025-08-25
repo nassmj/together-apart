@@ -20,9 +20,7 @@ export default defineConfig(({ mode }) => {
       build: {
         rollupOptions: {
           output: {
-            manualChunks: {
-              vendor: ['react', 'react-dom', 'react-router-dom'],
-            },
+            manualChunks: undefined,
           },
         },
         chunkSizeWarningLimit: 1000,
