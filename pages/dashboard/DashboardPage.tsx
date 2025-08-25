@@ -19,7 +19,6 @@ import { useToast } from '../../components/ToastProvider';
 import { useAuth } from '../../contexts/AuthContext';
 import { usePartner } from '../../contexts/PartnerContext';
 import { LoadingSpinner, Skeleton } from '../../components/LoadingSpinner';
-import BottomNav from '../../components/dashboard/BottomNav';
 
 // --- WIDGET COMPONENTS ---
 
@@ -413,7 +412,6 @@ const DashboardPage: React.FC = () => {
                 <GrowthTasksCard />
                 <QuickActionsCard />
             </div>
-            <BottomNav />
         </div>
     );
 };

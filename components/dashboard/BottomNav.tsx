@@ -73,8 +73,8 @@ const BottomNav: React.FC = () => {
                                      <Icon
                                          className={`h-6 w-6 transition-colors duration-200 ${
                                              isActive
-                                                 ? `text-${item.color}`
-                                                 : 'text-muted'
+                                                 ? 'text-primary'
+                                                 : 'text-text-muted'
                                          }`}
                                      />
                                      {isActive && (
@@ -89,8 +89,8 @@ const BottomNav: React.FC = () => {
                                  <span
                                      className={`text-xs font-medium mt-1 transition-colors duration-200 ${
                                          isActive
-                                             ? `text-${item.color}`
-                                             : 'text-muted'
+                                             ? 'text-primary'
+                                             : 'text-text-muted'
                                      }`}
                                  >
                                      {item.name}

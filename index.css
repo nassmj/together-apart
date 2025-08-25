@@ -187,11 +187,12 @@ p {
     pointer-events: none;
   }
   
-  /* Primary Button (Rose) */
+  /* Primary Button (Rose) - User-Friendly */
   .btn-primary {
     background: var(--color-primary);
-    color: var(--color-icon-button);
+    color: #FFFFFF;
     box-shadow: var(--shadow-1);
+    font-weight: 600;
   }
   
   .btn-primary:hover:not(:disabled) {
@@ -210,11 +211,12 @@ p {
     outline-offset: 2px;
   }
   
-  /* Secondary Button (Lavender) */
+  /* Secondary Button (Lavender) - User-Friendly */
   .btn-secondary {
     background: var(--color-secondary);
-    color: var(--color-inverse);
+    color: #111827;
     box-shadow: var(--shadow-1);
+    font-weight: 600;
   }
   
   .btn-secondary:hover:not(:disabled) {
@@ -233,11 +235,12 @@ p {
     outline-offset: 2px;
   }
   
-  /* Accent Button (Peach) */
+  /* Accent Button (Peach) - User-Friendly */
   .btn-accent {
     background: var(--color-accent);
-    color: var(--color-inverse);
+    color: #111827;
     box-shadow: var(--shadow-1);
+    font-weight: 600;
   }
   
   .btn-accent:hover:not(:disabled) {
@@ -251,15 +254,17 @@ p {
     transform: translateY(0);
   }
   
-  /* Ghost Button (Tertiary) */
+  /* Ghost Button (Tertiary) - User-Friendly */
   .btn-ghost {
     background: transparent;
     color: var(--color-ink);
     border: 1px solid var(--color-border);
+    font-weight: 500;
   }
   
   .btn-ghost:hover:not(:disabled) {
     background: rgba(0,0,0,0.04);
+    border-color: var(--color-primary);
   }
   
   .btn-ghost:active:not(:disabled) {
@@ -475,6 +480,15 @@ p {
     background: var(--color-surface);
     border-top: 1px solid var(--color-border);
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  /* Ensure bottom nav is always visible */
+  @media (max-width: 768px) {
+    body {
+      padding-bottom: 80px;
+    }
   }
   
   /* Responsive Utilities */

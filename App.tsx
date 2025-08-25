@@ -88,15 +88,17 @@ const App: React.FC = () => {
         </Route>
         
         <Route path="/dashboard" element={<ProtectedRoute />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="daily-connection" element={<DailyConnectionPage />} />
-          <Route path="timeline" element={<MemoryTimelinePage />} />
-          <Route path="planner" element={<ActivityPlannerPage />} />
-          <Route path="growth-hub" element={<GrowthHubPage />} />
-          <Route path="discovery" element={<DiscoveryExchangePage />} />
-          <Route path="settings" element={<SettingsPage />} />
-          <Route path="connect" element={<ConnectPartnerPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route element={<DashboardLayout />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="daily-connection" element={<DailyConnectionPage />} />
+            <Route path="timeline" element={<MemoryTimelinePage />} />
+            <Route path="planner" element={<ActivityPlannerPage />} />
+            <Route path="growth-hub" element={<GrowthHubPage />} />
+            <Route path="discovery" element={<DiscoveryExchangePage />} />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="connect" element={<ConnectPartnerPage />} />
+            <Route path="profile" element={<ProfilePage />} />
+          </Route>
         </Route>
       </Routes>
       
