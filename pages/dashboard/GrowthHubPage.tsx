@@ -1,521 +1,607 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PlusIcon, PencilIcon, TrashIcon, XMarkIcon, FireIcon, CheckIcon as CheckSolidIcon, StarIcon, CalendarDaysIcon } from '@heroicons/react/24/solid';
-import { useToast } from '../../components/ToastProvider';
-import ConfirmationModal from '../../components/modals/ConfirmationModal';
-import { DropdownMenu, DropdownMenuItem } from '../../components/DropdownMenu';
-import { supabase } from '../../lib/supabaseClient';
-import { useAuth } from '../../contexts/AuthContext';
-import { usePartner } from '../../contexts/PartnerContext';
-import type { Database } from '../../lib/supabaseClient';
+import {
+  TrophyIcon,
+  StarIcon,
+  PlusIcon,
+  MagnifyingGlassIcon,
+  FunnelIcon,
+  XMarkIcon,
+  FireIcon,
+  ClockIcon,
+  CheckCircleIcon,
+  LightBulbIcon,
+  HeartIcon,
+  SparklesIcon,
+  ChartBarIcon,
+  UserGroupIcon
+} from '@heroicons/react/24/outline';
 
-// --- TYPES ---
-type Quest = Database['public']['Tables']['quests']['Row'];
-type QuestStatus = Database['public']['Enums']['quest_status'];
-type QuestType = Database['public']['Enums']['quest_type'];
-type QuestFrequency = Database['public']['Enums']['quest_frequency'];
+// Quest Interface
+interface Quest {
+  id: string;
+  title: string;
+  description: string;
+  category: 'communication' | 'romance' | 'adventure' | 'learning' | 'wellness' | 'creativity';
+  difficulty: 'easy' | 'medium' | 'hard';
+  duration: string;
+  progress: number;
+  status: 'not_started' | 'in_progress' | 'completed';
+  streak: number;
+  maxStreak: number;
+  rewards: string[];
+  isFavorite: boolean;
+  participants: string[];
+  dueDate?: string;
+}
 
-
-// --- HELPER FUNCTIONS ---
-const getYYYYMMDD = (date: Date): string => date.toISOString().split('T')[0];
-const getStartOfWeek = (date: Date): Date => {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
-    return new Date(d.setDate(diff));
-};
-
-
-// --- MODAL COMPONENTS ---
-const AddEditQuestModal: React.FC<{
-    isOpen: boolean;
-    onClose: () => void;
-    onSave: (questData: Partial<Quest>, id?: string) => void;
-    questToEdit?: Quest | null;
-}> = ({ isOpen, onClose, onSave, questToEdit }) => {
-    const [questData, setQuestData] = useState<Partial<Quest>>({});
-
-    useEffect(() => {
-        if (isOpen) {
-            setQuestData(questToEdit || { type: 'challenge', status: 'available' });
-        } else {
-            setQuestData({});
-        }
-    }, [isOpen, questToEdit]);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setQuestData(prev => ({ ...prev, [name]: name === 'weekly_goal' ? (parseInt(value, 10) || 1) : value }));
-    };
-
-    const handleTypeChange = (newType: QuestType) => {
-        if (newType === questData.type) return;
-        const baseData: Partial<Quest> = { title: questData.title, description: questData.description, category: questData.category, status: questData.status };
-        if (newType === 'challenge') {
-            setQuestData({ ...baseData, type: 'challenge' });
-        } else {
-            setQuestData({ ...baseData, type: 'routine', frequency: 'daily' });
-        }
-    };
-    
-    const handleFrequencyChange = (newFreq: QuestFrequency) => {
-        setQuestData(prev => {
-            if (prev.type === 'routine') {
-                return { ...prev, frequency: newFreq };
-            }
-            return prev;
-        });
+// Quest Card Component
+const QuestCard: React.FC<{ quest: Quest; onStart?: (quest: Quest) => void; onView?: (quest: Quest) => void }> = ({ quest, onStart, onView }) => {
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case 'communication': return 'primary';
+      case 'romance': return 'primary';
+      case 'adventure': return 'secondary';
+      case 'learning': return 'accent';
+      case 'wellness': return 'secondary';
+      case 'creativity': return 'accent';
+      default: return 'primary';
     }
+  };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!questData.title?.trim() || !questData.category?.trim()) return;
-        onSave(questData, questToEdit?.id);
-        onClose();
-    };
-
-    if (!isOpen) return null;
-
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-75 z-40 flex justify-center items-center p-4">
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative bg-[#2f2828] rounded-xl shadow-xl max-w-lg w-full border border-white/10">
-                <div className="flex justify-between items-center p-5 border-b border-white/10">
-                    <h3 className="text-xl font-semibold text-white">{questToEdit ? 'Edit Quest' : 'Add a New Quest'}</h3>
-                    <button onClick={onClose} className="p-1 rounded-full text-gray-400 hover:bg-white/10"><XMarkIcon className="h-6 w-6" /></button>
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
-                        {/* Type Selector */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">Quest Type</label>
-                            <div className="grid grid-cols-2 gap-2 p-1 bg-black/50 rounded-lg border border-white/10">
-                                <button type="button" onClick={() => handleTypeChange('challenge')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${questData.type === 'challenge' ? 'bg-green text-black' : 'text-gray-400 hover:bg-white/10'}`}>Challenge</button>
-                                <button type="button" onClick={() => handleTypeChange('routine')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${questData.type === 'routine' ? 'bg-green text-black' : 'text-gray-400 hover:bg-white/10'}`}>Routine</button>
-                            </div>
-                        </div>
-
-                        {/* Common Fields */}
-                        <div>
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-300">Title</label>
-                            <input type="text" name="title" value={questData.title || ''} onChange={handleChange} required placeholder="e.g., Read a Chapter Together" className="mt-1 block w-full rounded-md border-gray-600 bg-black/50 text-white shadow-sm focus:border-pink focus:ring-pink" />
-                        </div>
-                        <div>
-                            <label htmlFor="category" className="block text-sm font-medium text-gray-300">Category</label>
-                            <input type="text" name="category" value={questData.category || ''} onChange={handleChange} required placeholder="e.g., Learning" className="mt-1 block w-full rounded-md border-gray-600 bg-black/50 text-white shadow-sm focus:border-pink focus:ring-pink" />
-                        </div>
-                        <div>
-                            <label htmlFor="description" className="block text-sm font-medium text-gray-300">Description</label>
-                            <textarea name="description" value={questData.description || ''} onChange={handleChange} rows={3} placeholder="A short description of the quest" className="mt-1 block w-full rounded-md border-gray-600 bg-black/50 text-white shadow-sm focus:border-pink focus:ring-pink" />
-                        </div>
-                        
-                        <div className="border-t border-white/10 my-4"></div>
-
-                        {/* Conditional Fields */}
-                        <AnimatePresence>
-                        {questData.type === 'challenge' && (
-                            <motion.div initial={{opacity: 0, height: 0}} animate={{opacity: 1, height: 'auto'}} exit={{opacity: 0, height: 0}} className="space-y-4 overflow-hidden">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="start_date" className="block text-sm font-medium text-gray-300">Start Date</label>
-                                        <input type="date" name="start_date" value={questData.start_date || ''} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-600 bg-black/50 text-white shadow-sm focus:border-pink focus:ring-pink" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="end_date" className="block text-sm font-medium text-gray-300">End Date</label>
-                                        <input type="date" name="end_date" value={questData.end_date || ''} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-600 bg-black/50 text-white shadow-sm focus:border-pink focus:ring-pink" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="restrictions" className="block text-sm font-medium text-gray-300">Restrictions / Rules</label>
-                                    <textarea name="restrictions" value={questData.restrictions || ''} onChange={handleChange} rows={2} placeholder="e.g., Must complete before midnight" className="mt-1 block w-full rounded-md border-gray-600 bg-black/50 text-white shadow-sm focus:border-pink focus:ring-pink" />
-                                </div>
-                            </motion.div>
-                        )}
-
-                        {questData.type === 'routine' && (
-                            <motion.div initial={{opacity: 0, height: 0}} animate={{opacity: 1, height: 'auto'}} exit={{opacity: 0, height: 0}} className="space-y-4 overflow-hidden">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-2">Frequency</label>
-                                    <div className="grid grid-cols-2 gap-2 p-1 bg-black/50 rounded-lg border border-white/10">
-                                        <button type="button" onClick={() => handleFrequencyChange('daily')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${questData.frequency === 'daily' ? 'bg-green/80 text-black' : 'text-gray-400 hover:bg-white/10'}`}>Daily</button>
-                                        <button type="button" onClick={() => handleFrequencyChange('weekly')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${questData.frequency === 'weekly' ? 'bg-green/80 text-black' : 'text-gray-400 hover:bg-white/10'}`}>Weekly</button>
-                                    </div>
-                                </div>
-                                {questData.frequency === 'weekly' && (
-                                     <motion.div initial={{opacity: 0}} animate={{opacity: 1}} >
-                                        <label htmlFor="weekly_goal" className="block text-sm font-medium text-gray-300">Times Per Week</label>
-                                        <input type="number" name="weekly_goal" value={questData.weekly_goal || 1} onChange={handleChange} min="1" max="7" className="mt-1 block w-full rounded-md border-gray-600 bg-black/50 text-white shadow-sm focus:border-pink focus:ring-pink" />
-                                    </motion.div>
-                                )}
-                            </motion.div>
-                        )}
-                        </AnimatePresence>
-
-                    </div>
-                    <div className="bg-black/50 px-4 py-3 sm:px-6 flex justify-end gap-x-3 rounded-b-xl">
-                        <button type="button" onClick={onClose} className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-white/20 hover:bg-white/20">Cancel</button>
-                        <button type="submit" className="inline-flex justify-center rounded-md bg-green px-3 py-2 text-sm font-bold text-black shadow-sm hover:bg-opacity-90">Save Quest</button>
-                    </div>
-                </form>
-            </motion.div>
-        </div>
-    );
-};
-
-// --- UI COMPONENTS ---
-const CircularProgress: React.FC<{ progress: number; total: number; size?: number; strokeWidth?: number }> = ({ progress, total, size = 64, strokeWidth = 5 }) => {
-    const radius = (size - strokeWidth) / 2;
-    const circumference = 2 * Math.PI * radius;
-    const offset = total > 0 ? circumference - (progress / total) * circumference : circumference;
-
-    return (
-        <div className="relative" style={{ width: size, height: size }}>
-            <svg width={size} height={size} className="transform -rotate-90">
-                <circle cx={size/2} cy={size/2} r={radius} stroke="rgba(255,255,255,0.1)" strokeWidth={strokeWidth} fill="transparent" />
-                <motion.circle 
-                    cx={size/2} 
-                    cy={size/2} 
-                    r={radius} 
-                    stroke="#CBD861" 
-                    strokeWidth={strokeWidth} 
-                    fill="transparent"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={circumference}
-                    animate={{ strokeDashoffset: offset }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    strokeLinecap="round"
-                />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-base font-bold text-white">{progress}<span className="text-xs text-gray-400">/{total}</span></span>
-            </div>
-        </div>
-    );
-};
-
-
-const QuestCard: React.FC<{
-    quest: Quest;
-    onEdit: (quest: Quest) => void;
-    onDelete: (id: string) => void;
-    onChangeStatus: (id: string, status: QuestStatus) => void;
-    onRoutineCheckIn: (id: string) => void;
-}> = ({ quest, onEdit, onDelete, onChangeStatus, onRoutineCheckIn }) => {
-    
-    const isCompletedToday = quest.type === 'routine' && quest.last_completed_date === getYYYYMMDD(new Date());
-    const isWeeklyGoalMet = quest.type === 'routine' && quest.frequency === 'weekly' && quest.completed_this_week && quest.completed_this_week.length >= (quest.weekly_goal || 1);
-
-    const cardClasses = {
-        base: 'p-5 rounded-2xl transition-all duration-300 flex items-center gap-5 border',
-        inProgress: 'bg-white/[.07] ring-2 ring-green/50 shadow-lg shadow-green/10 border-white/20',
-        available: 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20',
-        completed: 'bg-white/5 border-white/10 opacity-60 hover:opacity-100',
-    };
-    
-    let currentClass = cardClasses.available;
-    if (quest.status === 'in-progress') currentClass = cardClasses.inProgress;
-    if (quest.status === 'completed') currentClass = cardClasses.completed;
-
-    const ActionButton = () => {
-        if (quest.status === 'available') {
-            return <button onClick={() => onChangeStatus(quest.id, 'in-progress')} className="bg-green text-black font-bold px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors whitespace-nowrap">Start</button>;
-        }
-        if (quest.status === 'in-progress') {
-            if (quest.type === 'challenge') {
-                return <button onClick={() => onChangeStatus(quest.id, 'completed')} className="bg-green text-black font-bold px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors whitespace-nowrap">Complete</button>;
-            }
-            if (quest.type === 'routine') {
-                return (
-                    <button onClick={() => onRoutineCheckIn(quest.id)} disabled={isCompletedToday || isWeeklyGoalMet} className="bg-green text-black font-bold px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed whitespace-nowrap">
-                        {isCompletedToday ? 'Done Today' : (isWeeklyGoalMet ? 'Goal Met' : 'Check-in')}
-                    </button>
-                );
-            }
-        }
-        return null;
-    };
-
-    const StatusIndicator = () => {
-         if (quest.status === 'completed') {
-            return (
-                <div className="w-16 h-16 flex items-center justify-center bg-green/20 rounded-full flex-shrink-0">
-                    <CheckSolidIcon className="w-8 h-8 text-green" />
-                </div>
-            );
-         }
-         if (quest.type === 'routine' && quest.status === 'in-progress') {
-            if (quest.frequency === 'daily') {
-                return (
-                     <div className="text-center flex-shrink-0">
-                         <div className="w-16 h-16 relative flex items-center justify-center bg-white/5 border border-white/10 rounded-full">
-                            <FireIcon className={`h-7 w-7 absolute transition-colors ${quest.streak > 0 ? 'text-orange-400' : 'text-orange-400/20'}`}/>
-                            <span className="text-2xl font-bold text-white relative">{quest.streak || 0}</span>
-                         </div>
-                         <p className="text-xs font-bold text-gray-400 mt-1 tracking-wider">DAY STREAK</p>
-                     </div>
-                );
-            }
-            if (quest.frequency === 'weekly') {
-                return (
-                    <div className="text-center flex-shrink-0">
-                        <CircularProgress progress={quest.completed_this_week?.length || 0} total={quest.weekly_goal || 1} />
-                        <p className="text-xs font-bold text-gray-400 mt-1 tracking-wider">THIS WEEK</p>
-                    </div>
-                );
-            }
-         }
-        return quest.type === 'challenge' && quest.end_date ? (
-            <div className="text-center flex-shrink-0 w-16">
-                 <CalendarDaysIcon className="h-8 w-8 text-pink/80 mx-auto"/>
-                 <p className="text-xs font-bold text-gray-400 mt-1 tracking-wider">CHALLENGE</p>
-            </div>
-        ) : <div className="w-16 h-16 flex-shrink-0" />;
-    };
-
-    const getDaysLeft = () => {
-        if (quest.type !== 'challenge' || !quest.end_date) return null;
-        const diff = new Date(quest.end_date).getTime() - new Date().getTime();
-        const days = Math.ceil(diff / (1000 * 3600 * 24));
-        if (days < 0) return 'Ended';
-        if (days === 0) return 'Ends today';
-        return `${days} day${days > 1 ? 's' : ''} left`;
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'easy': return 'success';
+      case 'medium': return 'warning';
+      case 'hard': return 'error';
+      default: return 'success';
     }
+  };
 
-    return (
-        <motion.div layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className={`${cardClasses.base} ${currentClass}`}>
-            <StatusIndicator />
-            <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-baseline">
-                    <p className="text-xs font-semibold text-pink uppercase tracking-wider">{quest.category} - {quest.type}</p>
-                    {quest.type === 'challenge' && quest.status === 'in-progress' && quest.end_date && (
-                        <p className="text-xs font-medium text-gray-400">{getDaysLeft()}</p>
-                    )}
-                </div>
-                <h3 className="text-lg font-bold text-white mt-1 truncate">{quest.title}</h3>
-                <p className="text-sm text-gray-400 truncate">{quest.description}</p>
-            </div>
-            <div className="flex items-center gap-4">
-                <ActionButton />
-                <div className="flex-shrink-0">
-                    <DropdownMenu>
-                        <DropdownMenuItem onClick={() => onEdit(quest)}><PencilIcon className="h-4 w-4 mr-3" />Edit</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => onDelete(quest.id)} className="text-pink"><TrashIcon className="h-4 w-4 mr-3" />Delete</DropdownMenuItem>
-                    </DropdownMenu>
-                </div>
-            </div>
-        </motion.div>
-    );
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'not_started': return 'muted';
+      case 'in_progress': return 'success';
+      case 'completed': return 'primary';
+      default: return 'muted';
+    }
+  };
+
+  const categoryColor = getCategoryColor(quest.category);
+  const difficultyColor = getDifficultyColor(quest.difficulty);
+  const statusColor = getStatusColor(quest.status);
+
+  return (
+    <motion.div
+      className="card hover:shadow-md transition-all duration-200 cursor-pointer"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -2 }}
+      onClick={() => onView?.(quest)}
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className={`w-12 h-12 bg-${categoryColor}-light rounded-xl flex items-center justify-center`}>
+            <TrophyIcon className={`w-6 h-6 text-${categoryColor}`} />
+          </div>
+          <div>
+            <h3 className="font-semibold text-primary">{quest.title}</h3>
+            <p className="text-secondary text-sm">{quest.description}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          {quest.isFavorite && (
+            <StarIcon className="w-5 h-5 text-accent fill-current" />
+          )}
+          <span className={`badge badge-${statusColor}`}>
+            {quest.status.replace('_', ' ')}
+          </span>
+        </div>
+      </div>
+
+      {/* Progress Bar */}
+      {quest.status === 'in_progress' && (
+        <div className="mb-4">
+          <div className="flex justify-between text-sm text-secondary mb-1">
+            <span>Progress</span>
+            <span>{quest.progress}%</span>
+          </div>
+          <div className="progress-bar">
+            <div 
+              className="progress-fill" 
+              style={{ width: `${quest.progress}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-2 mb-4">
+        <div className="flex items-center gap-2 text-sm text-secondary">
+          <ClockIcon className="w-4 h-4" />
+          {quest.duration}
+        </div>
+        <div className="flex items-center gap-2 text-sm text-secondary">
+          <FireIcon className="w-4 h-4" />
+          {quest.streak} day streak
+        </div>
+        <div className="flex items-center gap-2 text-sm text-secondary">
+          <UserGroupIcon className="w-4 h-4" />
+          {quest.participants.length} participants
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <div className="flex gap-1">
+          <span className={`badge badge-${categoryColor} badge-sm`}>
+            {quest.category}
+          </span>
+          <span className={`badge badge-${difficultyColor} badge-sm`}>
+            {quest.difficulty}
+          </span>
+        </div>
+        
+        {quest.status === 'not_started' && (
+          <button 
+            className="btn btn-primary btn-sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              onStart?.(quest);
+            }}
+          >
+            Start Quest
+          </button>
+        )}
+        
+        {quest.status === 'in_progress' && (
+          <button 
+            className="btn btn-secondary btn-sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              onView?.(quest);
+            }}
+          >
+            Continue
+          </button>
+        )}
+        
+        {quest.status === 'completed' && (
+          <div className="flex items-center gap-1 text-success">
+            <CheckCircleIcon className="w-4 h-4" />
+            <span className="text-sm font-medium">Completed!</span>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
 };
 
-// --- MAIN PAGE COMPONENT ---
-const GrowthHubPage: React.FC = () => {
-    const { user } = useAuth();
-    const { couple } = usePartner();
-    const [quests, setQuests] = useState<Quest[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [addEditModal, setAddEditModal] = useState<{ isOpen: boolean, quest?: Quest | null }>({ isOpen: false });
-    const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean, id: string | null }>({ isOpen: false, id: null });
-    const toast = useToast();
+// Quest Details Modal
+const QuestDetailsModal: React.FC<{ quest: Quest | null; isOpen: boolean; onClose: () => void }> = ({ quest, isOpen, onClose }) => {
+  if (!quest) return null;
 
-    useEffect(() => {
-        const fetchQuests = async () => {
-            if (!couple) return;
-            setLoading(true);
-            const { data, error } = await supabase
-                .from('quests')
-                .select('*')
-                .eq('couple_id', couple.id);
-
-            if (error) {
-                toast.error(error.message);
-            } else {
-                setQuests(data || []);
-            }
-            setLoading(false);
-        };
-        fetchQuests();
-    }, [couple, toast]);
-
-    const handleSaveQuest = async (questData: Partial<Quest>, id?: string) => {
-        if (!user || !couple) return;
-
-        if (id) { // Editing
-            const { id: questId, created_at, couple_id, user_id, ...dataToSave } = questData;
-            const updatePayload: Database['public']['Tables']['quests']['Update'] = dataToSave;
-            
-            const { data: updatedData, error } = await supabase
-                .from('quests')
-                .update(updatePayload)
-                .eq('id', id)
-                .select()
-                .single();
-
-            if (error) { toast.error(error.message); }
-            else if (updatedData) {
-                setQuests(quests.map(q => q.id === id ? updatedData : q));
-                toast.success("Quest updated!");
-            }
-        } else { // Adding
-            const insertData: Database['public']['Tables']['quests']['Insert'] = { 
-                ...questData,
-                couple_id: couple.id, 
-                user_id: user.id,
-                title: questData.title || 'Untitled Quest',
-                category: questData.category || 'General',
-                type: questData.type || 'challenge'
-            };
-            const { data: newQuest, error } = await supabase
-                .from('quests')
-                .insert(insertData)
-                .select()
-                .single();
-            
-            if (error) { toast.error(error.message); }
-            else if (newQuest) {
-                setQuests(prev => [newQuest, ...prev]);
-                toast.success("New quest added!");
-            }
-        }
-    };
-    
-    const handleDeleteRequest = (id: string) => setDeleteModal({ isOpen: true, id });
-    const handleDeleteConfirm = async () => {
-        if (deleteModal.id) {
-            const { error } = await supabase.from('quests').delete().eq('id', deleteModal.id);
-            if (error) { toast.error(error.message); }
-            else {
-                setQuests(quests.filter(q => q.id !== deleteModal.id));
-                toast.success("Quest deleted.");
-            }
-        }
-        setDeleteModal({ isOpen: false, id: null });
-    };
-
-    const handleChangeStatus = async (id: string, status: QuestStatus) => {
-        const { data, error } = await supabase
-            .from('quests')
-            .update({ status })
-            .eq('id', id)
-            .select()
-            .single();
-
-        if (error) { toast.error(error.message); }
-        else if(data) {
-            setQuests(quests.map(q => q.id === id ? data : q));
-            if(status === 'in-progress') toast.info("Quest started! Let's go!");
-            if(status === 'completed') toast.success("Quest complete! Well done!");
-        }
-    };
-    
-    const handleRoutineCheckIn = async (id: string) => {
-        const quest = quests.find(q => q.id === id);
-        if (!quest || quest.type !== 'routine') return;
-
-        const today = new Date();
-        const todayStr = getYYYYMMDD(today);
-        if (quest.last_completed_date === todayStr) return;
-
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayStr = getYYYYMMDD(yesterday);
-        
-        let newStreak = (quest.streak || 0);
-        if (quest.frequency === 'daily') {
-            newStreak = quest.last_completed_date === yesterdayStr ? newStreak + 1 : 1;
-        }
-
-        // Handle weekly progress
-        let newCompletedThisWeek = [...(quest.completed_this_week || [])];
-        const lastCompletionDate = quest.last_completed_date ? new Date(quest.last_completed_date) : null;
-        const isNewWeek = !lastCompletionDate || getStartOfWeek(today).getTime() > getStartOfWeek(lastCompletionDate).getTime();
-        
-        if (isNewWeek) {
-            newCompletedThisWeek = [todayStr];
-        } else if (!newCompletedThisWeek.includes(todayStr)) {
-            newCompletedThisWeek.push(todayStr);
-        }
-        
-        const updatePayload: Database['public']['Tables']['quests']['Update'] = { 
-            streak: newStreak, 
-            last_completed_date: todayStr, 
-            completed_this_week: newCompletedThisWeek 
-        };
-
-        const { data, error } = await supabase
-            .from('quests')
-            .update(updatePayload)
-            .eq('id', id)
-            .select()
-            .single();
-
-        if (error) { toast.error(error.message); }
-        else if (data) {
-            setQuests(quests.map(q => q.id === id ? data : q));
-            toast.success(`Progress saved! Keep it up!`);
-        }
-    };
-
-    const inProgressQuests = quests.filter(q => q.status === 'in-progress');
-    const availableQuests = quests.filter(q => q.status === 'available');
-    const completedQuests = quests.filter(q => q.status === 'completed');
-
-    return (
-        <div className="max-w-4xl mx-auto py-8 px-4">
-            <AnimatePresence>
-                {addEditModal.isOpen && <AddEditQuestModal isOpen={addEditModal.isOpen} onClose={() => setAddEditModal({ isOpen: false })} onSave={handleSaveQuest} questToEdit={addEditModal.quest} />}
-            </AnimatePresence>
-            <ConfirmationModal isOpen={deleteModal.isOpen} onClose={() => setDeleteModal({ isOpen: false, id: null })} onConfirm={handleDeleteConfirm} title="Delete Quest" message="Are you sure? This quest and its progress will be permanently removed." confirmText="Delete" />
-            
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
-                <div>
-                    <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3"><StarIcon className="h-8 w-8 text-yellow-400"/>Growth Hub</h1>
-                    <p className="mt-1 text-gray-400">Complete challenges and build routines to grow together.</p>
-                </div>
-                <button onClick={() => setAddEditModal({ isOpen: true, quest: null })} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-md shadow-sm text-black bg-green hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-green">
-                    <PlusIcon className="h-5 w-5 mr-2" /> Add Quest
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+          <motion.div
+            className="relative bg-surface rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+          >
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-primary">{quest.title}</h2>
+                <button
+                  onClick={onClose}
+                  className="p-2 rounded-lg hover:bg-surface-alt transition-colors"
+                >
+                  <XMarkIcon className="w-5 h-5" />
                 </button>
-            </div>
-            
-             {loading ? <div className="text-center py-16 text-gray-500">Loading quests...</div> :
-                <div className="space-y-12">
-                    {inProgressQuests.length > 0 && (
-                        <section>
-                            <h2 className="text-sm font-bold uppercase text-gray-500 tracking-widest mb-4 px-2">In Progress</h2>
-                            <div className="space-y-4">
-                                <AnimatePresence>
-                                    {inProgressQuests.map(quest => <QuestCard key={quest.id} quest={quest} onEdit={(q) => setAddEditModal({isOpen: true, quest: q})} onDelete={handleDeleteRequest} onChangeStatus={handleChangeStatus} onRoutineCheckIn={handleRoutineCheckIn} />)}
-                                </AnimatePresence>
-                            </div>
-                        </section>
-                    )}
-                    {availableQuests.length > 0 && (
-                        <section>
-                            <h2 className="text-sm font-bold uppercase text-gray-500 tracking-widest mb-4 px-2">Available Quests</h2>
-                            <div className="space-y-4">
-                                 <AnimatePresence>
-                                    {availableQuests.map(quest => <QuestCard key={quest.id} quest={quest} onEdit={(q) => setAddEditModal({isOpen: true, quest: q})} onDelete={handleDeleteRequest} onChangeStatus={handleChangeStatus} onRoutineCheckIn={handleRoutineCheckIn} />)}
-                                </AnimatePresence>
-                            </div>
-                        </section>
-                    )}
-                     {completedQuests.length > 0 && (
-                         <section>
-                            <h2 className="text-sm font-bold uppercase text-gray-500 tracking-widest mb-4 px-2">Completed</h2>
-                            <div className="space-y-4">
-                                 <AnimatePresence>
-                                    {completedQuests.map(quest => <QuestCard key={quest.id} quest={quest} onEdit={(q) => setAddEditModal({isOpen: true, quest: q})} onDelete={handleDeleteRequest} onChangeStatus={handleChangeStatus} onRoutineCheckIn={handleRoutineCheckIn} />)}
-                                </AnimatePresence>
-                            </div>
-                        </section>
-                    )}
-                    {quests.length === 0 && (
-                        <div className="text-center py-16">
-                            <p className="text-gray-500">Your Growth Hub is empty. Add a quest to get started!</p>
-                        </div>
-                    )}
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-semibold text-primary mb-2">Description</h3>
+                  <p className="text-secondary">{quest.description}</p>
                 </div>
-            }
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="font-semibold text-primary mb-2">Category</h3>
+                    <span className="badge badge-primary">{quest.category}</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-primary mb-2">Difficulty</h3>
+                    <span className="badge badge-warning">{quest.difficulty}</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-primary mb-2">Duration</h3>
+                    <p className="text-secondary">{quest.duration}</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-primary mb-2">Current Streak</h3>
+                    <p className="text-secondary">{quest.streak} days</p>
+                  </div>
+                </div>
+
+                {quest.status === 'in_progress' && (
+                  <div>
+                    <h3 className="font-semibold text-primary mb-2">Progress</h3>
+                    <div className="progress-bar">
+                      <div 
+                        className="progress-fill" 
+                        style={{ width: `${quest.progress}%` }}
+                      />
+                    </div>
+                    <p className="text-sm text-secondary mt-1">{quest.progress}% complete</p>
+                  </div>
+                )}
+
+                <div>
+                  <h3 className="font-semibold text-primary mb-2">Rewards</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {quest.rewards.map((reward, index) => (
+                      <span key={index} className="badge badge-accent">
+                        {reward}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    onClick={onClose}
+                    className="btn btn-ghost flex-1"
+                  >
+                    Close
+                  </button>
+                  {quest.status === 'not_started' && (
+                    <button className="btn btn-primary flex-1">
+                      Start Quest
+                    </button>
+                  )}
+                  {quest.status === 'in_progress' && (
+                    <button className="btn btn-secondary flex-1">
+                      Continue Quest
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Main Growth Hub Component
+const GrowthHubPage: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  const [selectedStatus, setSelectedStatus] = useState('All');
+  const [selectedQuest, setSelectedQuest] = useState<Quest | null>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+
+  // Sample quests data
+  const quests: Quest[] = [
+    {
+      id: '1',
+      title: 'Daily Gratitude Ritual',
+      description: 'Start each day by sharing three things you are grateful for with your partner. This simple practice can transform your relationship.',
+      category: 'communication',
+      difficulty: 'easy',
+      duration: '5 minutes daily',
+      progress: 65,
+      status: 'in_progress',
+      streak: 7,
+      maxStreak: 30,
+      rewards: ['Improved Communication', 'Gratitude Badge', 'Relationship Points'],
+      isFavorite: true,
+      participants: ['Nasser', 'Partner']
+    },
+    {
+      id: '2',
+      title: 'Weekly Date Night Planning',
+      description: 'Collaborate to plan a meaningful date night each week, ensuring quality time together and shared decision-making.',
+      category: 'romance',
+      difficulty: 'medium',
+      duration: '1 hour weekly',
+      progress: 30,
+      status: 'in_progress',
+      streak: 3,
+      maxStreak: 12,
+      rewards: ['Romance Badge', 'Planning Skills', 'Quality Time'],
+      isFavorite: false,
+      participants: ['Nasser', 'Partner']
+    },
+    {
+      id: '3',
+      title: 'Learn Something New Together',
+      description: 'Choose a skill or hobby you both want to learn and practice it together. Great for bonding and personal growth.',
+      category: 'learning',
+      difficulty: 'medium',
+      duration: '2 hours weekly',
+      progress: 0,
+      status: 'not_started',
+      streak: 0,
+      maxStreak: 8,
+      rewards: ['Learning Badge', 'New Skills', 'Shared Achievement'],
+      isFavorite: true,
+      participants: ['Nasser', 'Partner']
+    },
+    {
+      id: '4',
+      title: 'Adventure Challenge',
+      description: 'Try something new and adventurous together - whether it\'s hiking, cooking a new cuisine, or exploring a new place.',
+      category: 'adventure',
+      difficulty: 'hard',
+      duration: '4 hours monthly',
+      progress: 0,
+      status: 'not_started',
+      streak: 0,
+      maxStreak: 6,
+      rewards: ['Adventure Badge', 'Courage Points', 'Memories'],
+      isFavorite: false,
+      participants: ['Nasser', 'Partner']
+    },
+    {
+      id: '5',
+      title: 'Mindfulness Practice',
+      description: 'Practice mindfulness or meditation together to improve emotional connection and reduce stress.',
+      category: 'wellness',
+      difficulty: 'easy',
+      duration: '10 minutes daily',
+      progress: 100,
+      status: 'completed',
+      streak: 21,
+      maxStreak: 21,
+      rewards: ['Wellness Badge', 'Peace Badge', 'Stress Reduction'],
+      isFavorite: true,
+      participants: ['Nasser', 'Partner']
+    },
+    {
+      id: '6',
+      title: 'Creative Expression',
+      description: 'Engage in creative activities together - painting, writing, music, or any form of artistic expression.',
+      category: 'creativity',
+      difficulty: 'medium',
+      duration: '1 hour weekly',
+      progress: 0,
+      status: 'not_started',
+      streak: 0,
+      maxStreak: 10,
+      rewards: ['Creativity Badge', 'Artistic Skills', 'Self-Expression'],
+      isFavorite: false,
+      participants: ['Nasser', 'Partner']
+    }
+  ];
+
+  const filteredQuests = quests.filter(quest => {
+    const matchesSearch = quest.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         quest.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'All Categories' || quest.category === selectedCategory;
+    const matchesStatus = selectedStatus === 'All' || quest.status === selectedStatus;
+    
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
+
+  const inProgressQuests = filteredQuests.filter(quest => quest.status === 'in_progress');
+  const completedQuests = filteredQuests.filter(quest => quest.status === 'completed');
+  const notStartedQuests = filteredQuests.filter(quest => quest.status === 'not_started');
+
+  const handleQuestView = (quest: Quest) => {
+    setSelectedQuest(quest);
+    setIsDetailsModalOpen(true);
+  };
+
+  const handleQuestStart = (quest: Quest) => {
+    console.log('Starting quest:', quest);
+    // Handle quest start logic
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-primary mb-2">Growth Hub</h1>
+          <p className="text-secondary">
+            Grow together through challenges, quests, and relationship development
+          </p>
         </div>
-    );
+        
+        <div className="flex items-center gap-3">
+          <button className="btn btn-ghost">
+            <ChartBarIcon className="w-5 h-5" />
+            View Progress
+          </button>
+          <button className="btn btn-primary">
+            <PlusIcon className="w-5 h-5" />
+            Create Quest
+          </button>
+        </div>
+      </div>
+
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <motion.div
+          className="card"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center">
+              <TrophyIcon className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-sm text-secondary">Active Quests</p>
+              <p className="text-xl font-bold text-primary">{inProgressQuests.length}</p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="card"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-success-light rounded-lg flex items-center justify-center">
+              <CheckCircleIcon className="w-5 h-5 text-success" />
+            </div>
+            <div>
+              <p className="text-sm text-secondary">Completed</p>
+              <p className="text-xl font-bold text-primary">{completedQuests.length}</p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="card"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-accent-light rounded-lg flex items-center justify-center">
+              <FireIcon className="w-5 h-5 text-accent" />
+            </div>
+            <div>
+              <p className="text-sm text-secondary">Current Streak</p>
+              <p className="text-xl font-bold text-primary">7 days</p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="card"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-secondary-light rounded-lg flex items-center justify-center">
+              <StarIcon className="w-5 h-5 text-secondary" />
+            </div>
+            <div>
+              <p className="text-sm text-secondary">Total Points</p>
+              <p className="text-xl font-bold text-primary">1,247</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Search and Filters */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex-1">
+          <div className="relative">
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" />
+            <input
+              type="text"
+              placeholder="Search quests..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="input pl-10"
+            />
+          </div>
+        </div>
+        
+        <div className="flex gap-3">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="input"
+          >
+            <option>All Categories</option>
+            <option>communication</option>
+            <option>romance</option>
+            <option>adventure</option>
+            <option>learning</option>
+            <option>wellness</option>
+            <option>creativity</option>
+          </select>
+          
+          <select
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+            className="input"
+          >
+            <option>All</option>
+            <option>not_started</option>
+            <option>in_progress</option>
+            <option>completed</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Quests Tabs */}
+      <div className="flex gap-1 p-1 bg-surface-alt rounded-lg">
+        <button className="flex-1 py-2 px-4 rounded-md bg-primary text-white font-medium">
+          In Progress ({inProgressQuests.length})
+        </button>
+        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors">
+          Available ({notStartedQuests.length})
+        </button>
+        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors">
+          Completed ({completedQuests.length})
+        </button>
+      </div>
+
+      {/* Quests Grid */}
+      {inProgressQuests.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {inProgressQuests.map((quest, index) => (
+            <QuestCard
+              key={quest.id}
+              quest={quest}
+              onStart={handleQuestStart}
+              onView={handleQuestView}
+            />
+          ))}
+        </div>
+      ) : (
+        <motion.div
+          className="text-center py-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <TrophyIcon className="w-16 h-16 text-muted mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-primary mb-2">No active quests</h3>
+          <p className="text-secondary mb-6">
+            {searchQuery || selectedCategory !== 'All Categories' || selectedStatus !== 'All'
+              ? 'Try adjusting your search or filters'
+              : 'Start your growth journey together with exciting quests'}
+          </p>
+          {!searchQuery && selectedCategory === 'All Categories' && selectedStatus === 'All' && (
+            <button className="btn btn-primary">
+              <PlusIcon className="w-5 h-5" />
+              Start Your First Quest
+            </button>
+          )}
+        </motion.div>
+      )}
+
+      {/* Quest Details Modal */}
+      <QuestDetailsModal
+        quest={selectedQuest}
+        isOpen={isDetailsModalOpen}
+        onClose={() => {
+          setIsDetailsModalOpen(false);
+          setSelectedQuest(null);
+        }}
+      />
+    </div>
+  );
 };
 
 export default GrowthHubPage;
