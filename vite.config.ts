@@ -7,9 +7,9 @@ export default defineConfig(({ mode }) => {
     return {
       plugins: [react()],
       define: {
-        'import.meta.env.VITE_SUPABASE_URL': JSON.stringify(env.VITE_SUPABASE_URL),
-        'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(env.VITE_SUPABASE_ANON_KEY),
-        'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(env.VITE_GEMINI_API_KEY),
+        'import.meta.env.VITE_SUPABASE_URL': JSON.stringify(env.VITE_SUPABASE_URL || ''),
+        'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(env.VITE_SUPABASE_ANON_KEY || ''),
+        'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(env.VITE_GEMINI_API_KEY || ''),
         'import.meta.env.MODE': JSON.stringify(mode),
       },
       resolve: {
@@ -22,9 +22,6 @@ export default defineConfig(({ mode }) => {
           output: {
             manualChunks: {
               vendor: ['react', 'react-dom', 'react-router-dom'],
-              ui: ['@heroicons/react', 'framer-motion'],
-              data: ['@tanstack/react-query', '@supabase/supabase-js'],
-              ai: ['@google/genai'],
             },
           },
         },
