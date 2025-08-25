@@ -1,34 +1,36 @@
 // This script runs once on app startup to clean up old data from localStorage.
 // The app previously used localStorage to store all data, which led to quota errors.
 // This migrates users to the new database-backed system by removing the old data before Supabase initializes.
-try {
-    const validKeys = ['together-apart-theme']; // Add any other known valid keys here
-    const validPrefixes = ['sb-']; // Supabase keys start with this prefix
+if (typeof window !== 'undefined') {
+    try {
+        const validKeys = ['together-apart-theme']; // Add any other known valid keys here
+        const validPrefixes = ['sb-']; // Supabase keys start with this prefix
 
-    const keysToRemove: string[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key) {
-            const isKeyValid = validKeys.includes(key) || validPrefixes.some(prefix => key.startsWith(prefix));
-            if (!isKeyValid) {
-                keysToRemove.push(key);
+        const keysToRemove: string[] = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key) {
+                const isKeyValid = validKeys.includes(key) || validPrefixes.some(prefix => key.startsWith(prefix));
+                if (!isKeyValid) {
+                    keysToRemove.push(key);
+                }
             }
         }
-    }
 
-    if (keysToRemove.length > 0) {
-        console.log("Performing one-time cleanup of old localStorage data:", keysToRemove);
-        keysToRemove.forEach(key => {
-            try {
-                localStorage.removeItem(key);
-            } catch (e) {
-                console.error(`Failed to remove old key ${key}:`, e);
-            }
-        });
-        console.log("Cleanup complete. The app should now function correctly.");
+        if (keysToRemove.length > 0) {
+            console.log("Performing one-time cleanup of old localStorage data:", keysToRemove);
+            keysToRemove.forEach(key => {
+                try {
+                    localStorage.removeItem(key);
+                } catch (e) {
+                    console.error(`Failed to remove old key ${key}:`, e);
+                }
+            });
+            console.log("Cleanup complete. The app should now function correctly.");
+        }
+    } catch (e) {
+        console.error("Failed to execute pre-emptive localStorage cleanup:", e);
     }
-} catch (e) {
-    console.error("Failed to execute pre-emptive localStorage cleanup:", e);
 }
 
 
