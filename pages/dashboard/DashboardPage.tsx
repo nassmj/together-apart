@@ -51,7 +51,7 @@ const HeaderSection: React.FC = () => {
                              )}
                          </div>
                          <div>
-                             <h1 className="text-2xl font-bold text-primary">
+                             <h1 className="text-2xl font-bold text-heading">
                                  Hello, {userName}
                              </h1>
                              <p className="text-secondary">
@@ -61,13 +61,13 @@ const HeaderSection: React.FC = () => {
                      </div>
                      <div className="flex items-center gap-3">
                          <button className="p-2 rounded-full bg-bg hover:bg-primary-tint transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                             <BellIcon className="h-6 w-6 text-primary" />
+                             <BellIcon className="h-6 w-6 text-icon-active" />
                          </button>
                          <Link 
                              to="/dashboard/settings" 
                              className="p-2 rounded-full bg-bg hover:bg-primary-tint transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                          >
-                             <Cog6ToothIcon className="h-6 w-6 text-primary" />
+                             <Cog6ToothIcon className="h-6 w-6 text-icon-active" />
                          </Link>
                     </div>
                 </div>
@@ -109,8 +109,8 @@ const DailyMessagesCard: React.FC = () => {
         >
             <div className="card-header">
                                  <div className="flex items-center justify-between">
-                     <h3 className="text-xl font-bold text-text">Today's Messages</h3>
-                     <span className="text-sm text-text-secondary">Share your thoughts</span>
+                     <h3 className="text-xl font-bold text-heading">Today's Messages</h3>
+                     <span className="text-sm text-secondary">Share your thoughts</span>
                  </div>
             </div>
             <div className="card-body">
@@ -123,10 +123,10 @@ const DailyMessagesCard: React.FC = () => {
                              </span>
                          </div>
                          <div className="bg-secondary-light p-4 rounded-2xl rounded-tl-none max-w-full border border-secondary">
-                             <p className="text-sm text-text leading-relaxed">
+                             <p className="text-sm text-body leading-relaxed">
                                  {sampleMessages.partner}
                              </p>
-                             <p className="text-xs text-text-secondary mt-2">2 hours ago</p>
+                             <p className="text-xs text-muted mt-2">2 hours ago</p>
                          </div>
                      </div>
 
@@ -139,13 +139,13 @@ const DailyMessagesCard: React.FC = () => {
                                  </span>
                              </div>
                             <div className="flex-1">
-                                <textarea
-                                    value={userMessage}
-                                    onChange={(e) => setUserMessage(e.target.value)}
-                                    placeholder="Share something with your partner..."
-                                    className="input resize-none h-20"
-                                    disabled={isSubmitting}
-                                />
+                                                                 <textarea
+                                     value={userMessage}
+                                     onChange={(e) => setUserMessage(e.target.value)}
+                                     placeholder="Share something with your partner..."
+                                     className="input resize-none h-20 text-body"
+                                     disabled={isSubmitting}
+                                 />
                             </div>
                         </div>
                         <div className="flex justify-end">
@@ -200,11 +200,11 @@ const SharedPlansCard: React.FC = () => {
             transition={{ duration: 0.3, delay: 0.2 }}
         >
             <div className="card-header">
-                <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-neutral-ink">Shared Plans</h3>
-                                         <Link
+                                 <div className="flex items-center justify-between">
+                     <h3 className="text-xl font-bold text-heading">Shared Plans</h3>
+                     <Link
                          to="/dashboard/planner"
-                         className="text-sm text-secondary hover:text-secondary-dark transition-colors"
+                         className="text-sm text-link hover:text-link-hover transition-colors"
                      >
                          View All
                      </Link>
@@ -218,8 +218,8 @@ const SharedPlansCard: React.FC = () => {
                                  <CalendarDaysIcon className="h-5 w-5 text-secondary" />
                              </div>
                              <div className="flex-1">
-                                 <h4 className="font-semibold text-text">{plan.title}</h4>
-                                 <p className="text-sm text-text-secondary">{plan.date} • {plan.location}</p>
+                                 <h4 className="font-semibold text-body">{plan.title}</h4>
+                                 <p className="text-sm text-secondary">{plan.date} • {plan.location}</p>
                              </div>
                              <span className="badge badge-secondary">{plan.type}</span>
                          </div>
@@ -263,11 +263,11 @@ const GrowthTasksCard: React.FC = () => {
             transition={{ duration: 0.3, delay: 0.3 }}
         >
             <div className="card-header">
-                <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-neutral-ink">Growth Hub</h3>
-                                         <Link
+                                 <div className="flex items-center justify-between">
+                     <h3 className="text-xl font-bold text-heading">Growth Hub</h3>
+                     <Link
                          to="/dashboard/growth-hub"
-                         className="text-sm text-accent hover:text-accent-dark transition-colors"
+                         className="text-sm text-link hover:text-link-hover transition-colors"
                      >
                          View All
                      </Link>
@@ -278,22 +278,22 @@ const GrowthTasksCard: React.FC = () => {
                      {activeTasks.map((task) => (
                          <div key={task.id} className="space-y-2">
                              <div className="flex items-center justify-between">
-                                 <h4 className="font-semibold text-text">{task.title}</h4>
+                                 <h4 className="font-semibold text-body">{task.title}</h4>
                                  <span className="badge badge-accent">{task.type}</span>
                              </div>
                              <div className="space-y-1">
                                  <div className="flex justify-between text-sm">
-                                     <span className="text-text-secondary">Progress</span>
-                                     <span className="text-text">{task.progress}%</span>
+                                     <span className="text-secondary">Progress</span>
+                                     <span className="text-body">{task.progress}%</span>
                                  </div>
-                                 <div className="w-full bg-border rounded-full h-2">
+                                 <div className="progress-bar">
                                      <div
-                                         className="bg-accent h-2 rounded-full transition-all duration-300"
+                                         className="progress-fill"
                                          style={{ width: `${task.progress}%` }}
                                      />
                                  </div>
                              </div>
-                             <div className="flex items-center gap-2 text-sm text-text-secondary">
+                             <div className="flex items-center gap-2 text-sm text-secondary">
                                  <TrophyIcon className="h-4 w-4" />
                                  <span>{task.streak} day streak</span>
                              </div>
@@ -347,9 +347,9 @@ const QuickActionsCard: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.4 }}
         >
-            <div className="card-header">
-                <h3 className="text-xl font-bold text-neutral-ink">Quick Actions</h3>
-            </div>
+                         <div className="card-header">
+                 <h3 className="text-xl font-bold text-heading">Quick Actions</h3>
+             </div>
             <div className="card-body">
                                  <div className="grid grid-cols-2 gap-3">
                      {quickActions.map((action) => {
@@ -370,7 +370,7 @@ const QuickActionsCard: React.FC = () => {
                                  <div className={`h-12 w-12 rounded-full bg-${color}-light flex items-center justify-center mb-2`}>
                                      <Icon className={`h-6 w-6 text-${color}`} />
                                  </div>
-                                 <span className="text-sm font-medium text-text text-center">
+                                 <span className="text-sm font-medium text-body text-center">
                                      {action.title}
                                  </span>
                              </Link>
@@ -390,7 +390,7 @@ const DashboardPage: React.FC = () => {
 
     if (loading || partnerLoading) {
         return (
-            <div className="min-h-screen bg-neutral-bg p-4">
+            <div className="min-h-screen bg-bg p-4">
                 <div className="container">
                     <div className="space-y-6">
                         <Skeleton className="h-32" />
@@ -404,7 +404,7 @@ const DashboardPage: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-neutral-bg">
+        <div className="min-h-screen bg-bg">
             <div className="container p-4">
                 <HeaderSection />
                 <DailyMessagesCard />
