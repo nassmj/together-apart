@@ -176,7 +176,13 @@ const QuestCard: React.FC<{ quest: Quest; onStart?: (quest: Quest) => void; onVi
 };
 
 // Quest Details Modal
-const QuestDetailsModal: React.FC<{ quest: Quest | null; isOpen: boolean; onClose: () => void }> = ({ quest, isOpen, onClose }) => {
+const QuestDetailsModal: React.FC<{ 
+  quest: Quest | null; 
+  isOpen: boolean; 
+  onClose: () => void;
+  onQuestStart?: (quest: Quest) => void;
+  onQuestContinue?: (quest: Quest) => void;
+}> = ({ quest, isOpen, onClose, onQuestStart, onQuestContinue }) => {
   if (!quest) return null;
 
   return (
@@ -263,12 +269,24 @@ const QuestDetailsModal: React.FC<{ quest: Quest | null; isOpen: boolean; onClos
                     Close
                   </button>
                   {quest.status === 'not_started' && (
-                    <button className="btn btn-primary flex-1">
+                    <button 
+                      className="btn btn-primary flex-1"
+                      onClick={() => {
+                        onQuestStart?.(quest);
+                        onClose();
+                      }}
+                    >
                       Start Quest
                     </button>
                   )}
                   {quest.status === 'in_progress' && (
-                    <button className="btn btn-secondary flex-1">
+                    <button 
+                      className="btn btn-secondary flex-1"
+                      onClick={() => {
+                        onQuestContinue?.(quest);
+                        onClose();
+                      }}
+                    >
                       Continue Quest
                     </button>
                   )}
@@ -289,6 +307,7 @@ const GrowthHubPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [selectedQuest, setSelectedQuest] = useState<Quest | null>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'in_progress' | 'not_started' | 'completed'>('in_progress');
 
   // Sample quests data
   const quests: Quest[] = [
@@ -403,8 +422,49 @@ const GrowthHubPage: React.FC = () => {
   };
 
   const handleQuestStart = (quest: Quest) => {
-    console.log('Starting quest:', quest);
-    // Handle quest start logic
+    // Update quest status to in_progress
+    const updatedQuest = { ...quest, status: 'in_progress' as const };
+    setSelectedQuest(updatedQuest);
+    
+    // Update the quest in the local state
+    const updatedQuests = quests.map(q => 
+      q.id === quest.id ? updatedQuest : q
+    );
+    
+    // In a real app, this would be saved to the database
+    console.log('Quest started:', updatedQuest);
+    
+    // Show success message
+    alert('Quest started successfully!');
+  };
+
+  const handleQuestContinue = (quest: Quest) => {
+    // Increment progress and potentially complete the quest
+    const newProgress = Math.min(quest.progress + 10, 100);
+    const newStatus = newProgress >= 100 ? 'completed' as const : 'in_progress' as const;
+    
+    const updatedQuest = { 
+      ...quest, 
+      progress: newProgress, 
+      status: newStatus,
+      streak: quest.streak + 1
+    };
+    
+    setSelectedQuest(updatedQuest);
+    
+    // Update the quest in the local state
+    const updatedQuests = quests.map(q => 
+      q.id === quest.id ? updatedQuest : q
+    );
+    
+    // In a real app, this would be saved to the database
+    console.log('Quest progress updated:', updatedQuest);
+    
+    if (newStatus === 'completed') {
+      alert('Congratulations! Quest completed!');
+    } else {
+      alert('Great progress! Keep it up!');
+    }
   };
 
   return (
@@ -546,30 +606,56 @@ const GrowthHubPage: React.FC = () => {
 
       {/* Quests Tabs */}
       <div className="flex gap-1 p-1 bg-surface-alt rounded-lg">
-        <button className="flex-1 py-2 px-4 rounded-md bg-primary text-white font-medium">
+        <button 
+          className={`flex-1 py-2 px-4 rounded-md transition-colors ${
+            activeTab === 'in_progress' 
+              ? 'bg-primary text-white font-medium' 
+              : 'text-secondary hover:text-primary'
+          }`}
+          onClick={() => setActiveTab('in_progress')}
+        >
           In Progress ({inProgressQuests.length})
         </button>
-        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors">
+        <button 
+          className={`flex-1 py-2 px-4 rounded-md transition-colors ${
+            activeTab === 'not_started' 
+              ? 'bg-primary text-white font-medium' 
+              : 'text-secondary hover:text-primary'
+          }`}
+          onClick={() => setActiveTab('not_started')}
+        >
           Available ({notStartedQuests.length})
         </button>
-        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors">
+        <button 
+          className={`flex-1 py-2 px-4 rounded-md transition-colors ${
+            activeTab === 'completed' 
+              ? 'bg-primary text-white font-medium' 
+              : 'text-secondary hover:text-primary'
+          }`}
+          onClick={() => setActiveTab('completed')}
+        >
           Completed ({completedQuests.length})
         </button>
       </div>
 
       {/* Quests Grid */}
-      {inProgressQuests.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {inProgressQuests.map((quest, index) => (
-            <QuestCard
-              key={quest.id}
-              quest={quest}
-              onStart={handleQuestStart}
-              onView={handleQuestView}
-            />
-          ))}
-        </div>
-      ) : (
+      {(() => {
+        const currentQuests = activeTab === 'in_progress' ? inProgressQuests :
+                             activeTab === 'not_started' ? notStartedQuests :
+                             completedQuests;
+        
+        return currentQuests.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {currentQuests.map((quest, index) => (
+              <QuestCard
+                key={quest.id}
+                quest={quest}
+                onStart={handleQuestStart}
+                onView={handleQuestView}
+              />
+            ))}
+          </div>
+        ) : (
         <motion.div
           className="text-center py-12"
           initial={{ opacity: 0 }}
@@ -589,7 +675,8 @@ const GrowthHubPage: React.FC = () => {
             </button>
           )}
         </motion.div>
-      )}
+      );
+      })()}
 
       {/* Quest Details Modal */}
       <QuestDetailsModal
@@ -599,6 +686,8 @@ const GrowthHubPage: React.FC = () => {
           setIsDetailsModalOpen(false);
           setSelectedQuest(null);
         }}
+        onQuestStart={handleQuestStart}
+        onQuestContinue={handleQuestContinue}
       />
     </div>
   );

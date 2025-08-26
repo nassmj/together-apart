@@ -4,36 +4,36 @@
 
 /* Together Apart Design System v3.0 - Modern Relationship-Focused UI */
 
-/* CSS Custom Properties - Modern & Relationship-Focused */
+/* CSS Custom Properties - SRS Compliant Design System */
 :root {
-  /* Brand Colors - Warm & Inviting */
-  --color-primary: #FF6B6B;           /* Warm Coral - Primary */
-  --color-primary-light: #FFE8E8;     /* Light Coral Background */
-  --color-primary-dark: #E55555;      /* Darker Coral */
-  --color-primary-hover: #FF5252;     /* Hover State */
+  /* Brand Colors - SRS Specification */
+  --color-primary: #F28B82;           /* Soft Rose - Primary (SRS) */
+  --color-primary-light: #F9A8A8;     /* Light Rose Background */
+  --color-primary-dark: #E57373;      /* Darker Rose */
+  --color-primary-hover: #EF5350;     /* Hover State */
   
-  /* Secondary Colors - Soft & Calming */
-  --color-secondary: #4ECDC4;         /* Soft Teal - Secondary */
-  --color-secondary-light: #E8F8F7;   /* Light Teal Background */
-  --color-secondary-dark: #3DB8B0;    /* Darker Teal */
+  /* Secondary Colors - SRS Specification */
+  --color-secondary: #A5B4FC;         /* Calm Lavender - Secondary (SRS) */
+  --color-secondary-light: #C7D2FE;   /* Light Lavender Background */
+  --color-secondary-dark: #818CF8;    /* Darker Lavender */
   
-  /* Accent Colors - Warm & Energetic */
-  --color-accent: #FFE66D;            /* Warm Yellow - Accent */
-  --color-accent-light: #FFF9E6;      /* Light Yellow Background */
-  --color-accent-dark: #FFD93D;       /* Darker Yellow */
+  /* Accent Colors - SRS Specification */
+  --color-accent: #FFB085;            /* Sunset Coral - Accent (SRS) */
+  --color-accent-light: #FFD1B3;      /* Light Coral Background */
+  --color-accent-dark: #FF7F50;       /* Darker Coral */
   
-  /* Neutral Colors - Clean & Modern */
-  --color-bg: #FAFBFC;                /* App Background - Very Light Gray */
+  /* Neutral Colors - SRS Specification */
+  --color-bg: #FAFAFA;                /* Soft Off-White Background (SRS) */
   --color-surface: #FFFFFF;           /* Surface/Card Background */
-  --color-surface-alt: #F8F9FA;       /* Alternative Surface */
-  --color-border: #E9ECEF;            /* Borders */
-  --color-border-light: #F1F3F4;      /* Light Borders */
+  --color-surface-alt: #F5F5F5;       /* Alternative Surface */
+  --color-border: #E5E7EB;            /* Borders */
+  --color-border-light: #F3F4F6;      /* Light Borders */
   
-  /* Typography Colors - High Contrast */
-  --color-text-primary: #1A1A1A;      /* Primary Text - Very Dark */
-  --color-text-secondary: #4A4A4A;    /* Secondary Text */
-  --color-text-muted: #6C757D;        /* Muted Text */
-  --color-text-placeholder: #ADB5BD;  /* Placeholder Text */
+  /* Typography Colors - SRS Specification */
+  --color-text-primary: #333333;      /* Charcoal Gray - Primary Text (SRS) */
+  --color-text-secondary: #6B7280;    /* Cool Gray - Secondary Text (SRS) */
+  --color-text-muted: #9CA3AF;        /* Cool Gray - Muted Text (SRS) */
+  --color-text-placeholder: #D1D5DB;  /* Placeholder Text */
   
   /* Interactive Colors */
   --color-link: #007AFF;              /* Link Color */
@@ -73,6 +73,11 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Clash Display', var(--font-sans);
   
+  /* Font Sizes for Accessibility */
+  --font-size-small: 14px;
+  --font-size-medium: 16px;
+  --font-size-large: 18px;
+  
   /* Z-Index Scale */
   --z-dropdown: 1000;
   --z-sticky: 1100;
@@ -84,21 +89,21 @@
   --z-tooltip: 1700;
 }
 
-/* Dark Mode - Modern Dark Theme */
+/* Dark Mode - SRS Compliant Dark Theme */
 .dark {
-  --color-bg: #0F1115;
-  --color-surface: #16181D;
-  --color-surface-alt: #1C1F26;
-  --color-border: #2A2F37;
-  --color-border-light: #1C1F26;
+  --color-bg: #1A1A1A;
+  --color-surface: #2D2D2D;
+  --color-surface-alt: #3A3A3A;
+  --color-border: #4A4A4A;
+  --color-border-light: #3A3A3A;
   
-  --color-text-primary: #F8F9FA;
-  --color-text-secondary: #E9ECEF;
-  --color-text-muted: #ADB5BD;
-  --color-text-placeholder: #6C757D;
+  --color-text-primary: #FAFAFA;
+  --color-text-secondary: #E5E5E5;
+  --color-text-muted: #B0B0B0;
+  --color-text-placeholder: #808080;
   
-  --color-link: #4ECDC4;
-  --color-link-hover: #3DB8B0;
+  --color-link: #A5B4FC;
+  --color-link-hover: #818CF8;
 }
 
 /* Base Styles */
@@ -635,4 +640,233 @@ p {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-muted);
+}
+
+/* ========================================
+   ACCESSIBILITY & FOCUS MANAGEMENT
+   ======================================== */
+
+/* Focus Styles - High Contrast */
+*:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Skip Links */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  z-index: 10000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-primary: #FF0000;
+    --color-secondary: #0000FF;
+    --color-accent: #FFFF00;
+    --color-text-primary: #000000;
+    --color-text-secondary: #333333;
+    --color-border: #000000;
+  }
+  
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .card {
+    border: 2px solid var(--color-border);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .motion-reduce\:animate-none {
+    animation: none !important;
+  }
+  
+  .motion-reduce\:transition-none {
+    transition: none !important;
+  }
+}
+
+/* Dark Mode Accessibility */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #FF6B6B;
+    --color-secondary: #4ECDC4;
+    --color-accent: #FFE66D;
+    --color-bg: #0F1115;
+    --color-surface: #16181D;
+    --color-text-primary: #F8F9FA;
+    --color-text-secondary: #E9ECEF;
+  }
+}
+
+/* Focus Management for Modals */
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-focus-trap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+/* ARIA Live Regions */
+.aria-live {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Keyboard Navigation Indicators */
+.keyboard-nav *:focus {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Touch Target Sizes */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Color Blindness Support */
+.colorblind-friendly {
+  /* Additional visual indicators beyond color */
+}
+
+.colorblind-friendly .status-indicator::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.colorblind-friendly .status-success::before {
+  background: var(--color-success);
+  box-shadow: 0 0 0 2px var(--color-success);
+}
+
+.colorblind-friendly .status-error::before {
+  background: var(--color-error);
+  box-shadow: 0 0 0 2px var(--color-error);
+}
+
+.colorblind-friendly .status-warning::before {
+  background: var(--color-warning);
+  box-shadow: 0 0 0 2px var(--color-warning);
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-before: always;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .card {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Font Size Classes for Accessibility */
+.font-size-small {
+  font-size: var(--font-size-small) !important;
+}
+
+.font-size-medium {
+  font-size: var(--font-size-medium) !important;
+}
+
+.font-size-large {
+  font-size: var(--font-size-large) !important;
+}
+
+/* High Contrast Mode Classes */
+.high-contrast {
+  --color-primary: #FF0000 !important;
+  --color-secondary: #0000FF !important;
+  --color-accent: #FFFF00 !important;
+  --color-text-primary: #000000 !important;
+  --color-text-secondary: #333333 !important;
+  --color-border: #000000 !important;
+}
+
+.high-contrast .btn {
+  border: 2px solid currentColor !important;
+}
+
+.high-contrast .card {
+  border: 2px solid var(--color-border) !important;
+}
+
+/* Reduced Motion Classes */
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }

@@ -163,7 +163,7 @@ export const useDailyConnections = ({
     },
   });
 
-  const submitAnswer = async (answer: string) => {
+  const submitAnswer = async (answer: string, userId: string) => {
     let todayConnection = getTodayConnection.data;
     
     if (!todayConnection) {
@@ -178,10 +178,6 @@ export const useDailyConnections = ({
 
     const currentAnswers = (todayConnection.answers as Record<string, string>) || {};
     const newAnswers = { ...currentAnswers };
-    
-    // Get current user ID (you'll need to pass this or get it from context)
-    // For now, we'll use a placeholder - you should get this from auth context
-    const userId = 'current-user-id'; // TODO: Get from auth context
     
     newAnswers[userId] = answer;
 
@@ -213,6 +209,8 @@ export const useDailyConnections = ({
     refetchToday: getTodayConnection.refetch,
   };
 };
+
+
 
 
 

@@ -18,6 +18,9 @@ import DiscoveryExchangePage from './pages/dashboard/DiscoveryExchangePage';
 import SettingsPage from './pages/dashboard/SettingsPage';
 import ConnectPartnerPage from './pages/dashboard/ConnectPartnerPage';
 import ProfilePage from './pages/dashboard/ProfilePage';
+import RelationshipInsightsPage from './pages/dashboard/RelationshipInsightsPage';
+import NotificationsPage from './pages/dashboard/NotificationsPage';
+import HelpSupportPage from './pages/dashboard/HelpSupportPage';
 
 import { ToastProvider } from './components/ToastProvider';
 import { useAuth } from './contexts/AuthContext';
@@ -25,6 +28,7 @@ import { usePartner } from './contexts/PartnerContext';
 import { PerformanceMonitor } from './components/PerformanceMonitor';
 import { DevTools } from './components/ReactQueryDevTools';
 import { UserFeedback, FeedbackTrigger } from './components/UserFeedback';
+import { AccessibilityProvider } from './components/accessibility/AccessibilityProvider';
 
 const ProtectedRoute: React.FC = () => {
   const { user, loading } = useAuth();
@@ -75,9 +79,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <ToastProvider>
-      <PerformanceMonitor onMetrics={handlePerformanceMetrics} />
-      <Routes>
+    <AccessibilityProvider>
+      <ToastProvider>
+        <PerformanceMonitor onMetrics={handlePerformanceMetrics} />
+        <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/test" element={<TestPage />} />
@@ -98,6 +103,9 @@ const App: React.FC = () => {
             <Route path="settings" element={<SettingsPage />} />
             <Route path="connect" element={<ConnectPartnerPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="insights" element={<RelationshipInsightsPage />} />
+            <Route path="notifications" element={<NotificationsPage />} />
+            <Route path="help" element={<HelpSupportPage />} />
           </Route>
         </Route>
       </Routes>
@@ -111,7 +119,8 @@ const App: React.FC = () => {
       />
       
       <DevTools />
-    </ToastProvider>
+        </ToastProvider>
+      </AccessibilityProvider>
   );
 };
 

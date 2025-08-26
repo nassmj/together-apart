@@ -13,6 +13,9 @@ import {
   StarIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../contexts/AuthContext';
+import { useMemories } from '../../hooks/useMemories';
+import { toast } from 'react-hot-toast';
+import { exportData, generateExportData, exportFormats } from '../../utils/exportUtils';
 
 // Memory Card Component
 interface Memory {
@@ -119,7 +122,7 @@ const MemoryCard: React.FC<{ memory: Memory; onEdit?: (memory: Memory) => void }
 };
 
 // Add Memory Modal Component
-const AddMemoryModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+const AddMemoryModal: React.FC<{ isOpen: boolean; onClose: () => void; coupleId: string }> = ({ isOpen, onClose, coupleId }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -128,12 +131,42 @@ const AddMemoryModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
     tags: [] as string[],
     image: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { addMemoryMutation } = useMemories({ coupleId });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle memory creation
-    console.log('Creating memory:', formData);
-    onClose();
+    setIsSubmitting(true);
+    
+    try {
+      await addMemoryMutation.mutateAsync({
+        couple_id: coupleId,
+        title: formData.title,
+        description: formData.description,
+        date: formData.date,
+        location: formData.location,
+        tags: formData.tags,
+        image_url: formData.image || null
+      });
+      
+      // Reset form
+      setFormData({
+        title: '',
+        description: '',
+        date: new Date().toISOString().split('T')[0],
+        location: '',
+        tags: [],
+        image: ''
+      });
+      
+      onClose();
+    } catch (error) {
+      console.error('Failed to create memory:', error);
+      toast.error('Failed to create memory. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -244,8 +277,9 @@ const AddMemoryModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
                   <button
                     type="submit"
                     className="btn btn-primary flex-1"
+                    disabled={isSubmitting}
                   >
-                    Save Memory
+                    {isSubmitting ? 'Saving...' : 'Save Memory'}
                   </button>
                 </div>
               </form>
@@ -264,6 +298,41 @@ const MemoryTimelinePage: React.FC = () => {
   const [selectedType, setSelectedType] = useState('All Types');
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+
+  // For demo purposes, using a mock couple ID
+  // In production, this would come from the user's partner connection
+  const coupleId = 'demo-couple-id';
+
+  const handleExport = async () => {
+    if (!user) {
+      toast.error('You must be logged in to export data');
+      return;
+    }
+
+    setIsExporting(true);
+    try {
+      // Generate export data
+      const exportDataObj = generateExportData(
+        memories, // In production, this would come from the database
+        [], // Daily connections - would come from database
+        [], // Activities - would come from database
+        {
+          name: user.full_name || 'User',
+          email: user.email || '',
+        }
+      );
+
+      // Export as HTML (most user-friendly format)
+      await exportData(exportDataObj, exportFormats.HTML);
+      toast.success('Memory album exported successfully!');
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export memory album. Please try again.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   // Sample memories data
   const memories: Memory[] = [
@@ -341,7 +410,7 @@ const MemoryTimelinePage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col h-full space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -352,9 +421,22 @@ const MemoryTimelinePage: React.FC = () => {
         </div>
         
         <div className="flex items-center gap-3">
-          <button className="btn btn-ghost">
-            <ArrowDownTrayIcon className="w-5 h-5" />
-            Export Album
+          <button 
+            className="btn btn-ghost"
+            onClick={handleExport}
+            disabled={isExporting}
+          >
+            {isExporting ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                Exporting...
+              </>
+            ) : (
+              <>
+                <ArrowDownTrayIcon className="w-5 h-5" />
+                Export Album
+              </>
+            )}
           </button>
           <button 
             className="btn btn-primary"
@@ -408,17 +490,19 @@ const MemoryTimelinePage: React.FC = () => {
       </div>
 
       {/* Memories Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredMemories.map((memory, index) => (
-          <MemoryCard
-            key={memory.id}
-            memory={memory}
-            onEdit={(memory) => {
-              console.log('Edit memory:', memory);
-              // Handle memory editing
-            }}
-          />
-        ))}
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
+          {filteredMemories.map((memory, index) => (
+            <MemoryCard
+              key={memory.id}
+              memory={memory}
+              onEdit={(memory) => {
+                console.log('Edit memory:', memory);
+                // Handle memory editing
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Empty State */}
@@ -451,6 +535,7 @@ const MemoryTimelinePage: React.FC = () => {
       <AddMemoryModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
+        coupleId={coupleId}
       />
     </div>
   );

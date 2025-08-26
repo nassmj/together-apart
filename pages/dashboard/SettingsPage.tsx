@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useRef, ReactNode, ReactElement, useEffect } from 'react';
-import { UserCircleIcon, LockClosedIcon, TrashIcon, CameraIcon, PaintBrushIcon, BellIcon, SparklesIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon, LockClosedIcon, TrashIcon, CameraIcon, PaintBrushIcon, BellIcon, SparklesIcon, QuestionMarkCircleIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useToast } from '../../components/ToastProvider';
 import ConfirmationModal from '../../components/modals/ConfirmationModal';
@@ -9,6 +9,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabaseClient';
 import { OnboardingFlow } from '../../components/onboarding/OnboardingFlow';
 import { NotificationPreferences } from '../../components/NotificationPreferences';
+import { AccessibilitySettings } from '../../components/accessibility/AccessibilitySettings';
 
 const panelVariants = {
   hidden: { opacity: 0, x: 20 },
@@ -384,6 +385,12 @@ const SettingsPage: React.FC = () => {
                             onClick={() => setActiveTab('notifications')} 
                         />
                         <TabButton 
+                            label="Accessibility" 
+                            icon={<AdjustmentsHorizontalIcon />} 
+                            isActive={activeTab === 'accessibility'} 
+                            onClick={() => setActiveTab('accessibility')} 
+                        />
+                        <TabButton 
                             label="Help & Support" 
                             icon={<QuestionMarkCircleIcon />} 
                             isActive={activeTab === 'help'} 
@@ -398,6 +405,7 @@ const SettingsPage: React.FC = () => {
                         {activeTab === 'account' && <AccountSettings key="account" />}
                         {activeTab === 'appearance' && <AppearanceSettings key="appearance" />}
                         {activeTab === 'notifications' && <NotificationSettings key="notifications" />}
+                        {activeTab === 'accessibility' && <AccessibilitySettings key="accessibility" />}
                         {activeTab === 'help' && <HelpAndSupport key="help" />}
                     </AnimatePresence>
                 </div>

@@ -14,6 +14,8 @@ import {
   StarIcon,
   LightBulbIcon
 } from '@heroicons/react/24/outline';
+import { useActivities } from '../../hooks/useActivities';
+import { useAuth } from '../../contexts/AuthContext';
 
 // Plan Interface
 interface Plan {
@@ -125,7 +127,8 @@ const PlanCard: React.FC<{ plan: Plan; onEdit?: (plan: Plan) => void }> = ({ pla
 };
 
 // Add Plan Modal Component
-const AddPlanModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+const AddPlanModal: React.FC<{ isOpen: boolean; onClose: () => void; coupleId: string }> = ({ isOpen, onClose, coupleId }) => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -136,11 +139,45 @@ const AddPlanModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
     participants: [] as string[],
     tags: [] as string[]
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { addActivity, isAdding } = useActivities({ coupleId });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Creating plan:', formData);
-    onClose();
+    setIsSubmitting(true);
+    
+    try {
+      addActivity({
+        couple_id: coupleId,
+        user_id: user?.id || '',
+        title: formData.title,
+        description: formData.description,
+        date: formData.date,
+        location: formData.location,
+        category: formData.type,
+        completed: false
+      });
+      
+      // Reset form
+      setFormData({
+        title: '',
+        description: '',
+        date: new Date().toISOString().split('T')[0],
+        time: '19:00',
+        location: '',
+        type: 'date' as Plan['type'],
+        participants: [],
+        tags: []
+      });
+      
+      onClose();
+    } catch (error) {
+      console.error('Failed to create activity:', error);
+      alert('Failed to create activity. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -280,8 +317,9 @@ const AddPlanModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
                   <button
                     type="submit"
                     className="btn btn-primary flex-1"
+                    disabled={isAdding}
                   >
-                    Create Plan
+                    {isAdding ? 'Creating...' : 'Create Plan'}
                   </button>
                 </div>
               </form>
@@ -295,10 +333,15 @@ const AddPlanModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
 
 // Main Activity Planner Component
 const ActivityPlannerPage: React.FC = () => {
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [selectedType, setSelectedType] = useState('All Types');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  // For demo purposes, using a mock couple ID
+  // In production, this would come from the user's partner connection
+  const coupleId = 'demo-couple-id';
 
   // Sample plans data
   const plans: Plan[] = [
@@ -505,6 +548,7 @@ const ActivityPlannerPage: React.FC = () => {
       <AddPlanModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
+        coupleId={coupleId}
       />
     </div>
   );

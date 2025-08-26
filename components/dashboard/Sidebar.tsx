@@ -15,6 +15,7 @@ import {
   ArrowRightOnRectangleIcon,
   StarIcon
 } from '@heroicons/react/24/outline';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -23,6 +24,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
   const location = useLocation();
+  const { signOut } = useAuth();
 
   const mainNavItems = [
     {
@@ -191,9 +193,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
             className="w-full sidebar-nav-item text-error hover:bg-error/10 hover:text-error"
             whileHover={{ x: 4 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              // Handle logout
-              console.log('Logout clicked');
+            onClick={async () => {
+              try {
+                await signOut();
+              } catch (error) {
+                console.error('Logout failed:', error);
+              }
             }}
           >
             <ArrowRightOnRectangleIcon className="w-5 h-5" />
