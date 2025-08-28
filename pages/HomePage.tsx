@@ -1,124 +1,176 @@
 import React from 'react';
-
-const features = [
-  {
-    icon: '📅',
-    title: 'Memory Timeline',
-    description: 'Capture and cherish your journey together with shared memories.',
-  },
-  {
-    icon: '🎯',
-    title: 'Activity Planner',
-    description: 'Plan virtual dates and shared experiences to keep the spark alive.',
-  },
-  {
-    icon: '🌱',
-    title: 'Growth Hub',
-    description: 'Grow together through engaging challenges and shared goals.',
-  },
-  {
-    icon: '🎵',
-    title: 'Discovery Exchange',
-    description: 'Share music, books, and new discoveries to learn about each other.',
-  },
-  {
-    icon: '💝',
-    title: 'Daily Connection',
-    description: 'Stay connected with daily check-ins, questions, and messages.',
-  },
-];
-
-const DiamondIcon = () => (
-    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="stroke-current" strokeWidth="0.5">
-        <path d="M12 2L2 8.5L12 22L22 8.5L12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-);
-
-
-const HeroSection = () => (
-  <section className="bg-gray-50 dark:bg-black">
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-32">
-      <div className="grid lg:grid-cols-2 gap-12 items-center">
-        <div className="text-center lg:text-left">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-            Stay Close When You're <span className="text-pink">Apart</span>
-          </h1>
-          <p className="mt-6 text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-xl mx-auto lg:mx-0">
-            Transform distance into deeper connection through meaningful activities and shared experiences.
-          </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <a href="#/signup" className="inline-block px-8 py-3 text-lg font-bold text-black bg-green rounded-lg shadow-lg hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-green focus:ring-offset-2 focus:ring-offset-gray-50 dark:focus:ring-offset-black">
-              Get Started
-            </a>
-            <a href="#features" className="inline-block px-8 py-3 text-lg font-semibold text-green bg-black/5 dark:bg-white/5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-green focus:ring-offset-2 focus:ring-offset-gray-50 dark:focus:ring-offset-black">
-              Learn More
-            </a>
-          </div>
-        </div>
-        <div className="hidden lg:flex justify-center items-center">
-          <div className="relative w-full max-w-sm">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="absolute -top-20 -left-20 w-80 h-80 text-pink/10 opacity-70">
-              <path fill="currentColor" d="M60.6,-57.5C74,-44.1,77.2,-22.1,75,-3.1C72.8,15.8,65.2,31.6,53,44.9C40.8,58.2,24.1,69,6,69.9C-12.1,70.8,-30.2,61.9,-45.3,49.2C-60.4,36.5,-72.5,19.9,-75.6,-0.4C-78.7,-20.7,-72.8,-43.3,-58.8,-57C-44.8,-70.7,-22.4,-75.5,-1.9,-74.2C18.6,-72.9,37.2,-70.9,60.6,-57.5Z" transform="translate(100 100)" />
-            </svg>
-            <div className="relative z-10 text-pink w-64 h-64 mx-auto">
-              <DiamondIcon />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-
-const FeaturesSection = () => (
-    <section id="features" className="py-20 sm:py-24 bg-white dark:bg-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                    Everything You Need to Connect
-                </h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg sm:text-xl text-gray-600 dark:text-gray-300">
-                    Tools designed to strengthen your bond, no matter the distance.
-                </p>
-            </div>
-            <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                 {features.map((feature) => (
-                    <div key={feature.title} className="bg-gray-50 dark:bg-white/5 p-8 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-pink/10 hover:-translate-y-1 transition-all duration-300 ease-in-out">
-                        <div className="text-4xl" role="img" aria-label={feature.title}>{feature.icon}</div>
-                        <h3 className="mt-5 text-xl font-bold text-gray-900 dark:text-white">{feature.title}</h3>
-                        <p className="mt-2 text-base text-gray-500 dark:text-gray-400">{feature.description}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    </section>
-);
-
-const CtaSection = () => (
-    <section className="bg-gray-50 dark:bg-black">
-        <div className="max-w-4xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
-                Ready to strengthen your relationship?
-            </h2>
-            <p className="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Join thousands of couples staying connected, growing together, and creating lasting memories.
-            </p>
-            <a href="#/signup" className="mt-8 w-full inline-flex items-center justify-center px-8 py-4 border border-transparent rounded-md shadow-md text-base font-bold text-black bg-green hover:bg-opacity-90 sm:w-auto transition-colors">
-                Start Your Journey
-            </a>
-        </div>
-    </section>
-);
-
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { HeartIcon, SparklesIcon } from '@heroicons/react/24/solid';
 
 const HomePage: React.FC = () => {
   return (
-    <>
-      <HeroSection />
-      <FeaturesSection />
-      <CtaSection />
-    </>
+    <div className="min-h-screen bg-bg">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div className="container mx-auto px-4 py-16 lg:py-24">
+          <div className="text-center">
+            {/* Logo */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-8"
+            >
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto shadow-lg">
+                <HeartIcon className="w-10 h-10 text-white" />
+              </div>
+            </motion.div>
+
+            {/* Main Heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl lg:text-6xl font-bold text-text-primary mb-6"
+            >
+              Together Apart
+            </motion.h1>
+
+            {/* Tagline */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl lg:text-2xl text-text-secondary mb-8 max-w-3xl mx-auto"
+            >
+              Building meaningful connections, one conversation at a time
+              <SparklesIcon className="inline-block w-6 h-6 text-primary ml-2" />
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            >
+              <Link
+                to="/signup"
+                className="px-8 py-4 bg-primary text-white font-semibold rounded-xl hover:bg-primary-hover hover:scale-105 transition-all duration-200 shadow-lg"
+              >
+                Get Started
+              </Link>
+              <Link
+                to="/login"
+                className="px-8 py-4 border-2 border-primary text-primary font-semibold rounded-xl hover:bg-primary hover:text-white transition-all duration-200"
+              >
+                I already have an account
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Decorative Background */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 lg:py-24 bg-surface">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-6">
+              Stay connected, no matter the distance
+            </h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+              Our platform helps couples maintain their bond through meaningful interactions, shared memories, and daily connections.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="card p-8 text-center hover:scale-105 transition-transform"
+            >
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <HeartIcon className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold text-text-primary mb-4">Daily Connections</h3>
+              <p className="text-text-secondary">
+                Answer thoughtful questions together and discover new aspects of your relationship every day.
+              </p>
+            </motion.div>
+
+            {/* Feature 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="card p-8 text-center hover:scale-105 transition-transform"
+            >
+              <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <SparklesIcon className="w-8 h-8 text-secondary" />
+              </div>
+              <h3 className="text-xl font-semibold text-text-primary mb-4">Shared Memories</h3>
+              <p className="text-text-secondary">
+                Capture and cherish your special moments together with photos, stories, and milestones.
+              </p>
+            </motion.div>
+
+            {/* Feature 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="card p-8 text-center hover:scale-105 transition-transform"
+            >
+              <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <HeartIcon className="w-8 h-8 text-accent" />
+              </div>
+              <h3 className="text-xl font-semibold text-text-primary mb-4">Growth Together</h3>
+              <p className="text-text-secondary">
+                Set relationship goals, track your progress, and celebrate your journey together.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-6">
+              Ready to strengthen your connection?
+            </h2>
+            <p className="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+              Join thousands of couples who are already building stronger relationships with Together Apart.
+            </p>
+            <Link
+              to="/signup"
+              className="inline-block px-8 py-4 bg-primary text-white font-semibold rounded-xl hover:bg-primary-hover hover:scale-105 transition-all duration-200 shadow-lg"
+            >
+              Start Your Journey
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    </div>
   );
 };
 

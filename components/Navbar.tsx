@@ -8,57 +8,58 @@ const DiamondIcon = () => (
     </svg>
 );
 
-
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinkClasses = ({ isActive }: { isActive: boolean }): string =>
-    `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+    `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
       isActive
-        ? 'bg-green text-black'
-        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-900/5 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white'
+        ? 'bg-primary text-white shadow-sm'
+        : 'text-text-secondary hover:bg-surface-alt hover:text-text-primary'
     }`;
   
   const mobileNavLinkClasses = ({ isActive }: { isActive: boolean }): string =>
-  `block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-    isActive
-      ? 'bg-green text-black'
-      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-900/5 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white'
-  }`;
+    `block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+      isActive
+        ? 'bg-primary text-white'
+        : 'text-text-secondary hover:bg-surface-alt hover:text-text-primary'
+    }`;
 
   return (
-    <nav className="bg-white/70 dark:bg-black/70 backdrop-blur-md shadow-lg sticky top-0 z-30 border-b border-gray-200 dark:border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="bg-surface/80 backdrop-blur-md shadow-sm sticky top-0 z-30 border-b border-border-light">
+      <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center text-pink">
-              <DiamondIcon />
-              <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">Together Apart</span>
+            <Link to="/" className="flex items-center text-primary hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                <DiamondIcon />
+              </div>
+              <span className="ml-3 text-xl font-bold text-text-primary">Together Apart</span>
             </Link>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <NavLink to="/" className={navLinkClasses}>
-                Home
-              </NavLink>
-              <NavLink to="/login" className={navLinkClasses}>
-                Login
-              </NavLink>
-              <NavLink
-                to="/signup"
-                className="ml-4 px-4 py-2 rounded-md text-sm font-bold text-black bg-green hover:bg-opacity-90 transition-colors"
-              >
-                Sign Up
-              </NavLink>
-            </div>
+          
+          <div className="hidden md:flex items-center space-x-2">
+            <NavLink to="/" className={navLinkClasses}>
+              Home
+            </NavLink>
+            <NavLink to="/login" className={navLinkClasses}>
+              Login
+            </NavLink>
+            <NavLink
+              to="/signup"
+              className="ml-2 px-6 py-2 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary-hover hover:scale-105 transition-all duration-200 shadow-sm"
+            >
+              Sign Up
+            </NavLink>
           </div>
-          <div className="-mr-2 flex md:hidden">
+          
+          <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="bg-gray-100/10 dark:bg-white/10 inline-flex items-center justify-center p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-200/20 dark:hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black focus:ring-pink"
+              className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-alt transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               aria-controls="mobile-menu"
-              aria-expanded="false"
+              aria-expanded={isOpen}
             >
               <span className="sr-only">Open main menu</span>
               {isOpen ? (
@@ -72,8 +73,8 @@ const Navbar: React.FC = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden" id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="md:hidden bg-surface border-t border-border-light" id="mobile-menu">
+          <div className="px-4 py-3 space-y-2">
             <NavLink to="/" className={mobileNavLinkClasses} onClick={() => setIsOpen(false)}>
               Home
             </NavLink>
