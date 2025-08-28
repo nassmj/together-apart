@@ -47,11 +47,13 @@ class ABTesting {
 
   private loadFromStorage(): void {
     try {
-      const stored = localStorage.getItem('together-apart-ab-tests');
-      if (stored) {
-        const data = JSON.parse(stored);
-        this.userAssignments = new Map(data.userAssignments || []);
-        this.results = data.results || [];
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const stored = localStorage.getItem('together-apart-ab-tests');
+        if (stored) {
+          const data = JSON.parse(stored);
+          this.userAssignments = new Map(data.userAssignments || []);
+          this.results = data.results || [];
+        }
       }
     } catch (error) {
       console.warn('Failed to load A/B test data from storage:', error);
@@ -60,11 +62,13 @@ class ABTesting {
 
   private saveToStorage(): void {
     try {
-      const data = {
-        userAssignments: Array.from(this.userAssignments.entries()),
-        results: this.results.slice(-1000), // Keep last 1000 results
-      };
-      localStorage.setItem('together-apart-ab-tests', JSON.stringify(data));
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const data = {
+          userAssignments: Array.from(this.userAssignments.entries()),
+          results: this.results.slice(-1000), // Keep last 1000 results
+        };
+        localStorage.setItem('together-apart-ab-tests', JSON.stringify(data));
+      }
     } catch (error) {
       console.warn('Failed to save A/B test data to storage:', error);
     }

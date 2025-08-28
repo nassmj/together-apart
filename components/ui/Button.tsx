@@ -42,7 +42,13 @@ const Button: React.FC<ButtonProps> = ({
       disabled={isDisabled}
       whileHover={!isDisabled ? { scale: 1.02 } : {}}
       whileTap={!isDisabled ? { scale: 0.98 } : {}}
-      {...props}
+      onClick={props.onClick}
+      type={props.type}
+      form={props.form}
+      name={props.name}
+      value={props.value}
+      autoFocus={props.autoFocus}
+      tabIndex={props.tabIndex}
     >
       {loading && <LoadingSpinner size="sm" />}
       {children}

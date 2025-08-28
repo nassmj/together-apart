@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
     
     const validation = validateForm(loginSchema, formData);
     if (!validation.success) {
-      setErrors(validation.errors);
+      setErrors((validation as { success: false; errors: Record<string, string> }).errors);
       return;
     }
 

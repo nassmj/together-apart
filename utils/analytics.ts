@@ -45,12 +45,14 @@ class Analytics {
 
   private loadFromStorage(): void {
     try {
-      const stored = localStorage.getItem('together-apart-analytics');
-      if (stored) {
-        const data = JSON.parse(stored);
-        this.events = data.events || [];
-        this.sessionId = data.sessionId || this.sessionId;
-        this.userId = data.userId;
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const stored = localStorage.getItem('together-apart-analytics');
+        if (stored) {
+          const data = JSON.parse(stored);
+          this.events = data.events || [];
+          this.sessionId = data.sessionId || this.sessionId;
+          this.userId = data.userId;
+        }
       }
     } catch (error) {
       console.warn('Failed to load analytics from storage:', error);
@@ -59,12 +61,14 @@ class Analytics {
 
   private saveToStorage(): void {
     try {
-      const data = {
-        events: this.events.slice(-1000), // Keep last 1000 events
-        sessionId: this.sessionId,
-        userId: this.userId,
-      };
-      localStorage.setItem('together-apart-analytics', JSON.stringify(data));
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const data = {
+          events: this.events.slice(-1000), // Keep last 1000 events
+          sessionId: this.sessionId,
+          userId: this.userId,
+        };
+        localStorage.setItem('together-apart-analytics', JSON.stringify(data));
+      }
     } catch (error) {
       console.warn('Failed to save analytics to storage:', error);
     }

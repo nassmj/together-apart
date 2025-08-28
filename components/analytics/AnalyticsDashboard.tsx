@@ -5,8 +5,8 @@ import {
   HeartIcon,
   CalendarDaysIcon,
   TrophyIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
   ClockIcon,
   UserGroupIcon,
   SparklesIcon,
@@ -40,9 +40,9 @@ const MetricCard: React.FC<{
         {change !== undefined && (
           <div className="flex items-center mt-2">
             {change >= 0 ? (
-              <TrendingUpIcon className="w-4 h-4 text-green-500 mr-1" />
+              <ArrowTrendingUpIcon className="w-4 h-4 text-green-500 mr-1" />
             ) : (
-              <TrendingDownIcon className="w-4 h-4 text-red-500 mr-1" />
+              <ArrowTrendingDownIcon className="w-4 h-4 text-red-500 mr-1" />
             )}
             <span className={`text-sm ${change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
               {Math.abs(change)}% from last week
@@ -135,9 +135,9 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ userId }
 
   const getEngagementLevel = (score: number): { level: string; color: string; icon: React.ReactNode } => {
     if (score >= 80) return { level: 'Excellent', color: 'text-green-500', icon: <FireIcon className="w-5 h-5" /> };
-    if (score >= 60) return { level: 'Good', color: 'text-blue-500', icon: <TrendingUpIcon className="w-5 h-5" /> };
+    if (score >= 60) return { level: 'Good', color: 'text-blue-500', icon: <ArrowTrendingUpIcon className="w-5 h-5" /> };
     if (score >= 40) return { level: 'Fair', color: 'text-yellow-500', icon: <ClockIcon className="w-5 h-5" /> };
-    return { level: 'Needs Attention', color: 'text-red-500', icon: <TrendingDownIcon className="w-5 h-5" /> };
+    return { level: 'Needs Attention', color: 'text-red-500', icon: <ArrowTrendingDownIcon className="w-5 h-5" /> };
   };
 
   const getRelationshipHealth = (score: number): { status: string; color: string } => {

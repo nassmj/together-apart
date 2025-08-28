@@ -66,8 +66,7 @@ const ConnectPartnerPage: React.FC = () => {
       const uniqueCode = Math.random().toString(36).substring(2, 12);
       const invite: Database['public']['Tables']['invites']['Insert'] = { 
         code: uniqueCode, 
-        inviter_id: user.id,
-        status: 'pending'
+        inviter_id: user.id
       };
       
       const { error } = await supabase
@@ -106,9 +105,8 @@ const ConnectPartnerPage: React.FC = () => {
     try {
       const { error } = await supabase
         .from('invites')
-        .update({ status: 'revoked' })
-        .eq('inviter_id', user.id)
-        .eq('status', 'pending');
+        .delete()
+        .eq('inviter_id', user.id);
 
       if (error) throw error;
       

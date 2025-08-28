@@ -6,7 +6,7 @@ import {
   CalendarDaysIcon,
   TrophyIcon,
   FireIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   StarIcon,
   ClockIcon,
   UserGroupIcon,
@@ -37,7 +37,7 @@ const InsightCard: React.FC<{
           <p className="text-2xl font-bold text-primary">{value}</p>
           {change && (
             <div className="flex items-center gap-1 mt-1">
-              <TrendingUpIcon className={`w-4 h-4 ${change.startsWith('+') ? 'text-success' : 'text-error'}`} />
+              <ArrowTrendingUpIcon className={`w-4 h-4 ${change.startsWith('+') ? 'text-success' : 'text-error'}`} />
               <span className={`text-sm font-medium ${change.startsWith('+') ? 'text-success' : 'text-error'}`}>
                 {change}
               </span>

@@ -31,7 +31,6 @@ const JoinPage: React.FC = () => {
           .from('invites')
           .select('*')
           .eq('code', inviteCode)
-          .eq('status', 'pending')
           .single();
 
         if (error) {

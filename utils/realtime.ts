@@ -71,6 +71,8 @@ class RealtimeSystem {
   }
 
   private setupPresenceTracking(): void {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    
     // Track page visibility changes
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
@@ -102,7 +104,7 @@ class RealtimeSystem {
 
   private setupNotificationHandling(): void {
     // Request notification permission
-    if ('Notification' in window) {
+    if (typeof window !== 'undefined' && 'Notification' in window) {
       Notification.requestPermission();
     }
   }

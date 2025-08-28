@@ -76,7 +76,7 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
     const trackFID = () => {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          metricsRef.current.firstInputDelay = entry.processingStart - entry.startTime;
+          metricsRef.current.firstInputDelay = (entry as any).processingStart - entry.startTime;
           observer.disconnect();
           break;
         }
@@ -227,6 +227,7 @@ export const usePerformanceMonitoring = (onMetrics?: (metrics: PerformanceMetric
     }
   }, [onMetrics]);
 };
+
 
 
 
