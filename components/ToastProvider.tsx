@@ -32,10 +32,17 @@ export const useToast = () => {
 
 const ToastContainer: React.FC<{ toasts: Toast[], removeToast: (id: number) => void }> = ({ toasts, removeToast }) => {
     const icons: { [key in ToastType]: React.ReactNode } = {
-        success: <CheckCircleIcon className="h-6 w-6 text-green" />,
-        error: <XCircleIcon className="h-6 w-6 text-red-500" />,
-        info: <InformationCircleIcon className="h-6 w-6 text-blue-500" />,
-        warning: <ExclamationTriangleIcon className="h-6 w-6 text-yellow-500" />,
+        success: <CheckCircleIcon className="h-6 w-6 text-success" />,
+        error: <XCircleIcon className="h-6 w-6 text-error" />,
+        info: <InformationCircleIcon className="h-6 w-6 text-primary" />,
+        warning: <ExclamationTriangleIcon className="h-6 w-6 text-warning" />,
+    };
+
+    const bgColors: { [key in ToastType]: string } = {
+        success: 'bg-success/10 border-success/20',
+        error: 'bg-error/10 border-error/20',
+        info: 'bg-primary/10 border-primary/20',
+        warning: 'bg-warning/10 border-warning/20',
     };
 
     return (
@@ -48,7 +55,7 @@ const ToastContainer: React.FC<{ toasts: Toast[], removeToast: (id: number) => v
                         initial={{ opacity: 0, y: 50, scale: 0.3 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
-                        className="max-w-sm w-full bg-[#2f2828] shadow-lg rounded-lg pointer-events-auto ring-1 ring-white/10 overflow-hidden cursor-pointer"
+                        className={`max-w-sm w-full bg-surface border shadow-lg rounded-xl pointer-events-auto overflow-hidden cursor-pointer ${bgColors[toast.type]}`}
                         onClick={() => removeToast(toast.id)}
                     >
                         <div className="p-4">
@@ -57,7 +64,7 @@ const ToastContainer: React.FC<{ toasts: Toast[], removeToast: (id: number) => v
                                     {icons[toast.type]}
                                 </div>
                                 <div className="ml-3 flex-1">
-                                    <p className="text-sm font-medium text-white">{toast.message}</p>
+                                    <p className="text-sm font-medium text-text-primary">{toast.message}</p>
                                 </div>
                             </div>
                         </div>

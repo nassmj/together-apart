@@ -36,10 +36,10 @@ const ProtectedRoute: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-bg">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-text-secondary">Loading...</p>
         </div>
       </div>
     );
@@ -54,7 +54,7 @@ const ProtectedRoute: React.FC = () => {
 
 const PublicLayout: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-bg">
       <Navbar />
       <main>
         <Outlet />
@@ -83,44 +83,44 @@ const App: React.FC = () => {
       <ToastProvider>
         <PerformanceMonitor onMetrics={handlePerformanceMetrics} />
         <Routes>
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/test" element={<TestPage />} />
-          <Route path="/simple" element={<SimpleTest />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/join/:inviteCode" element={<JoinPage />} />
-        </Route>
-        
-        <Route path="/dashboard" element={<ProtectedRoute />}>
-          <Route element={<DashboardLayout />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="daily-connection" element={<DailyConnectionPage />} />
-            <Route path="timeline" element={<MemoryTimelinePage />} />
-            <Route path="planner" element={<ActivityPlannerPage />} />
-            <Route path="growth-hub" element={<GrowthHubPage />} />
-            <Route path="discovery" element={<DiscoveryExchangePage />} />
-            <Route path="settings" element={<SettingsPage />} />
-            <Route path="connect" element={<ConnectPartnerPage />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="insights" element={<RelationshipInsightsPage />} />
-            <Route path="notifications" element={<NotificationsPage />} />
-            <Route path="help" element={<HelpSupportPage />} />
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/test" element={<TestPage />} />
+            <Route path="/simple" element={<SimpleTest />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/join/:inviteCode" element={<JoinPage />} />
           </Route>
-        </Route>
-      </Routes>
-      
-      {/* Feedback System */}
-      <FeedbackTrigger onOpen={() => setShowFeedback(true)} />
-      <UserFeedback
-        isOpen={showFeedback}
-        onClose={() => setShowFeedback(false)}
-        onFeedbackSubmit={handleFeedbackSubmit}
-      />
-      
-      <DevTools />
-        </ToastProvider>
-      </AccessibilityProvider>
+          
+          <Route path="/dashboard" element={<ProtectedRoute />}>
+            <Route element={<DashboardLayout />}>
+              <Route index element={<DashboardPage />} />
+              <Route path="daily-connection" element={<DailyConnectionPage />} />
+              <Route path="timeline" element={<MemoryTimelinePage />} />
+              <Route path="planner" element={<ActivityPlannerPage />} />
+              <Route path="growth-hub" element={<GrowthHubPage />} />
+              <Route path="discovery" element={<DiscoveryExchangePage />} />
+              <Route path="settings" element={<SettingsPage />} />
+              <Route path="connect" element={<ConnectPartnerPage />} />
+              <Route path="profile" element={<ProfilePage />} />
+              <Route path="insights" element={<RelationshipInsightsPage />} />
+              <Route path="notifications" element={<NotificationsPage />} />
+              <Route path="help" element={<HelpSupportPage />} />
+            </Route>
+          </Route>
+        </Routes>
+        
+        {/* Feedback System */}
+        <FeedbackTrigger onOpen={() => setShowFeedback(true)} />
+        <UserFeedback
+          isOpen={showFeedback}
+          onClose={() => setShowFeedback(false)}
+          onFeedbackSubmit={handleFeedbackSubmit}
+        />
+        
+        <DevTools />
+      </ToastProvider>
+    </AccessibilityProvider>
   );
 };
 

@@ -33,7 +33,7 @@ const DashboardLayout: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="main-layout">
+      <div className="flex-1 flex flex-col lg:ml-64">
         {/* Header */}
         <Header 
           showMenuButton={true}
@@ -41,11 +41,12 @@ const DashboardLayout: React.FC = () => {
         />
 
         {/* Page Content */}
-        <main className="main-content">
+        <main className="flex-1 overflow-auto p-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
+            className="max-w-7xl mx-auto"
           >
             <Outlet />
           </motion.div>

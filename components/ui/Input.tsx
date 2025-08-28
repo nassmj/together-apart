@@ -28,7 +28,7 @@ const Input: React.FC<InputProps> = ({
       {label && (
         <label 
           htmlFor={inputId}
-          className="block text-sm font-medium text-neutral-ink"
+          className="block text-sm font-medium text-text-primary"
         >
           {label}
         </label>
@@ -40,7 +40,7 @@ const Input: React.FC<InputProps> = ({
         transition={{ duration: 0.2 }}
       >
         {leftIcon && (
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-muted">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted">
             {leftIcon}
           </div>
         )}
@@ -51,14 +51,14 @@ const Input: React.FC<InputProps> = ({
             input
             ${leftIcon ? 'pl-10' : ''}
             ${rightIcon ? 'pr-10' : ''}
-            ${hasError ? 'input-error' : ''}
+            ${hasError ? 'border-error' : ''}
             transition-all duration-200
           `}
           {...props}
         />
         
         {rightIcon && (
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-muted">
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-muted">
             {rightIcon}
           </div>
         )}
@@ -66,7 +66,7 @@ const Input: React.FC<InputProps> = ({
       
       {(error || helperText) && (
         <motion.p
-          className={`text-sm ${hasError ? 'text-error' : 'text-neutral-muted'}`}
+          className={`text-sm ${hasError ? 'text-error' : 'text-text-muted'}`}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
@@ -101,7 +101,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
       {label && (
         <label 
           htmlFor={textareaId}
-          className="block text-sm font-medium text-neutral-ink"
+          className="block text-sm font-medium text-text-primary"
         >
           {label}
         </label>
@@ -116,7 +116,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
           className={`
             input
             resize-none
-            ${hasError ? 'input-error' : ''}
+            ${hasError ? 'border-error' : ''}
             transition-all duration-200
           `}
           {...props}
@@ -125,7 +125,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
       
       {(error || helperText) && (
         <motion.p
-          className={`text-sm ${hasError ? 'text-error' : 'text-neutral-muted'}`}
+          className={`text-sm ${hasError ? 'text-error' : 'text-text-muted'}`}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}

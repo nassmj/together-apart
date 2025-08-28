@@ -94,118 +94,84 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
 
   return (
     <motion.aside
-      className="sidebar"
+      className="fixed inset-y-0 left-0 z-50 w-64 bg-surface border-r border-border-light shadow-lg"
       initial={{ x: -280 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
-      {/* Logo Section */}
-      <div className="p-6 border-b border-border-light">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <StarIcon className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-xl font-bold text-primary">Together Apart</span>
+      <div className="flex flex-col h-full">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-border-light">
+          <Link to="/dashboard" className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+              <StarIcon className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-text-primary">Together Apart</span>
+          </Link>
         </div>
-      </div>
 
-      {/* Navigation */}
-      <nav className="sidebar-nav">
-        {/* Main Navigation */}
-        <div className="mb-8">
-          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 px-4">
-            Main
-          </h3>
+        {/* Navigation */}
+        <nav className="flex-1 px-4 py-6 space-y-2">
+          {/* Main Navigation */}
           <div className="space-y-1">
+            <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
+              Main
+            </h3>
             {mainNavItems.map((item) => {
-              const Icon = item.icon;
               const isActive = location.pathname === item.path;
-              
               return (
-                <motion.div
+                <Link
                   key={item.name}
-                  whileHover={{ x: 4 }}
-                  whileTap={{ scale: 0.98 }}
+                  to={item.path}
+                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
+                    isActive
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'text-text-secondary hover:bg-surface-alt hover:text-text-primary'
+                  }`}
                 >
-                  <Link
-                    to={item.path}
-                    className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-                    title={item.description}
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span className="font-medium">{item.name}</span>
-                    {isActive && (
-                      <motion.div
-                        className="ml-auto w-2 h-2 bg-primary rounded-full"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.2 }}
-                      />
-                    )}
-                  </Link>
-                </motion.div>
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.name}</span>
+                </Link>
               );
             })}
           </div>
-        </div>
 
-        {/* More Navigation */}
-        <div className="mb-8">
-          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 px-4">
-            More
-          </h3>
-          <div className="space-y-1">
+          {/* More Navigation */}
+          <div className="space-y-1 pt-6 border-t border-border-light">
+            <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
+              More
+            </h3>
             {moreNavItems.map((item) => {
-              const Icon = item.icon;
               const isActive = location.pathname === item.path;
-              
               return (
-                <motion.div
+                <Link
                   key={item.name}
-                  whileHover={{ x: 4 }}
-                  whileTap={{ scale: 0.98 }}
+                  to={item.path}
+                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
+                    isActive
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'text-text-secondary hover:bg-surface-alt hover:text-text-primary'
+                  }`}
                 >
-                  <Link
-                    to={item.path}
-                    className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-                    title={item.description}
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span className="font-medium">{item.name}</span>
-                    {isActive && (
-                      <motion.div
-                        className="ml-auto w-2 h-2 bg-primary rounded-full"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.2 }}
-                      />
-                    )}
-                  </Link>
-                </motion.div>
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.name}</span>
+                </Link>
               );
             })}
           </div>
-        </div>
+        </nav>
 
-        {/* Logout Button */}
-        <div className="mt-auto pt-6 border-t border-border-light">
-          <motion.button
-            className="w-full sidebar-nav-item text-error hover:bg-error/10 hover:text-error"
-            whileHover={{ x: 4 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={async () => {
-              try {
-                await signOut();
-              } catch (error) {
-                console.error('Logout failed:', error);
-              }
-            }}
+        {/* Footer */}
+        <div className="p-4 border-t border-border-light">
+          <button
+            onClick={signOut}
+            className="flex items-center space-x-3 w-full px-3 py-2 rounded-lg text-sm font-medium text-text-secondary hover:bg-surface-alt hover:text-text-primary transition-all duration-200"
           >
             <ArrowRightOnRectangleIcon className="w-5 h-5" />
-            <span className="font-medium">Logout</span>
-          </motion.button>
+            <span>Sign Out</span>
+          </button>
         </div>
-      </nav>
+      </div>
     </motion.aside>
   );
 };
