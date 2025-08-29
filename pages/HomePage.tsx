@@ -98,13 +98,13 @@ const HomePage: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="card p-8 text-center hover:scale-105 transition-transform"
+              className="bg-gray-800 p-8 text-center hover:scale-105 transition-transform rounded-2xl shadow-lg"
             >
-              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <HeartIcon className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-text-primary mb-4">Daily Connections</h3>
-              <p className="text-text-secondary">
+              <h3 className="text-xl font-semibold text-white mb-4">Daily Connections</h3>
+              <p className="text-gray-300">
                 Answer thoughtful questions together and discover new aspects of your relationship every day.
               </p>
             </motion.div>
@@ -115,13 +115,13 @@ const HomePage: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              className="card p-8 text-center hover:scale-105 transition-transform"
+              className="bg-gray-800 p-8 text-center hover:scale-105 transition-transform rounded-2xl shadow-lg"
             >
-              <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-secondary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <SparklesIcon className="w-8 h-8 text-secondary" />
               </div>
-              <h3 className="text-xl font-semibold text-text-primary mb-4">Shared Memories</h3>
-              <p className="text-text-secondary">
+              <h3 className="text-xl font-semibold text-white mb-4">Shared Memories</h3>
+              <p className="text-gray-300">
                 Capture and cherish your special moments together with photos, stories, and milestones.
               </p>
             </motion.div>
@@ -132,13 +132,13 @@ const HomePage: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
-              className="card p-8 text-center hover:scale-105 transition-transform"
+              className="bg-gray-800 p-8 text-center hover:scale-105 transition-transform rounded-2xl shadow-lg"
             >
-              <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-accent/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <HeartIcon className="w-8 h-8 text-accent" />
               </div>
-              <h3 className="text-xl font-semibold text-text-primary mb-4">Growth Together</h3>
-              <p className="text-text-secondary">
+              <h3 className="text-xl font-semibold text-white mb-4">Growth Together</h3>
+              <p className="text-gray-300">
                 Set relationship goals, track your progress, and celebrate your journey together.
               </p>
             </motion.div>
