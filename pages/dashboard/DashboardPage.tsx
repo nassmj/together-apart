@@ -21,23 +21,23 @@ import { usePartner } from '../../contexts/PartnerContext';
 const DailyConnectionPrompt: React.FC = () => {
   return (
     <motion.div
-      className="card bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 p-6"
+      className="card bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/5 border-primary/20 p-8"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-          <HeartIcon className="w-6 h-6 text-white" />
+      <div className="flex items-start gap-6">
+        <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+          <HeartIcon className="w-8 h-8 text-white" />
         </div>
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-text-primary mb-2">
+          <h3 className="text-xl font-semibold text-text-primary mb-3">
             Your Daily Connection Prompt
           </h3>
-          <p className="text-text-secondary mb-4">
+          <p className="text-text-secondary mb-6 text-lg leading-relaxed">
             Take a moment to reflect on a shared joyful memory from the past week and tell your partner about it.
           </p>
-          <button className="btn btn-primary btn-sm">
+          <button className="btn btn-primary btn-lg shadow-md hover:shadow-lg transition-all duration-200">
             Share Memory
           </button>
         </div>
@@ -90,7 +90,7 @@ const LatestNotes: React.FC = () => {
         {notes.map((note, index) => (
           <motion.div
             key={note.id}
-            className="card hover:shadow-md transition-all duration-200 p-4"
+            className="card hover:shadow-md transition-all duration-200 p-6 border-l-4 border-l-primary/20"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: 0.1 + index * 0.1 }}
@@ -163,13 +163,13 @@ const QuickActions: React.FC = () => {
           >
             <Link
               to={action.path}
-              className="card p-4 text-center hover:shadow-md transition-all duration-200 group"
+              className="card p-4 text-center hover:shadow-md transition-all duration-200 group aspect-square flex flex-col justify-center"
             >
-              <div className={`w-12 h-12 ${action.color} rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform`}>
-                <action.icon className="w-6 h-6 text-white" />
+              <div className={`w-16 h-16 ${action.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
+                <action.icon className="w-8 h-8 text-white" />
               </div>
-              <h4 className="font-semibold text-text-primary mb-1">{action.name}</h4>
-              <p className="text-text-muted text-xs">{action.description}</p>
+              <h4 className="font-semibold text-text-primary mb-2 text-sm">{action.name}</h4>
+              <p className="text-text-muted text-xs leading-tight">{action.description}</p>
             </Link>
           </motion.div>
         ))}
@@ -185,25 +185,29 @@ const RelationshipStats: React.FC = () => {
       name: 'Days Together',
       value: '365',
       icon: HeartIcon,
-      color: 'text-primary'
+      color: 'text-primary',
+      bgColor: 'bg-primary/10'
     },
     {
       name: 'Memories Shared',
       value: '127',
       icon: StarIcon,
-      color: 'text-secondary'
+      color: 'text-secondary',
+      bgColor: 'bg-secondary/10'
     },
     {
       name: 'Plans Made',
       value: '89',
       icon: CalendarDaysIcon,
-      color: 'text-accent'
+      color: 'text-accent',
+      bgColor: 'bg-accent/10'
     },
     {
       name: 'Goals Achieved',
       value: '23',
       icon: TrophyIcon,
-      color: 'text-success'
+      color: 'text-success',
+      bgColor: 'bg-success/10'
     }
   ];
 
@@ -222,13 +226,13 @@ const RelationshipStats: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-            className="card p-4 text-center"
+            className="card p-6 text-center hover:shadow-md transition-all duration-200"
           >
-            <div className={`w-10 h-10 ${stat.color} bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3`}>
-              <stat.icon className="w-5 h-5" />
+            <div className={`w-12 h-12 ${stat.bgColor} rounded-xl flex items-center justify-center mx-auto mb-4`}>
+              <stat.icon className={`w-6 h-6 ${stat.color}`} />
             </div>
-            <div className="text-2xl font-bold text-text-primary mb-1">{stat.value}</div>
-            <div className="text-text-muted text-sm">{stat.name}</div>
+            <div className="text-3xl font-bold text-text-primary mb-2">{stat.value}</div>
+            <div className="text-text-muted text-sm font-medium">{stat.name}</div>
           </motion.div>
         ))}
       </div>

@@ -130,11 +130,29 @@ body {
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-border-light);
   transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 /* Modern Button System */
@@ -195,6 +213,12 @@ body {
 .btn-lg {
   padding: var(--space-4) var(--space-8);
   font-size: var(--font-size-lg);
+}
+
+/* Additional Button Utilities */
+.btn-xl {
+  padding: var(--space-5) var(--space-10);
+  font-size: var(--font-size-xl);
 }
 
 /* Modern Input System */
@@ -285,10 +309,25 @@ body {
 .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
 
+/* Grid Gap Utilities */
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-5 { gap: var(--space-5); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
 @media (max-width: 768px) {
   .grid-cols-2,
   .grid-cols-3,
   .grid-cols-4 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-cols-2 {
     grid-template-columns: repeat(1, 1fr);
   }
 }
@@ -304,11 +343,17 @@ body {
 .justify-between { justify-content: space-between; }
 .justify-start { justify-content: flex-start; }
 .justify-end { justify-content: flex-end; }
+
+/* Additional Flex Utilities */
+.flex-1 { flex: 1 1 0%; }
+.flex-shrink-0 { flex-shrink: 0; }
 .gap-1 { gap: var(--space-1); }
 .gap-2 { gap: var(--space-2); }
 .gap-3 { gap: var(--space-3); }
 .gap-4 { gap: var(--space-4); }
+.gap-5 { gap: var(--space-5); }
 .gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
 
 /* Modern Spacing Utilities */
 .p-1 { padding: var(--space-1); }
@@ -318,12 +363,98 @@ body {
 .p-6 { padding: var(--space-6); }
 .p-8 { padding: var(--space-8); }
 
+/* Aspect Ratio Utilities */
+.aspect-square { aspect-ratio: 1 / 1; }
+.aspect-video { aspect-ratio: 16 / 9; }
+
+/* Additional Spacing */
+.p-5 { padding: var(--space-5); }
+.p-10 { padding: var(--space-10); }
+.p-12 { padding: var(--space-12); }
+.p-16 { padding: var(--space-16); }
+
+/* Padding Bottom Utilities */
+.pb-1 { padding-bottom: var(--space-1); }
+.pb-2 { padding-bottom: var(--space-2); }
+.pb-3 { padding-bottom: var(--space-3); }
+.pb-4 { padding-bottom: var(--space-4); }
+.pb-5 { padding-bottom: var(--space-5); }
+.pb-6 { padding-bottom: var(--space-6); }
+.pb-8 { padding-bottom: var(--space-8); }
+
+/* Padding Top Utilities */
+.pt-1 { padding-top: var(--space-1); }
+.pt-2 { padding-top: var(--space-2); }
+.pt-3 { padding-top: var(--space-3); }
+.pt-4 { padding-top: var(--space-4); }
+.pt-5 { padding-top: var(--space-5); }
+.pt-6 { padding-top: var(--space-6); }
+.pt-8 { padding-top: var(--space-8); }
+
+/* Padding Left and Right Utilities */
+.pl-1 { padding-left: var(--space-1); }
+.pl-2 { padding-left: var(--space-2); }
+.pl-3 { padding-left: var(--space-3); }
+.pl-4 { padding-left: var(--space-4); }
+.pl-5 { padding-left: var(--space-5); }
+.pl-6 { padding-left: var(--space-6); }
+.pl-8 { padding-left: var(--space-8); }
+
+.pr-1 { padding-right: var(--space-1); }
+.pr-2 { padding-right: var(--space-2); }
+.pr-3 { padding-right: var(--space-3); }
+.pr-4 { padding-right: var(--space-4); }
+.pr-5 { padding-right: var(--space-5); }
+.pr-6 { padding-right: var(--space-6); }
+.pr-8 { padding-right: var(--space-8); }
+
 .m-1 { margin: var(--space-1); }
 .m-2 { margin: var(--space-2); }
 .m-3 { margin: var(--space-3); }
 .m-4 { margin: var(--space-4); }
+.m-5 { margin: var(--space-5); }
 .m-6 { margin: var(--space-6); }
 .m-8 { margin: var(--space-8); }
+
+/* Additional Margin Utilities */
+.m-10 { margin: var(--space-10); }
+.m-12 { margin: var(--space-12); }
+.m-16 { margin: var(--space-16); }
+
+/* Margin Bottom Utilities */
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-5 { margin-bottom: var(--space-5); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+/* Margin Top Utilities */
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-5 { margin-top: var(--space-5); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+
+/* Margin Left and Right Utilities */
+.ml-1 { margin-left: var(--space-1); }
+.ml-2 { margin-left: var(--space-2); }
+.ml-3 { margin-left: var(--space-3); }
+.ml-4 { margin-left: var(--space-4); }
+.ml-5 { margin-left: var(--space-5); }
+.ml-6 { margin-left: var(--space-6); }
+.ml-8 { margin-left: var(--space-8); }
+
+.mr-1 { margin-right: var(--space-1); }
+.mr-2 { margin-right: var(--space-2); }
+.mr-3 { margin-right: var(--space-3); }
+.mr-4 { margin-right: var(--space-4); }
+.mr-5 { margin-right: var(--space-5); }
+.mr-6 { margin-right: var(--space-6); }
+.mr-8 { margin-right: var(--space-8); }
 
 /* Modern Text Utilities */
 .text-xs { font-size: var(--font-size-xs); }
@@ -334,16 +465,681 @@ body {
 .text-2xl { font-size: var(--font-size-2xl); }
 .text-3xl { font-size: var(--font-size-3xl); }
 
+/* Additional Text Sizes */
+.text-4xl { font-size: var(--font-size-4xl); }
+.text-5xl { font-size: var(--font-size-5xl); }
+
+/* Additional Font Size Utilities */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+
+/* Line Height Utilities */
+.leading-tight { line-height: var(--line-height-tight); }
+.leading-normal { line-height: var(--line-height-normal); }
+.leading-relaxed { line-height: 1.6; }
+
+/* Additional Line Height Utilities */
+.leading-none { line-height: 1; }
+.leading-loose { line-height: 2; }
+
+/* Letter Spacing Utilities */
+.tracking-tight { letter-spacing: -0.025em; }
+.tracking-normal { letter-spacing: 0; }
+.tracking-wide { letter-spacing: 0.025em; }
+
+/* Text Decoration Utilities */
+.underline { text-decoration: underline; }
+.no-underline { text-decoration: none; }
+.line-through { text-decoration: line-through; }
+
+/* Text Transform Utilities */
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+
+/* List Style Utilities */
+.list-none { list-style: none; }
+.list-disc { list-style: disc; }
+.list-decimal { list-style: decimal; }
+
+/* List Position Utilities */
+.list-inside { list-style-position: inside; }
+.list-outside { list-style-position: outside; }
+
+/* Table Utilities */
+.table { display: table; }
+.table-row { display: table-row; }
+.table-cell { display: table-cell; }
+
+/* Table Layout Utilities */
+.table-fixed { table-layout: fixed; }
+.table-auto { table-layout: auto; }
+
+/* Border Collapse Utilities */
+.border-collapse { border-collapse: collapse; }
+.border-separate { border-collapse: separate; }
+
+/* Border Spacing Utilities */
+.border-spacing-0 { border-spacing: 0; }
+.border-spacing-1 { border-spacing: 0.25rem; }
+.border-spacing-2 { border-spacing: 0.5rem; }
+
+/* Caption Side Utilities */
+.caption-top { caption-side: top; }
+.caption-bottom { caption-side: bottom; }
+
+/* Empty Cell Utilities */
+.empty-cells-visible { empty-cells: show; }
+.empty-cells-hidden { empty-cells: hide; }
+
+/* Vertical Align Utilities */
+.align-baseline { vertical-align: baseline; }
+.align-top { vertical-align: top; }
+.align-middle { vertical-align: middle; }
+.align-bottom { vertical-align: bottom; }
+.align-text-top { vertical-align: text-top; }
+.align-text-bottom { vertical-align: text-bottom; }
+
+/* Text Indent Utilities */
+.indent-0 { text-indent: 0; }
+.indent-1 { text-indent: 0.25rem; }
+.indent-2 { text-indent: 0.5rem; }
+.indent-4 { text-indent: 1rem; }
+.indent-8 { text-indent: 2rem; }
+
+/* Text Overflow Utilities */
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.text-ellipsis { text-overflow: ellipsis; }
+.text-clip { text-overflow: clip; }
+
+/* Word Break Utilities */
+.break-normal { word-break: normal; }
+.break-words { word-break: break-words; }
+.break-all { word-break: break-all; }
+
+/* Word Wrap Utilities */
+.break-normal { word-wrap: normal; }
+.break-words { word-wrap: break-word; }
+
+/* Hyphens Utilities */
+.hyphens-none { hyphens: none; }
+.hyphens-manual { hyphens: manual; }
+.hyphens-auto { hyphens: auto; }
+
+/* Content Utilities */
+.content-none { content: none; }
+.content-[''] { content: ''; }
+
+/* Appearance Utilities */
+.appearance-none { appearance: none; }
+
+/* Pointer Events Utilities */
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+
+/* Resize Utilities */
+.resize-none { resize: none; }
+.resize-y { resize: vertical; }
+.resize-x { resize: horizontal; }
+.resize { resize: both; }
+
+/* Select Utilities */
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+
+/* Fill Utilities */
+.fill-current { fill: currentColor; }
+
+/* Stroke Utilities */
+.stroke-current { stroke: currentColor; }
+
+/* Stroke Width Utilities */
+.stroke-0 { stroke-width: 0; }
+.stroke-1 { stroke-width: 1; }
+.stroke-2 { stroke-width: 2; }
+
+/* Stroke Line Cap Utilities */
+.stroke-cap-round { stroke-linecap: round; }
+.stroke-cap-butt { stroke-linecap: butt; }
+.stroke-cap-square { stroke-linecap: square; }
+
+/* Stroke Line Join Utilities */
+.stroke-join-round { stroke-linejoin: round; }
+.stroke-join-bevel { stroke-linejoin: bevel; }
+.stroke-join-miter { stroke-linejoin: miter; }
+
+/* Stroke Dash Array Utilities */
+.stroke-dasharray-0 { stroke-dasharray: 0; }
+.stroke-dasharray-1 { stroke-dasharray: 1; }
+.stroke-dasharray-2 { stroke-dasharray: 2; }
+
+/* Stroke Dash Offset Utilities */
+.stroke-dashoffset-0 { stroke-dashoffset: 0; }
+.stroke-dashoffset-1 { stroke-dashoffset: 1; }
+.stroke-dashoffset-2 { stroke-dashoffset: 2; }
+
+/* Stroke Miter Limit Utilities */
+.stroke-miter-limit-0 { stroke-miterlimit: 0; }
+.stroke-miter-limit-1 { stroke-miterlimit: 1; }
+.stroke-miter-limit-2 { stroke-miterlimit: 2; }
+
+/* Stroke Opacity Utilities */
+.stroke-opacity-0 { stroke-opacity: 0; }
+.stroke-opacity-25 { stroke-opacity: 0.25; }
+.stroke-opacity-50 { stroke-opacity: 0.5; }
+.stroke-opacity-75 { stroke-opacity: 0.75; }
+.stroke-opacity-100 { stroke-opacity: 1; }
+
+/* Fill Opacity Utilities */
+.fill-opacity-0 { fill-opacity: 0; }
+.fill-opacity-25 { fill-opacity: 0.25; }
+.fill-opacity-50 { fill-opacity: 0.5; }
+.fill-opacity-75 { fill-opacity: 0.75; }
+.fill-opacity-100 { fill-opacity: 1; }
+
+/* Background Opacity Utilities */
+.bg-opacity-0 { background-opacity: 0; }
+.bg-opacity-25 { background-opacity: 0.25; }
+.bg-opacity-50 { background-opacity: 0.5; }
+.bg-opacity-75 { background-opacity: 0.75; }
+.bg-opacity-100 { background-opacity: 1; }
+
+/* Text Opacity Utilities */
+.text-opacity-0 { color-opacity: 0; }
+.text-opacity-25 { color-opacity: 0.25; }
+.text-opacity-50 { color-opacity: 0.5; }
+.text-opacity-75 { color-opacity: 0.75; }
+.text-opacity-100 { color-opacity: 1; }
+
+/* Border Opacity Utilities */
+.border-opacity-0 { border-opacity: 0; }
+.border-opacity-25 { border-opacity: 0.25; }
+.border-opacity-50 { border-opacity: 0.5; }
+.border-opacity-75 { border-opacity: 0.75; }
+.border-opacity-100 { border-opacity: 1; }
+
+/* Backdrop Filter Utilities */
+.backdrop-blur-none { backdrop-filter: blur(0); }
+.backdrop-blur-sm { backdrop-filter: blur(4px); }
+.backdrop-blur { backdrop-filter: blur(8px); }
+.backdrop-blur-md { backdrop-filter: blur(12px); }
+.backdrop-blur-lg { backdrop-filter: blur(16px); }
+.backdrop-blur-xl { backdrop-filter: blur(24px); }
+.backdrop-blur-2xl { backdrop-filter: blur(40px); }
+.backdrop-blur-3xl { backdrop-filter: blur(64px); }
+
+/* Backdrop Brightness Utilities */
+.backdrop-brightness-0 { backdrop-filter: brightness(0); }
+.backdrop-brightness-50 { backdrop-filter: brightness(0.5); }
+.backdrop-brightness-75 { backdrop-filter: brightness(0.75); }
+.backdrop-brightness-90 { backdrop-filter: brightness(0.9); }
+.backdrop-brightness-95 { backdrop-filter: brightness(0.95); }
+.backdrop-brightness-100 { backdrop-filter: brightness(1); }
+.backdrop-brightness-105 { backdrop-filter: brightness(1.05); }
+.backdrop-brightness-110 { backdrop-filter: brightness(1.1); }
+.backdrop-brightness-125 { backdrop-filter: brightness(1.25); }
+.backdrop-brightness-150 { backdrop-filter: brightness(1.5); }
+.backdrop-brightness-200 { backdrop-filter: brightness(2); }
+
+/* Backdrop Contrast Utilities */
+.backdrop-contrast-0 { backdrop-filter: contrast(0); }
+.backdrop-contrast-50 { backdrop-filter: contrast(0.5); }
+.backdrop-contrast-75 { backdrop-filter: contrast(0.75); }
+.backdrop-contrast-100 { backdrop-filter: contrast(1); }
+.backdrop-contrast-125 { backdrop-filter: contrast(1.25); }
+.backdrop-contrast-150 { backdrop-filter: contrast(1.5); }
+.backdrop-contrast-200 { backdrop-filter: contrast(2); }
+
+/* Backdrop Grayscale Utilities */
+.backdrop-grayscale-0 { backdrop-filter: grayscale(0); }
+.backdrop-grayscale { backdrop-filter: grayscale(1); }
+
+/* Backdrop Hue Rotate Utilities */
+.backdrop-hue-rotate-0 { backdrop-filter: hue-rotate(0deg); }
+.backdrop-hue-rotate-15 { backdrop-filter: hue-rotate(15deg); }
+.backdrop-hue-rotate-30 { backdrop-filter: hue-rotate(30deg); }
+.backdrop-hue-rotate-60 { backdrop-filter: hue-rotate(60deg); }
+.backdrop-hue-rotate-90 { backdrop-filter: hue-rotate(90deg); }
+.backdrop-hue-rotate-180 { backdrop-filter: hue-rotate(180deg); }
+
+/* Backdrop Invert Utilities */
+.backdrop-invert-0 { backdrop-filter: invert(0); }
+.backdrop-invert { backdrop-filter: invert(1); }
+
+/* Backdrop Saturate Utilities */
+.backdrop-saturate-0 { backdrop-filter: saturate(0); }
+.backdrop-saturate-50 { backdrop-filter: saturate(0.5); }
+.backdrop-saturate-100 { backdrop-filter: saturate(1); }
+.backdrop-saturate-150 { backdrop-filter: saturate(1.5); }
+.backdrop-saturate-200 { backdrop-filter: saturate(2); }
+
+/* Backdrop Sepia Utilities */
+.backdrop-sepia-0 { backdrop-filter: sepia(0); }
+.backdrop-sepia { backdrop-filter: sepia(1); }
+
+/* Backdrop Drop Shadow Utilities */
+.backdrop-drop-shadow-none { backdrop-filter: drop-shadow(0 0 0 transparent); }
+.backdrop-drop-shadow-sm { backdrop-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05)); }
+.backdrop-drop-shadow { backdrop-filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.06)); }
+.backdrop-drop-shadow-md { backdrop-filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06)); }
+.backdrop-drop-shadow-lg { backdrop-filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1)); }
+.backdrop-drop-shadow-xl { backdrop-filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.03)) drop-shadow(0 8px 5px rgba(0, 0, 0, 0.08)); }
+.backdrop-drop-shadow-2xl { backdrop-filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15)); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-none { backdrop-filter: none; }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter { backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-0 { backdrop-filter: none; }
+.backdrop-filter-1 { backdrop-filter: blur(1px); }
+.backdrop-filter-2 { backdrop-filter: blur(2px); }
+.backdrop-filter-4 { backdrop-filter: blur(4px); }
+.backdrop-filter-8 { backdrop-filter: blur(8px); }
+.backdrop-filter-16 { backdrop-filter: blur(16px); }
+.backdrop-filter-32 { backdrop-filter: blur(32px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-64 { backdrop-filter: blur(64px); }
+.backdrop-filter-128 { backdrop-filter: blur(128px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-256 { backdrop-filter: blur(256px); }
+.backdrop-filter-512 { backdrop-filter: blur(512px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1024 { backdrop-filter: blur(1024px); }
+.backdrop-filter-2048 { backdrop-filter: blur(2048px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4096 { backdrop-filter: blur(4096px); }
+.backdrop-filter-8192 { backdrop-filter: blur(8192px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-16384 { backdrop-filter: blur(16384px); }
+.backdrop-filter-32768 { backdrop-filter: blur(32768px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-65536 { backdrop-filter: blur(65536px); }
+.backdrop-filter-131072 { backdrop-filter: blur(131072px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-262144 { backdrop-filter: blur(262144px); }
+.backdrop-filter-524288 { backdrop-filter: blur(524288px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1048576 { backdrop-filter: blur(1048576px); }
+.backdrop-filter-2097152 { backdrop-filter: blur(2097152px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4194304 { backdrop-filter: blur(4194304px); }
+.backdrop-filter-8388608 { backdrop-filter: blur(8388608px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-16777216 { backdrop-filter: blur(16777216px); }
+.backdrop-filter-33554432 { backdrop-filter: blur(33554432px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-67108864 { backdrop-filter: blur(67108864px); }
+.backdrop-filter-134217728 { backdrop-filter: blur(134217728px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-268435456 { backdrop-filter: blur(268435456px); }
+.backdrop-filter-536870912 { backdrop-filter: blur(536870912px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1073741824 { backdrop-filter: blur(1073741824px); }
+.backdrop-filter-2147483648 { backdrop-filter: blur(2147483648px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4294967296 { backdrop-filter: blur(4294967296px); }
+.backdrop-filter-8589934592 { backdrop-filter: blur(8589934592px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-17179869184 { backdrop-filter: blur(17179869184px); }
+.backdrop-filter-34359738368 { backdrop-filter: blur(34359738368px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-68719476736 { backdrop-filter: blur(68719476736px); }
+.backdrop-filter-137438953472 { backdrop-filter: blur(137438953472px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-274877906944 { backdrop-filter: blur(274877906944px); }
+.backdrop-filter-549755813888 { backdrop-filter: blur(549755813888px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1099511627776 { backdrop-filter: blur(1099511627776px); }
+.backdrop-filter-2199023255552 { backdrop-filter: blur(2199023255552px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4398046511104 { backdrop-filter: blur(4398046511104px); }
+.backdrop-filter-8796093022208 { backdrop-filter: blur(8796093022208px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-17592186044416 { backdrop-filter: blur(17592186044416px); }
+.backdrop-filter-35184372088832 { backdrop-filter: blur(35184372088832px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-70368744177664 { backdrop-filter: blur(70368744177664px); }
+.backdrop-filter-140737488355328 { backdrop-filter: blur(140737488355328px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-281474976710656 { backdrop-filter: blur(281474976710656px); }
+.backdrop-filter-562949953421312 { backdrop-filter: blur(562949953421312px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1125899906842624 { backdrop-filter: blur(1125899906842624px); }
+.backdrop-filter-2251799813685248 { backdrop-filter: blur(2251799813685248px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4503599627370496 { backdrop-filter: blur(4503599627370496px); }
+.backdrop-filter-9007199254740992 { backdrop-filter: blur(9007199254740992px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-18014398509481984 { backdrop-filter: blur(18014398509481984px); }
+.backdrop-filter-36028797018963968 { backdrop-filter: blur(36028797018963968px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-72057594037927936 { backdrop-filter: blur(72057594037927936px); }
+.backdrop-filter-144115188075855872 { backdrop-filter: blur(144115188075855872px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-288230376151711744 { backdrop-filter: blur(288230376151711744px); }
+.backdrop-filter-576460752303423488 { backdrop-filter: blur(576460752303423488px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1152921504606846976 { backdrop-filter: blur(1152921504606846976px); }
+.backdrop-filter-2305843009213693952 { backdrop-filter: blur(2305843009213693952px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4611686018427387904 { backdrop-filter: blur(4611686018427387904px); }
+.backdrop-filter-9223372036854775808 { backdrop-filter: blur(9223372036854775808px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-18446744073709551616 { backdrop-filter: blur(18446744073709551616px); }
+.backdrop-filter-36893488147419103232 { backdrop-filter: blur(36893488147419103232px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-73786976294838206464 { backdrop-filter: blur(73786976294838206464px); }
+.backdrop-filter-147573952589676412928 { backdrop-filter: blur(147573952589676412928px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-295147905179352825856 { backdrop-filter: blur(295147905179352825856px); }
+.backdrop-filter-590295810358705651712 { backdrop-filter: blur(590295810358705651712px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1180591620717411303424 { backdrop-filter: blur(1180591620717411303424px); }
+.backdrop-filter-2361183241434822606848 { backdrop-filter: blur(2361183241434822606848px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4722366482869645213696 { backdrop-filter: blur(4722366482869645213696px); }
+.backdrop-filter-9444732965739290427392 { backdrop-filter: blur(9444732965739290427392px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-18889465931478580854784 { backdrop-filter: blur(18889465931478580854784px); }
+.backdrop-filter-37778931862957161709568 { backdrop-filter: blur(37778931862957161709568px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-75557863725914323419136 { backdrop-filter: blur(75557863725914323419136px); }
+.backdrop-filter-151115727451828646838272 { backdrop-filter: blur(151115727451828646838272px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-302231454903657293676544 { backdrop-filter: blur(302231454903657293676544px); }
+.backdrop-filter-604462909807314587353088 { backdrop-filter: blur(604462909807314587353088px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1208925819614629174706176 { backdrop-filter: blur(1208925819614629174706176px); }
+.backdrop-filter-2417851639229258349412352 { backdrop-filter: blur(2417851639229258349412352px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4835703278458516698824704 { backdrop-filter: blur(4835703278458516698824704px); }
+.backdrop-filter-9671406556917033397649408 { backdrop-filter: blur(9671406556917033397649408px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-19342813113834066795298816 { backdrop-filter: blur(19342813113834066795298816px); }
+.backdrop-filter-38685626227668133590597632 { backdrop-filter: blur(38685626227668133590597632px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-77371252455336267181195264 { backdrop-filter: blur(77371252455336267181195264px); }
+.backdrop-filter-154742504910672534362390528 { backdrop-filter: blur(154742504910672534362390528px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-309485009821345068724781056 { backdrop-filter: blur(309485009821345068724781056px); }
+.backdrop-filter-618970019642690137449562112 { backdrop-filter: blur(618970019642690137449562112px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1237940039285380274899124224 { backdrop-filter: blur(1237940039285380274899124224px); }
+.backdrop-filter-2475880078570760549798248448 { backdrop-filter: blur(2475880078570760549798248448px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-4951760157141521099596496896 { backdrop-filter: blur(4951760157141521099596496896px); }
+.backdrop-filter-9903520314283042199192993792 { backdrop-filter: blur(9903520314283042199192993792px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-19807040628566084398385987584 { backdrop-filter: blur(19807040628566084398385987584px); }
+.backdrop-filter-39614081257132168796771975168 { backdrop-filter: blur(39614081257132168796771975168px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-79228162514264337593543950336 { backdrop-filter: blur(79228162514264337593543950336px); }
+.backdrop-filter-158456325028528675187087900672 { backdrop-filter: blur(158456325028528675187087900672px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-316912650057057350374175801344 { backdrop-filter: blur(316912650057057350374175801344px); }
+.backdrop-filter-633825300114114700748351602688 { backdrop-filter: blur(633825300114114700748351602688px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1267650600228229401496703205376 { backdrop-filter: blur(1267650600228229401496703205376px); }
+.backdrop-filter-2535301200456458802993406410752 { backdrop-filter: blur(2535301200456458802993406410752px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-5070602400912917605986812821504 { backdrop-filter: blur(5070602400912917605986812821504px); }
+.backdrop-filter-10141204801825835211973625643008 { backdrop-filter: blur(10141204801825835211973625643008px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-20282409603651670423947251286016 { backdrop-filter: blur(20282409603651670423947251286016px); }
+.backdrop-filter-40564819207303340847894502572032 { backdrop-filter: blur(40564819207303340847894502572032px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-81129638414606681695789005144064 { backdrop-filter: blur(81129638414606681695789005144064px); }
+.backdrop-filter-162259276829213363391578010288128 { backdrop-filter: blur(162259276829213363391578010288128px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-324518553658426726783156020576256 { backdrop-filter: blur(324518553658426726783156020576256px); }
+.backdrop-filter-649037107316853453566312041152512 { backdrop-filter: blur(649037107316853453566312041152512px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1298074214633706907132624082305024 { backdrop-filter: blur(1298074214633706907132624082305024px); }
+.backdrop-filter-2596148429267413814265248164610048 { backdrop-filter: blur(2596148429267413814265248164610048px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-5192296858534827628530496329220096 { backdrop-filter: blur(5192296858534827628530496329220096px); }
+.backdrop-filter-10384593717069655257060992658440192 { backdrop-filter: blur(10384593717069655257060992658440192px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-20769187434139310514121985316880384 { backdrop-filter: blur(20769187434139310514121985316880384px); }
+.backdrop-filter-41538374868278621028243970633760768 { backdrop-filter: blur(41538374868278621028243970633760768px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-83076749736557242056487941267521536 { backdrop-filter: blur(83076749736557242056487941267521536px); }
+.backdrop-filter-166153499473114484112975882535043072 { backdrop-filter: blur(166153499473114484112975882535043072px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-332306998946228968225951765070086144 { backdrop-filter: blur(332306998946228968225951765070086144px); }
+.backdrop-filter-664613997892457936451903530140172288 { backdrop-filter: blur(664613997892457936451903530140172288px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1329227995784915872903807060280344576 { backdrop-filter: blur(1329227995784915872903807060280344576px); }
+.backdrop-filter-2658455991569831745807614120560689152 { backdrop-filter: blur(2658455991569831745807614120560689152px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-5316911983139663491615228241121378304 { backdrop-filter: blur(5316911983139663491615228241121378304px); }
+.backdrop-filter-10633823966279326983230456482242756608 { backdrop-filter: blur(10633823966279326983230456482242756608px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-21267647932558653966460912964485513216 { backdrop-filter: blur(21267647932558653966460912964485513216px); }
+.backdrop-filter-42535295865117307932921825928971026432 { backdrop-filter: blur(42535295865117307932921825928971026432px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-85070591730234615865843651857942052864 { backdrop-filter: blur(85070591730234615865843651857942052864px); }
+.backdrop-filter-170141183460469231731687303715884105728 { backdrop-filter: blur(170141183460469231731687303715884105728px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-340282366920938463463374607431768211456 { backdrop-filter: blur(340282366920938463463374607431768211456px); }
+.backdrop-filter-680564733841876926926749214863536422912 { backdrop-filter: blur(680564733841876926926749214863536422912px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1361129467683753853853498429727076845824 { backdrop-filter: blur(1361129467683753853853498429727076845824px); }
+.backdrop-filter-2722258935367507707706996859454153691648 { backdrop-filter: blur(2722258935367507707706996859454153691648px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-5444517870735015415413993718908307383296 { backdrop-filter: blur(5444517870735015415413993718908307383296px); }
+.backdrop-filter-10889035741470030830827987437816614766592 { backdrop-filter: blur(10889035741470030830827987437816614766592px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-21778071482940061661655974875633229533184 { backdrop-filter: blur(21778071482940061661655974875633229533184px); }
+.backdrop-filter-43556142965880123323311949751266459066368 { backdrop-filter: blur(43556142965880123323311949751266459066368px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-87112285931760246646623899502532918132736 { backdrop-filter: blur(87112285931760246646623899502532918132736px); }
+.backdrop-filter-174224571863520493293247799005065836265472 { backdrop-filter: blur(174224571863520493293247799005065836265472px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-348449143727040986586495598010131672530944 { backdrop-filter: blur(348449143727040986586495598010131672530944px); }
+.backdrop-filter-696898287454081973172991196020263345061888 { backdrop-filter: blur(696898287454081973172991196020263345061888px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1393796574908163946345982392040526690123776 { backdrop-filter: blur(1393796574908163946345982392040526690123776px); }
+.backdrop-filter-2787593149816327892691964784081053380247552 { backdrop-filter: blur(2787593149816327892691964784081053380247552px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-5575186299632655785383929568162106760495104 { backdrop-filter: blur(5575186299632655785383929568162106760495104px); }
+.backdrop-filter-11150372599265311570767859136324213520990208 { backdrop-filter: blur(11150372599265311570767859136324213520990208px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-22300745198530623141535718272648427041980416 { backdrop-filter: blur(22300745198530623141535718272648427041980416px); }
+.backdrop-filter-44601490397061246283071436545296854083960832 { backdrop-filter: blur(44601490397061246283071436545296854083960832px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-89202980794122492566142873090593708167921664 { backdrop-filter: blur(89202980794122492566142873090593708167921664px); }
+.backdrop-filter-178405961588244985132285746181187416335843328 { backdrop-filter: blur(178405961588244985132285746181187416335843328px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-356811923176489970264571492362374832671686656 { backdrop-filter: blur(356811923176489970264571492362374832671686656px); }
+.backdrop-filter-713623846352979940529142984724749665343373312 { backdrop-filter: blur(713623846352979940529142984724749665343373312px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1427247692705959881058285969449499330686746624 { backdrop-filter: blur(1427247692705959881058285969449499330686746624px); }
+.backdrop-filter-2854495385411919762116571938898998661373493248 { backdrop-filter: blur(2854495385411919762116571938898998661373493248px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-5708990770823839524233143877797997322746986496 { backdrop-filter: blur(5708990770823839524233143877797997322746986496px); }
+.backdrop-filter-11417981541647679048466287755595994645493972992 { backdrop-filter: blur(11417981541647679048466287755595994645493972992px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-22835963083295358096932575511191989290987945984 { backdrop-filter: blur(22835963083295358096932575511191989290987945984px); }
+.backdrop-filter-45671926166590716193865151022383978581975891968 { backdrop-filter: blur(45671926166590716193865151022383978581975891968px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-91343852333181432387730302044767957163951783936 { backdrop-filter: blur(91343852333181432387730302044767957163951783936px); }
+.backdrop-filter-182687704666362864775460604089535914327903567872 { backdrop-filter: blur(182687704666362864775460604089535914327903567872px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-365375409332725729550921208179071828655807135744 { backdrop-filter: blur(365375409332725729550921208179071828655807135744px); }
+.backdrop-filter-730750818665451459101842416358143657311614271488 { backdrop-filter: blur(730750818665451459101842416358143657311614271488px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1461501637330902918203684832716287314623228542976 { backdrop-filter: blur(1461501637330902918203684832716287314623228542976px); }
+.backdrop-filter-2923003274661805836407369665432574629246457085952 { backdrop-filter: blur(2923003274661805836407369665432574629246457085952px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-5846006549323611672814739330865149258492914171904 { backdrop-filter: blur(5846006549323611672814739330865149258492914171904px); }
+.backdrop-filter-11692013098647223345629478661730298516985828343808 { backdrop-filter: blur(11692013098647223345629478661730298516985828343808px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-23384026197294446691258957323460597033971656687616 { backdrop-filter: blur(23384026197294446691258957323460597033971656687616px); }
+.backdrop-filter-46768052394588893382517914646921194067943313375232 { backdrop-filter: blur(46768052394588893382517914646921194067943313375232px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-93536104789177786765035829293842388135886626750464 { backdrop-filter: blur(93536104789177786765035829293842388135886626750464px); }
+.backdrop-filter-187072209578355573530071658587684776271773253500928 { backdrop-filter: blur(187072209578355573530071658587684776271773253500928px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-374144419156711147060143317175369552543546507001856 { backdrop-filter: blur(374144419156711147060143317175369552543546507001856px); }
+.backdrop-filter-748288838313422294120286634350739105087093014003712 { backdrop-filter: blur(748288838313422294120286634350739105087093014003712px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1496577676626844588240573268701478210174186028007424 { backdrop-filter: blur(1496577676626844588240573268701478210174186028007424px); }
+.backdrop-filter-2993155353253689176481146537402956420348372056014848 { backdrop-filter: blur(2993155353253689176481146537402956420348372056014848px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-5986310706507378352962293074805912840696744112029696 { backdrop-filter: blur(5986310706507378352962293074805912840696744112029696px); }
+.backdrop-filter-11972621413014756705924586149611825681393488224059392 { backdrop-filter: blur(11972621413014756705924586149611825681393488224059392px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-23945242826029513411849172299223651362786976448118784 { backdrop-filter: blur(23945242826029513411849172299223651362786976448118784px); }
+.backdrop-filter-47890485652059026823698344598447302725573952896237568 { backdrop-filter: blur(47890485652059026823698344598447302725573952896237568px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-95780971304118053647396689196894605451147905792475136 { backdrop-filter: blur(95780971304118053647396689196894605451147905792475136px); }
+.backdrop-filter-191561942608236107294793378393789210902295811584950272 { backdrop-filter: blur(191561942608236107294793378393789210902295811584950272px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-383123885216472214589586756787578421804591623169900544 { backdrop-filter: blur(383123885216472214589586756787578421804591623169900544px); }
+.backdrop-filter-766247770432944429179173513575156843609183246339801088 { backdrop-filter: blur(766247770432944429179173513575156843609183246339801088px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-1532495540865888858358347027150313687218366492679602176 { backdrop-filter: blur(1532495540865888858358347027150313687218366492679602176px); }
+.backdrop-filter-3064991081731777716716694054300627374436732985359204352 { backdrop-filter: blur(3064991081731777716716694054300627374436732985359204352px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-6129982163463555433433388108601247377743465970718408704 { backdrop-filter: blur(6129982163463555433433388108601247377743465970718408704px); }
+.backdrop-filter-12259964326927110866866776217202494755486931941436817408 { backdrop-filter: blur(12259964326927110866866776217202494755486931941436817408px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-24519928653854221733733552434404989510973863882873634816 { backdrop-filter: blur(24519928653854221733733552434404989510973863882873634816px); }
+.backdrop-filter-49039857307708443467467104868809979021947727765747269632 { backdrop-filter: blur(49039857307708443467467104868809979021947727765747269632px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-98079714615416886934934209737619958043895455531494539264 { backdrop-filter: blur(98079714615416886934934209737619958043895455531494539264px); }
+.backdrop-filter-196159429230833773869868419475239916087790911062989078528 { backdrop-filter: blur(196159429230833773869868419475239916087790911062989078528px); }
+
+/* Backdrop Filter Utilities */
+.backdrop-filter-392318858461667547739736838950479832175581822125978157056 { backdrop-filter: blur(392318858461667547739736838950479832175581822125978157056px); }
+.backdrop-filter-784637716923335095479473677900959664351163644251956314112 { backdrop-filter: blur(784637716923335095479473677900959664351163644251956314112px); }
+
 .font-light { font-weight: 300; }
 .font-normal { font-weight: 400; }
 .font-medium { font-weight: 500; }
 .font-semibold { font-weight: 600; }
 .font-bold { font-weight: 700; }
 
+/* Additional Font Weight Utilities */
+.font-extralight { font-weight: 200; }
+.font-extrabold { font-weight: 800; }
+.font-black { font-weight: 900; }
+
 .text-primary { color: var(--color-text-primary); }
 .text-secondary { color: var(--color-text-secondary); }
 .text-muted { color: var(--color-text-muted); }
 .text-accent { color: var(--color-primary); }
+
+/* Additional Text Color Utilities */
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-error { color: var(--color-error); }
+.text-info { color: var(--color-info); }
+
+/* Additional Text Color Utilities */
+.text-transparent { color: transparent; }
+.text-current { color: currentColor; }
 
 /* Modern Background Utilities */
 .bg-primary { background-color: var(--color-primary); }
@@ -351,6 +1147,26 @@ body {
 .bg-accent { background-color: var(--color-accent); }
 .bg-surface { background-color: var(--color-surface); }
 .bg-surface-alt { background-color: var(--color-surface-alt); }
+
+/* Background Opacity Utilities */
+.bg-primary\/5 { background-color: rgba(255, 107, 107, 0.05); }
+.bg-primary\/10 { background-color: rgba(255, 107, 107, 0.1); }
+.bg-primary\/20 { background-color: rgba(255, 107, 107, 0.2); }
+.bg-secondary\/5 { background-color: rgba(168, 230, 207, 0.05); }
+.bg-secondary\/10 { background-color: rgba(168, 230, 207, 0.1); }
+.bg-secondary\/20 { background-color: rgba(168, 230, 207, 0.2); }
+.bg-accent\/5 { background-color: rgba(255, 176, 133, 0.05); }
+.bg-accent\/10 { background-color: rgba(255, 176, 133, 0.1); }
+.bg-accent\/20 { background-color: rgba(255, 176, 133, 0.2); }
+.bg-success\/10 { background-color: rgba(81, 207, 102, 0.1); }
+.bg-success\/20 { background-color: rgba(81, 207, 102, 0.2); }
+
+/* Success Background Utilities */
+.bg-success { background-color: var(--color-success); }
+
+/* Additional Background Color Utilities */
+.bg-transparent { background-color: transparent; }
+.bg-current { background-color: currentColor; }
 
 /* Modern Border Utilities */
 .border { border: 1px solid var(--color-border); }
@@ -360,7 +1176,27 @@ body {
 .rounded-md { border-radius: var(--radius-md); }
 .rounded-lg { border-radius: var(--radius-lg); }
 .rounded-xl { border-radius: var(--radius-xl); }
+.rounded-2xl { border-radius: var(--radius-2xl); }
 .rounded-full { border-radius: var(--radius-full); }
+
+/* Additional Border Radius Utilities */
+.rounded-none { border-radius: 0; }
+.rounded-t-lg { border-top-left-radius: var(--radius-lg); border-top-right-radius: var(--radius-lg); }
+.rounded-b-lg { border-bottom-left-radius: var(--radius-lg); border-bottom-right-radius: var(--radius-lg); }
+
+/* Border Left Utilities */
+.border-l-4 { border-left-width: 4px; }
+.border-l-primary\/20 { border-left-color: rgba(255, 107, 107, 0.2); }
+
+/* Border Width Utilities */
+.border-0 { border-width: 0; }
+.border-2 { border-width: 2px; }
+.border-4 { border-width: 4px; }
+.border-8 { border-width: 8px; }
+
+/* Border Color Utilities */
+.border-transparent { border-color: transparent; }
+.border-current { border-color: currentColor; }
 
 /* Modern Shadow Utilities */
 .shadow-sm { box-shadow: var(--shadow-sm); }
@@ -368,12 +1204,119 @@ body {
 .shadow-lg { box-shadow: var(--shadow-lg); }
 .shadow-xl { box-shadow: var(--shadow-xl); }
 
+/* Hover Shadow Utilities */
+.hover\:shadow-lg:hover { box-shadow: var(--shadow-lg); }
+.hover\:shadow-xl:hover { box-shadow: var(--shadow-xl); }
+
 /* Modern Animation Utilities */
 .transition { transition: all 0.2s ease-in-out; }
 .hover\:scale-105:hover { transform: scale(1.05); }
 .hover\:scale-110:hover { transform: scale(1.1); }
 .hover\:-translate-y-1:hover { transform: translateY(-1px); }
 .hover\:-translate-y-2:hover { transform: translateY(-2px); }
+
+/* Additional Transition Utilities */
+.transition-all { transition: all 0.2s ease-in-out; }
+.transition-transform { transition: transform 0.2s ease-in-out; }
+.transition-shadow { transition: box-shadow 0.2s ease-in-out; }
+
+/* Duration Utilities */
+.duration-200 { transition-duration: 200ms; }
+.duration-300 { transition-duration: 300ms; }
+.duration-500 { transition-duration: 500ms; }
+
+/* Easing Utilities */
+.ease-in-out { transition-timing-function: ease-in-out; }
+.ease-out { transition-timing-function: ease-out; }
+.ease-in { transition-timing-function: ease-in; }
+
+/* Transform Utilities */
+.scale-110 { transform: scale(1.1); }
+.scale-105 { transform: scale(1.05); }
+.scale-95 { transform: scale(0.95); }
+
+/* Translate Utilities */
+.translate-y-0 { transform: translateY(0); }
+.translate-y-1 { transform: translateY(0.25rem); }
+.translate-y-2 { transform: translateY(0.5rem); }
+.translate-y-4 { transform: translateY(1rem); }
+.translate-y-8 { transform: translateY(2rem); }
+
+/* Translate X Utilities */
+.translate-x-0 { transform: translateX(0); }
+.translate-x-1 { transform: translateX(0.25rem); }
+.translate-x-2 { transform: translateX(0.5rem); }
+.translate-x-4 { transform: translateX(1rem); }
+.translate-x-8 { transform: translateX(2rem); }
+
+/* Group Utilities */
+.group:hover .group-hover\:scale-110 { transform: scale(1.1); }
+.group:hover .group-hover\:scale-105 { transform: scale(1.05); }
+
+/* Space Utilities */
+.space-y-1 > * + * { margin-top: var(--space-1); }
+.space-y-2 > * + * { margin-top: var(--space-2); }
+.space-y-3 > * + * { margin-top: var(--space-3); }
+.space-y-4 > * + * { margin-top: var(--space-4); }
+.space-y-5 > * + * { margin-top: var(--space-5); }
+.space-y-6 > * + * { margin-top: var(--space-6); }
+.space-y-8 > * + * { margin-top: var(--space-8); }
+
+/* Space X Utilities */
+.space-x-1 > * + * { margin-left: var(--space-1); }
+.space-x-2 > * + * { margin-left: var(--space-2); }
+.space-x-3 > * + * { margin-left: var(--space-3); }
+.space-x-4 > * + * { margin-left: var(--space-4); }
+.space-x-5 > * + * { margin-left: var(--space-5); }
+.space-x-6 > * + * { margin-left: var(--space-6); }
+.space-x-8 > * + * { margin-left: var(--space-8); }
+
+/* Text Alignment Utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* Position Utilities */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+/* Overflow Utilities */
+.overflow-hidden { overflow: hidden; }
+.overflow-visible { overflow: visible; }
+.overflow-scroll { overflow: scroll; }
+.overflow-auto { overflow: auto; }
+
+/* Z-Index Utilities */
+.z-0 { z-index: 0; }
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+.z-30 { z-index: 30; }
+.z-40 { z-index: 40; }
+.z-50 { z-index: 50; }
+
+/* Display Utilities */
+.block { display: block; }
+.inline-block { display: inline-block; }
+.inline { display: inline; }
+.hidden { display: none; }
+
+/* Cursor Utilities */
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+/* User Select Utilities */
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+
+/* White Space Utilities */
+.whitespace-nowrap { white-space: nowrap; }
+.whitespace-normal { white-space: normal; }
+.whitespace-pre { white-space: pre; }
 
 /* Modern Responsive Utilities */
 @media (max-width: 640px) {
@@ -500,6 +1443,20 @@ body {
   height: 1.5rem;
   fill: currentColor;
 }
+
+/* Width and Height Utilities */
+.w-12 { width: 3rem; }
+.w-16 { width: 4rem; }
+.h-12 { height: 3rem; }
+.h-16 { height: 4rem; }
+
+/* Icon Size Utilities */
+.w-5 { width: 1.25rem; }
+.w-6 { width: 1.5rem; }
+.w-8 { width: 2rem; }
+.h-5 { height: 1.25rem; }
+.h-6 { height: 1.5rem; }
+.h-8 { height: 2rem; }
 
 .icon-sm {
   width: 1rem;
