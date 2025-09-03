@@ -21,7 +21,7 @@ import { usePartner } from '../../contexts/PartnerContext';
 const DailyConnectionPrompt: React.FC = () => {
   return (
     <motion.div
-      className="card bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/5 border-primary/20 p-8"
+      className="card bg-dark-card border-primary/20 p-8"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -31,10 +31,10 @@ const DailyConnectionPrompt: React.FC = () => {
           <HeartIcon className="w-8 h-8 text-white" />
         </div>
         <div className="flex-1">
-          <h3 className="text-xl font-semibold text-text-primary mb-3">
+          <h3 className="text-xl font-semibold text-white-shadow mb-3">
             Your Daily Connection Prompt
           </h3>
-          <p className="text-text-secondary mb-6 text-lg leading-relaxed">
+          <p className="text-white/90 text-lg leading-relaxed text-shadow-sm mb-6">
             Take a moment to reflect on a shared joyful memory from the past week and tell your partner about it.
           </p>
           <button className="btn btn-primary btn-lg shadow-md hover:shadow-lg transition-all duration-200">
@@ -80,8 +80,8 @@ const LatestNotes: React.FC = () => {
       transition={{ duration: 0.3, delay: 0.1 }}
     >
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-semibold text-text-primary">Latest Notes</h3>
-        <Link to="/dashboard/notes" className="text-primary hover:text-primary-hover text-sm font-medium">
+        <h3 className="text-xl font-semibold text-white-shadow">Latest Notes</h3>
+        <Link to="/dashboard/notes" className="text-white/90 hover:text-white text-sm font-medium transition-colors">
           View All
         </Link>
       </div>
@@ -90,7 +90,7 @@ const LatestNotes: React.FC = () => {
         {notes.map((note, index) => (
           <motion.div
             key={note.id}
-            className="card hover:shadow-md transition-all duration-200 p-6 border-l-4 border-l-primary/20"
+            className="card bg-dark-card hover:shadow-md hover:bg-dark-card-hover transition-all duration-200 p-6 border-l-4 border-l-primary/20"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: 0.1 + index * 0.1 }}
@@ -98,11 +98,11 @@ const LatestNotes: React.FC = () => {
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <h4 className="font-semibold text-text-primary">{note.title}</h4>
+                  <h4 className="font-semibold text-white-shadow">{note.title}</h4>
                   <span className="badge badge-primary">{note.tag}</span>
                 </div>
-                <p className="text-text-secondary text-sm mb-2">{note.content}</p>
-                <span className="text-text-muted text-xs">{note.time}</span>
+                <p className="text-white/90 text-sm mb-2 text-shadow-sm">{note.content}</p>
+                <span className="text-white/70 text-xs text-shadow-sm">{note.time}</span>
               </div>
             </div>
           </motion.div>
@@ -152,7 +152,7 @@ const QuickActions: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.2 }}
     >
-      <h3 className="text-xl font-semibold text-text-primary">Quick Actions</h3>
+      <h3 className="text-xl font-semibold text-white-shadow">Quick Actions</h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {actions.map((action, index) => (
           <motion.div
@@ -163,13 +163,13 @@ const QuickActions: React.FC = () => {
           >
             <Link
               to={action.path}
-              className="card p-4 text-center hover:shadow-md transition-all duration-200 group aspect-square flex flex-col justify-center"
+              className="card bg-dark-card p-4 text-center hover:shadow-md hover:bg-dark-card-hover transition-all duration-200 group aspect-square flex flex-col justify-center"
             >
               <div className={`w-16 h-16 ${action.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
                 <action.icon className="w-8 h-8 text-white" />
               </div>
-              <h4 className="font-semibold text-text-primary mb-2 text-sm">{action.name}</h4>
-              <p className="text-text-muted text-xs leading-tight">{action.description}</p>
+              <h4 className="font-semibold text-white-shadow mb-2 text-sm">{action.name}</h4>
+              <p className="text-white/80 text-xs leading-tight text-shadow-sm">{action.description}</p>
             </Link>
           </motion.div>
         ))}
@@ -218,7 +218,7 @@ const RelationshipStats: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.3 }}
     >
-      <h3 className="text-xl font-semibold text-text-primary">Relationship Stats</h3>
+      <h3 className="text-xl font-semibold text-white-shadow">Relationship Stats</h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
           <motion.div
@@ -226,13 +226,13 @@ const RelationshipStats: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-            className="card p-6 text-center hover:shadow-md transition-all duration-200"
+            className="card bg-dark-card p-6 text-center hover:shadow-md hover:bg-dark-card-hover transition-all duration-200"
           >
             <div className={`w-12 h-12 ${stat.bgColor} rounded-xl flex items-center justify-center mx-auto mb-4`}>
               <stat.icon className={`w-6 h-6 ${stat.color}`} />
             </div>
-            <div className="text-3xl font-bold text-text-primary mb-2">{stat.value}</div>
-            <div className="text-text-muted text-sm font-medium">{stat.name}</div>
+            <div className="text-3xl font-bold text-white-shadow mb-2">{stat.value}</div>
+            <div className="text-white/80 text-sm font-medium text-shadow-sm">{stat.name}</div>
           </motion.div>
         ))}
       </div>
@@ -253,10 +253,10 @@ const DashboardPage: React.FC = () => {
         transition={{ duration: 0.3 }}
         className="text-center"
       >
-        <h1 className="text-3xl font-bold text-text-primary mb-2">
+        <h1 className="text-3xl font-bold text-white-shadow mb-2">
           Welcome back, {user?.user_metadata?.full_name || 'Partner'}!
         </h1>
-        <p className="text-text-secondary">
+        <p className="text-white/90 text-shadow-sm">
           Ready to make today special? ✨
         </p>
       </motion.div>

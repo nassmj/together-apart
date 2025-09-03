@@ -155,6 +155,19 @@ body {
   opacity: 1;
 }
 
+/* Dark Card Variants for Better Text Contrast */
+.card-dark {
+  background: #2D3748;
+  border: 1px solid #4A5568;
+  color: #FFFFFF;
+}
+
+.card-dark .text-text-primary,
+.card-dark .text-text-secondary,
+.card-dark .text-text-muted {
+  color: #FFFFFF;
+}
+
 /* Modern Button System */
 .btn {
   display: inline-flex;
@@ -1131,6 +1144,38 @@ body {
 .text-muted { color: var(--color-text-muted); }
 .text-accent { color: var(--color-primary); }
 
+/* Text Color Utility Classes */
+.text-text-primary { color: var(--color-text-primary); }
+.text-text-secondary { color: var(--color-text-secondary); }
+.text-text-muted { color: var(--color-text-muted); }
+.text-text-placeholder { color: var(--color-text-placeholder); }
+
+/* Bright Text Colors for Dark Backgrounds */
+.text-white { color: #FFFFFF; }
+.text-white\/90 { color: rgba(255, 255, 255, 0.9); }
+.text-white\/80 { color: rgba(255, 255, 255, 0.8); }
+.text-white\/70 { color: rgba(255, 255, 255, 0.7); }
+.text-white\/60 { color: rgba(255, 255, 255, 0.6); }
+.text-white\/50 { color: rgba(255, 255, 255, 0.5); }
+
+/* High Contrast Text Colors */
+.text-bright { color: #FFFFFF; }
+.text-bright-90 { color: rgba(255, 255, 255, 0.9); }
+.text-bright-80 { color: rgba(255, 255, 255, 0.8); }
+.text-bright-70 { color: rgba(255, 255, 255, 0.7); }
+
+/* Text Shadow Utilities for Better Readability */
+.text-shadow-sm { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+.text-shadow-md { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); }
+.text-shadow-lg { text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+.text-shadow-xl { text-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); }
+
+/* High Contrast Text with Shadows */
+.text-white-shadow { 
+  color: #FFFFFF; 
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.2); 
+}
+
 /* Additional Text Color Utilities */
 .text-success { color: var(--color-success); }
 .text-warning { color: var(--color-warning); }
@@ -1163,6 +1208,13 @@ body {
 
 /* Success Background Utilities */
 .bg-success { background-color: var(--color-success); }
+
+/* Dark Background Utilities for Better Text Contrast */
+.bg-dark { background-color: #2D3748; }
+.bg-dark-light { background-color: #4A5568; }
+.bg-dark-lighter { background-color: #718096; }
+.bg-dark-card { background-color: #2D3748; }
+.bg-dark-card-hover { background-color: #4A5568; }
 
 /* Additional Background Color Utilities */
 .bg-transparent { background-color: transparent; }
