@@ -1158,16 +1158,21 @@ body {
 .font-extrabold { font-weight: 800; }
 .font-black { font-weight: 900; }
 
-.text-primary { color: var(--color-text-primary); }
-.text-secondary { color: var(--color-text-secondary); }
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
 .text-muted { color: var(--color-text-muted); }
-.text-accent { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
 
 /* Text Color Utility Classes */
 .text-text-primary { color: var(--color-text-primary); }
 .text-text-secondary { color: var(--color-text-secondary); }
 .text-text-muted { color: var(--color-text-muted); }
 .text-text-placeholder { color: var(--color-text-placeholder); }
+
+/* Semantic Color Utilities */
+.text-heading { color: var(--color-text-primary); }
+.text-body { color: var(--color-text-secondary); }
+.text-caption { color: var(--color-text-muted); }
 
 /* Bright Text Colors for Dark Backgrounds */
 .text-white { color: #FFFFFF; }

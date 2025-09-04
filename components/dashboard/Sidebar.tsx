@@ -102,11 +102,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
       <div className="flex flex-col h-full">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border-light">
-          <Link to="/dashboard" className="flex items-center space-x-3">
+          <Link 
+            to="/dashboard" 
+            className="flex items-center space-x-3"
+            aria-label="Go to Dashboard - Together Apart Home"
+          >
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
               <StarIcon className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-text-primary">Together Apart</span>
+            <span className="text-xl font-bold text-black">Together Apart</span>
           </Link>
         </div>
 
@@ -126,8 +130,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
                   className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
                     isActive
                       ? 'bg-primary text-white shadow-sm'
-                      : 'text-text-secondary hover:bg-surface-alt hover:text-text-primary'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                   }`}
+                  aria-label={`${item.name} - ${item.description}`}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   <item.icon className="w-5 h-5" />
                   <span>{item.name}</span>
@@ -150,8 +156,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
                   className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
                     isActive
                       ? 'bg-primary text-white shadow-sm'
-                      : 'text-text-secondary hover:bg-surface-alt hover:text-text-primary'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-black'
                   }`}
+                  aria-label={`${item.name} - ${item.description}`}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   <item.icon className="w-5 h-5" />
                   <span>{item.name}</span>
@@ -165,7 +173,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
         <div className="p-4 border-t border-border-light">
           <button
             onClick={signOut}
-            className="flex items-center space-x-3 w-full px-3 py-2 rounded-lg text-sm font-medium text-text-secondary hover:bg-surface-alt hover:text-text-primary transition-all duration-200"
+            className="flex items-center space-x-3 w-full px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-black transition-all duration-200"
+            aria-label="Sign out of your account"
           >
             <ArrowRightOnRectangleIcon className="w-5 h-5" />
             <span>Sign Out</span>

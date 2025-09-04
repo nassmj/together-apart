@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl lg:text-6xl font-bold text-text-primary mb-6"
+              className="text-4xl lg:text-6xl font-bold text-black mb-6"
             >
               Together Apart
             </motion.h1>
@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl lg:text-2xl text-text-secondary mb-8 max-w-3xl mx-auto"
+              className="text-xl lg:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto"
             >
               Building meaningful connections, one conversation at a time
               <SparklesIcon className="inline-block w-6 h-6 text-primary ml-2" />
@@ -83,10 +83,10 @@ const HomePage: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-6">
+            <h2 className="text-3xl lg:text-4xl font-bold text-black mb-6">
               Stay connected, no matter the distance
             </h2>
-            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Our platform helps couples maintain their bond through meaningful interactions, shared memories, and daily connections.
             </p>
           </motion.div>
