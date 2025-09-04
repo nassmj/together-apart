@@ -29,6 +29,7 @@ import { PerformanceMonitor } from './components/PerformanceMonitor';
 import { DevTools } from './components/ReactQueryDevTools';
 import { UserFeedback, FeedbackTrigger } from './components/UserFeedback';
 import { AccessibilityProvider } from './components/accessibility/AccessibilityProvider';
+import { SecurityProvider } from './contexts/SecurityContext';
 
 const ProtectedRoute: React.FC = () => {
   const { user, loading } = useAuth();
@@ -80,7 +81,8 @@ const App: React.FC = () => {
 
   return (
     <AccessibilityProvider>
-      <ToastProvider>
+      <SecurityProvider>
+        <ToastProvider>
         <PerformanceMonitor onMetrics={handlePerformanceMetrics} />
         <Routes>
           <Route element={<PublicLayout />}>
@@ -119,7 +121,8 @@ const App: React.FC = () => {
         />
         
         <DevTools />
-      </ToastProvider>
+        </ToastProvider>
+      </SecurityProvider>
     </AccessibilityProvider>
   );
 };
