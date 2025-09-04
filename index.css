@@ -234,6 +234,25 @@ body {
   font-size: var(--font-size-xl);
 }
 
+/* Dark Button Variants */
+.btn-dark {
+  background-color: #000000;
+  color: #FFFFFF;
+  border: 1px solid #000000;
+}
+
+.btn-dark:hover {
+  background-color: #1F2937;
+  border-color: #1F2937;
+  transform: translateY(-1px);
+}
+
+.btn-dark:disabled {
+  background-color: #6B7280;
+  border-color: #6B7280;
+  cursor: not-allowed;
+}
+
 /* Modern Input System */
 .input {
   width: 100%;

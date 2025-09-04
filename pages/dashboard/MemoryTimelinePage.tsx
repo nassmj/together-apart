@@ -422,13 +422,13 @@ const MemoryTimelinePage: React.FC = () => {
         
         <div className="flex items-center gap-3">
           <button 
-            className="btn btn-ghost"
+            className="btn btn-dark"
             onClick={handleExport}
             disabled={isExporting}
           >
             {isExporting ? (
               <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                 Exporting...
               </>
             ) : (
