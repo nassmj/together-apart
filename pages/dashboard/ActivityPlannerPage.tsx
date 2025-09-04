@@ -434,8 +434,8 @@ const ActivityPlannerPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-primary mb-2">Shared Plans</h1>
-          <p className="text-secondary">
+          <h1 className="text-3xl font-bold text-black mb-2">Shared Plans</h1>
+          <p className="text-gray-600 text-lg">
             Plan, track, and get inspired for your next adventure together
           </p>
         </div>
@@ -471,42 +471,62 @@ const ActivityPlannerPage: React.FC = () => {
         </div>
         
         <div className="flex gap-3">
-          <select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            className="input"
-          >
-            <option>All</option>
-            <option>upcoming</option>
-            <option>completed</option>
-            <option>cancelled</option>
-          </select>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">Status</label>
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="input min-w-[120px]"
+              aria-label="Filter by plan status"
+            >
+              <option value="All">All Statuses</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
           
-          <select
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-            className="input"
-          >
-            <option>All Types</option>
-            <option>date</option>
-            <option>activity</option>
-            <option>travel</option>
-            <option>celebration</option>
-            <option>casual</option>
-          </select>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">Type</label>
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="input min-w-[140px]"
+              aria-label="Filter by plan type"
+            >
+              <option value="All Types">All Types</option>
+              <option value="date">Date</option>
+              <option value="activity">Activity</option>
+              <option value="travel">Travel</option>
+              <option value="celebration">Celebration</option>
+              <option value="casual">Casual</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {/* Plans Tabs */}
-      <div className="flex gap-1 p-1 bg-surface-alt rounded-lg">
-        <button className="flex-1 py-2 px-4 rounded-md bg-primary text-white font-medium">
-          Upcoming ({upcomingPlans.length})
+      <div className="flex gap-1 p-1 bg-gray-100 rounded-lg overflow-x-auto">
+        <button 
+          className="flex-1 py-3 px-4 rounded-md bg-primary text-white font-medium whitespace-nowrap min-w-0"
+          aria-label={`View upcoming plans (${upcomingPlans.length} total)`}
+        >
+          <span className="block sm:inline">Upcoming</span>
+          <span className="block sm:inline">({upcomingPlans.length})</span>
         </button>
-        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors border border-gray-200 hover:border-primary/30">
-          Completed ({completedPlans.length})
+        <button 
+          className="flex-1 py-3 px-4 rounded-md text-gray-700 hover:text-primary transition-colors border border-gray-200 hover:border-primary/30 whitespace-nowrap min-w-0"
+          aria-label={`View completed plans (${completedPlans.length} total)`}
+        >
+          <span className="block sm:inline">Completed</span>
+          <span className="block sm:inline">({completedPlans.length})</span>
         </button>
-        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors border border-gray-200 hover:border-primary/30">
-          Idea Bin (0)
+        <button 
+          className="flex-1 py-3 px-4 rounded-md text-gray-700 hover:text-primary transition-colors border border-gray-200 hover:border-primary/30 whitespace-nowrap min-w-0"
+          aria-label="View idea bin plans"
+        >
+          <span className="block sm:inline">Idea Bin</span>
+          <span className="block sm:inline">(0)</span>
         </button>
       </div>
 
@@ -526,23 +546,25 @@ const ActivityPlannerPage: React.FC = () => {
         </div>
       ) : (
         <motion.div
-          className="text-center py-12"
+          className="text-center py-16 px-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <CalendarDaysIcon className="w-16 h-16 text-muted mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-primary mb-2">No upcoming plans</h3>
-          <p className="text-secondary mb-6">
+          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CalendarDaysIcon className="w-10 h-10 text-gray-400" />
+          </div>
+          <h3 className="text-2xl font-semibold text-gray-800 mb-3">No upcoming plans</h3>
+          <p className="text-gray-600 mb-8 max-w-md mx-auto">
             {searchQuery || selectedStatus !== 'All' || selectedType !== 'All Types'
-              ? 'Try adjusting your search or filters'
-              : 'Start planning your next adventure together'}
+              ? 'Try adjusting your search or filters to find what you\'re looking for'
+              : 'Start planning your next adventure together and create lasting memories'}
           </p>
           {!searchQuery && selectedStatus === 'All' && selectedType === 'All Types' && (
             <button 
-              className="btn btn-primary"
+              className="btn btn-primary btn-lg shadow-md hover:shadow-lg transition-all duration-200"
               onClick={() => setIsAddModalOpen(true)}
             >
-              <PlusIcon className="w-5 h-5" />
+              <PlusIcon className="w-6 h-6" />
               Create Your First Plan
             </button>
           )}
