@@ -1,139 +1,259 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
+// Accessibility Context Types
 interface AccessibilityContextType {
-  isHighContrast: boolean;
-  isReducedMotion: boolean;
-  isDarkMode: boolean;
-  fontSize: 'small' | 'medium' | 'large';
-  setFontSize: (size: 'small' | 'medium' | 'large') => void;
-  toggleHighContrast: () => void;
-  toggleReducedMotion: () => void;
-  announceToScreenReader: (message: string) => void;
+  // Theme Management
+  theme: 'light' | 'dark' | 'high-contrast';
+  setTheme: (theme: 'light' | 'dark' | 'high-contrast') => void;
+  
+  // Motion Preferences
+  reducedMotion: boolean;
+  setReducedMotion: (reduced: boolean) => void;
+  
+  // Focus Management
+  focusVisible: boolean;
+  setFocusVisible: (visible: boolean) => void;
+  
+  // High Contrast Mode
+  highContrast: boolean;
+  setHighContrast: (enabled: boolean) => void;
+  
+  // Font Size Scaling
+  fontSize: 'normal' | 'large' | 'x-large';
+  setFontSize: (size: 'normal' | 'large' | 'x-large') => void;
+  
+  // Line Height
+  lineHeight: 'normal' | 'relaxed' | 'extra-relaxed';
+  setLineHeight: (height: 'normal' | 'relaxed' | 'extra-relaxed') => void;
+  
+  // Spacing
+  spacing: 'normal' | 'large' | 'x-large';
+  setSpacing: (spacing: 'normal' | 'large' | 'x-large') => void;
+  
+  // RTL Support
+  direction: 'ltr' | 'rtl';
+  setDirection: (dir: 'ltr' | 'rtl') => void;
+  
+  // Language
+  language: string;
+  setLanguage: (lang: string) => void;
+  
+  // Screen Reader Announcements
+  announce: (message: string, priority?: 'polite' | 'assertive') => void;
+  
+  // Skip Links
+  skipToMain: () => void;
+  skipToNav: () => void;
 }
 
+// Default Context
 const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined);
 
+// Accessibility Provider Props
 interface AccessibilityProviderProps {
   children: ReactNode;
 }
 
+// Accessibility Provider Component
 export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({ children }) => {
-  const [isHighContrast, setIsHighContrast] = useState(false);
-  const [isReducedMotion, setIsReducedMotion] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large'>('medium');
+  // Theme State
+  const [theme, setTheme] = useState<'light' | 'dark' | 'high-contrast'>(() => {
+    const saved = localStorage.getItem('accessibility-theme');
+    return (saved as 'light' | 'dark' | 'high-contrast') || 'light';
+  });
 
-  // Check for user preferences on mount
-  useEffect(() => {
-    // Check for high contrast preference
-    const highContrastQuery = window.matchMedia('(prefers-contrast: high)');
-    setIsHighContrast(highContrastQuery.matches);
+  // Motion Preferences
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    const saved = localStorage.getItem('accessibility-reduced-motion');
+    return saved ? JSON.parse(saved) : false;
+  });
 
-    // Check for reduced motion preference
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setIsReducedMotion(reducedMotionQuery.matches);
+  // Focus Management
+  const [focusVisible, setFocusVisible] = useState(() => {
+    const saved = localStorage.getItem('accessibility-focus-visible');
+    return saved ? JSON.parse(saved) : true;
+  });
 
-    // Check for dark mode preference
-    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDarkMode(darkModeQuery.matches);
+  // High Contrast Mode
+  const [highContrast, setHighContrast] = useState(() => {
+    const saved = localStorage.getItem('accessibility-high-contrast');
+    return saved ? JSON.parse(saved) : false;
+  });
 
-    // Listen for preference changes
-    const handleHighContrastChange = (e: MediaQueryListEvent) => setIsHighContrast(e.matches);
-    const handleReducedMotionChange = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
-    const handleDarkModeChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
+  // Font Size Scaling
+  const [fontSize, setFontSize] = useState<'normal' | 'large' | 'x-large'>(() => {
+    const saved = localStorage.getItem('accessibility-font-size');
+    return (saved as 'normal' | 'large' | 'x-large') || 'normal';
+  });
 
-    highContrastQuery.addEventListener('change', handleHighContrastChange);
-    reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
-    darkModeQuery.addEventListener('change', handleDarkModeChange);
+  // Line Height
+  const [lineHeight, setLineHeight] = useState<'normal' | 'relaxed' | 'extra-relaxed'>(() => {
+    const saved = localStorage.getItem('accessibility-line-height');
+    return (saved as 'normal' | 'relaxed' | 'extra-relaxed') || 'normal';
+  });
 
-    // Load saved preferences
-    const savedFontSize = localStorage.getItem('accessibility-font-size') as 'small' | 'medium' | 'large';
-    if (savedFontSize) {
-      setFontSize(savedFontSize);
-    }
+  // Spacing
+  const [spacing, setSpacing] = useState<'normal' | 'large' | 'x-large'>(() => {
+    const saved = localStorage.getItem('accessibility-spacing');
+    return (saved as 'normal' | 'large' | 'x-large') || 'normal';
+  });
 
-    return () => {
-      highContrastQuery.removeEventListener('change', handleHighContrastChange);
-      reducedMotionQuery.removeEventListener('change', handleReducedMotionChange);
-      darkModeQuery.removeEventListener('change', handleDarkModeChange);
-    };
-  }, []);
+  // RTL Support
+  const [direction, setDirection] = useState<'ltr' | 'rtl'>(() => {
+    const saved = localStorage.getItem('accessibility-direction');
+    return (saved as 'ltr' | 'rtl') || 'ltr';
+  });
 
-  // Apply accessibility classes to document
+  // Language
+  const [language, setLanguage] = useState(() => {
+    const saved = localStorage.getItem('accessibility-language');
+    return saved || 'en';
+  });
+
+  // Apply Theme to Document
   useEffect(() => {
     const root = document.documentElement;
     
-    // Apply high contrast class
-    if (isHighContrast) {
+    // Remove all theme classes
+    root.classList.remove('light', 'dark', 'high-contrast');
+    
+    // Apply current theme
+    if (theme === 'high-contrast') {
       root.classList.add('high-contrast');
     } else {
-      root.classList.remove('high-contrast');
+      root.classList.add(theme);
     }
+    
+    // Store in localStorage
+    localStorage.setItem('accessibility-theme', theme);
+  }, [theme]);
 
-    // Apply reduced motion class
-    if (isReducedMotion) {
+  // Apply Motion Preferences
+  useEffect(() => {
+    const root = document.documentElement;
+    
+    if (reducedMotion) {
       root.classList.add('reduced-motion');
     } else {
       root.classList.remove('reduced-motion');
     }
-
-    // Apply dark mode class
-    if (isDarkMode) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-
-    // Apply font size
-    root.classList.remove('font-size-small', 'font-size-medium', 'font-size-large');
-    root.classList.add(`font-size-${fontSize}`);
-  }, [isHighContrast, isReducedMotion, isDarkMode, fontSize]);
-
-  const handleFontSizeChange = (size: 'small' | 'medium' | 'large') => {
-    setFontSize(size);
-    localStorage.setItem('accessibility-font-size', size);
-  };
-
-  const toggleHighContrast = () => {
-    setIsHighContrast(!isHighContrast);
-  };
-
-  const toggleReducedMotion = () => {
-    setIsReducedMotion(!isReducedMotion);
-  };
-
-  const announceToScreenReader = (message: string) => {
-    // Create or update aria-live region
-    let liveRegion = document.getElementById('aria-live-region');
-    if (!liveRegion) {
-      liveRegion = document.createElement('div');
-      liveRegion.id = 'aria-live-region';
-      liveRegion.className = 'aria-live';
-      liveRegion.setAttribute('aria-live', 'polite');
-      liveRegion.setAttribute('aria-atomic', 'true');
-      document.body.appendChild(liveRegion);
-    }
-
-    // Announce the message
-    liveRegion.textContent = message;
     
-    // Clear the message after a short delay
+    localStorage.setItem('accessibility-reduced-motion', JSON.stringify(reducedMotion));
+  }, [reducedMotion]);
+
+  // Apply Focus Management
+  useEffect(() => {
+    const root = document.documentElement;
+    
+    if (!focusVisible) {
+      root.classList.add('no-focus-visible');
+    } else {
+      root.classList.remove('no-focus-visible');
+    }
+    
+    localStorage.setItem('accessibility-focus-visible', JSON.stringify(focusVisible));
+  }, [focusVisible]);
+
+  // Apply Font Size Scaling
+  useEffect(() => {
+    const root = document.documentElement;
+    
+    root.classList.remove('font-size-normal', 'font-size-large', 'font-size-x-large');
+    root.classList.add(`font-size-${fontSize}`);
+    
+    localStorage.setItem('accessibility-font-size', fontSize);
+  }, [fontSize]);
+
+  // Apply Line Height
+  useEffect(() => {
+    const root = document.documentElement;
+    
+    root.classList.remove('line-height-normal', 'line-height-relaxed', 'line-height-extra-relaxed');
+    root.classList.add(`line-height-${lineHeight}`);
+    
+    localStorage.setItem('accessibility-line-height', lineHeight);
+  }, [lineHeight]);
+
+  // Apply Spacing
+  useEffect(() => {
+    const root = document.documentElement;
+    
+    root.classList.remove('spacing-normal', 'spacing-large', 'spacing-x-large');
+    root.classList.add(`spacing-${spacing}`);
+    
+    localStorage.setItem('accessibility-spacing', spacing);
+  }, [spacing]);
+
+  // Apply Direction
+  useEffect(() => {
+    const root = document.documentElement;
+    root.setAttribute('dir', direction);
+    localStorage.setItem('accessibility-direction', direction);
+  }, [direction]);
+
+  // Apply Language
+  useEffect(() => {
+    const root = document.documentElement;
+    root.setAttribute('lang', language);
+    localStorage.setItem('accessibility-language', language);
+  }, [language]);
+
+  // Screen Reader Announcements
+  const announce = (message: string, priority: 'polite' | 'assertive' = 'polite') => {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('aria-live', priority);
+    announcement.setAttribute('aria-atomic', 'true');
+    announcement.className = 'sr-only';
+    announcement.textContent = message;
+    
+    document.body.appendChild(announcement);
+    
+    // Remove after announcement
     setTimeout(() => {
-      if (liveRegion) {
-        liveRegion.textContent = '';
-      }
+      document.body.removeChild(announcement);
     }, 1000);
   };
 
+  // Skip Links
+  const skipToMain = () => {
+    const main = document.querySelector('main');
+    if (main) {
+      main.focus();
+      announce('Navigated to main content', 'assertive');
+    }
+  };
+
+  const skipToNav = () => {
+    const nav = document.querySelector('nav');
+    if (nav) {
+      nav.focus();
+      announce('Navigated to navigation', 'assertive');
+    }
+  };
+
+  // Context Value
   const value: AccessibilityContextType = {
-    isHighContrast,
-    isReducedMotion,
-    isDarkMode,
+    theme,
+    setTheme,
+    reducedMotion,
+    setReducedMotion,
+    focusVisible,
+    setFocusVisible,
+    highContrast,
+    setHighContrast,
     fontSize,
-    setFontSize: handleFontSizeChange,
-    toggleHighContrast,
-    toggleReducedMotion,
-    announceToScreenReader,
+    setFontSize,
+    lineHeight,
+    setLineHeight,
+    spacing,
+    setSpacing,
+    direction,
+    setDirection,
+    language,
+    setLanguage,
+    announce,
+    skipToMain,
+    skipToNav,
   };
 
   return (
@@ -143,10 +263,13 @@ export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({ ch
   );
 };
 
-export const useAccessibility = () => {
+// Custom Hook
+export const useAccessibility = (): AccessibilityContextType => {
   const context = useContext(AccessibilityContext);
   if (context === undefined) {
     throw new Error('useAccessibility must be used within an AccessibilityProvider');
   }
   return context;
 };
+
+export default AccessibilityProvider;
