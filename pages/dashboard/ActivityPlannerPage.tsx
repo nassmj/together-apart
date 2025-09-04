@@ -59,7 +59,7 @@ const PlanCard: React.FC<{ plan: Plan; onEdit?: (plan: Plan) => void }> = ({ pla
 
   return (
     <motion.div
-      className="card hover:shadow-md transition-all duration-200 cursor-pointer"
+      className="card bg-white hover:shadow-md hover:bg-gray-50 transition-all duration-200 cursor-pointer border border-gray-200"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2 }}
@@ -67,36 +67,36 @@ const PlanCard: React.FC<{ plan: Plan; onEdit?: (plan: Plan) => void }> = ({ pla
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 bg-${typeColor}-light rounded-lg flex items-center justify-center`}>
-            <CalendarDaysIcon className={`w-5 h-5 text-${typeColor}`} />
+          <div className={`w-12 h-12 bg-${typeColor}/10 rounded-xl flex items-center justify-center shadow-sm`}>
+            <CalendarDaysIcon className={`w-6 h-6 text-${typeColor}`} />
           </div>
           <div>
-            <h3 className="font-semibold text-primary">{plan.title}</h3>
-            <p className="text-secondary text-sm">{plan.description}</p>
+            <h3 className="font-semibold text-black text-lg">{plan.title}</h3>
+            <p className="text-gray-700 text-sm leading-relaxed">{plan.description}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {plan.isFavorite && (
             <StarIcon className="w-5 h-5 text-accent fill-current" />
           )}
-          <span className={`badge badge-${statusColor}`}>
-            {plan.status}
+          <span className={`badge badge-${statusColor} text-white font-medium`}>
+            {plan.status.toUpperCase()}
           </span>
         </div>
       </div>
 
       <div className="space-y-2 mb-4">
-        <div className="flex items-center gap-2 text-sm text-secondary">
-          <CalendarDaysIcon className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-sm text-gray-700">
+          <CalendarDaysIcon className="w-4 h-4 text-gray-600" />
           {plan.date}
         </div>
-        <div className="flex items-center gap-2 text-sm text-secondary">
-          <ClockIcon className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-sm text-gray-700">
+          <ClockIcon className="w-4 h-4 text-gray-600" />
           {plan.time}
         </div>
         {plan.location && (
-          <div className="flex items-center gap-2 text-sm text-secondary">
-            <MapPinIcon className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-sm text-gray-700">
+            <MapPinIcon className="w-4 h-4 text-gray-600" />
             {plan.location}
           </div>
         )}
@@ -104,19 +104,19 @@ const PlanCard: React.FC<{ plan: Plan; onEdit?: (plan: Plan) => void }> = ({ pla
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <UserGroupIcon className="w-4 h-4 text-muted" />
-          <span className="text-sm text-secondary">
+          <UserGroupIcon className="w-4 h-4 text-gray-600" />
+          <span className="text-sm text-gray-700">
             {plan.participants.length} participants
           </span>
         </div>
         <div className="flex gap-1">
           {plan.tags.slice(0, 2).map((tag) => (
-            <span key={tag} className="badge badge-primary badge-sm">
-              {tag}
+            <span key={tag} className="badge badge-primary badge-sm text-white font-medium">
+              {tag.toUpperCase()}
             </span>
           ))}
           {plan.tags.length > 2 && (
-            <span className="badge badge-secondary badge-sm">
+            <span className="badge badge-secondary badge-sm text-white font-medium">
               +{plan.tags.length - 2}
             </span>
           )}
@@ -436,7 +436,7 @@ const ActivityPlannerPage: React.FC = () => {
         </div>
         
         <div className="flex items-center gap-3">
-          <button className="btn btn-ghost">
+          <button className="btn btn-dark">
             <LightBulbIcon className="w-5 h-5" />
             Inspire Me
           </button>
