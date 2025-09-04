@@ -65,62 +65,67 @@ const PlanCard: React.FC<{ plan: Plan; onEdit?: (plan: Plan) => void }> = ({ pla
       whileHover={{ y: -2 }}
       onClick={() => onEdit?.(plan)}
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className={`w-12 h-12 bg-${typeColor}/10 rounded-xl flex items-center justify-center shadow-sm`}>
-            <CalendarDaysIcon className={`w-6 h-6 text-${typeColor}`} />
-          </div>
-          <div>
-            <h3 className="font-semibold text-black text-lg">{plan.title}</h3>
-            <p className="text-gray-700 text-sm leading-relaxed">{plan.description}</p>
-          </div>
+      {/* Header with centered icon and title */}
+      <div className="text-center mb-6">
+        <div className={`w-16 h-16 bg-${typeColor}/10 rounded-2xl flex items-center justify-center shadow-sm mx-auto mb-4`}>
+          <CalendarDaysIcon className={`w-8 h-8 text-${typeColor}`} />
         </div>
-        <div className="flex items-center gap-2">
-          {plan.isFavorite && (
-            <StarIcon className="w-5 h-5 text-accent fill-current" />
-          )}
-          <span className={`badge badge-${statusColor} text-white font-medium`}>
-            {plan.status.toUpperCase()}
-          </span>
-        </div>
+        <h3 className="font-semibold text-black text-xl mb-3">{plan.title}</h3>
+        <p className="text-gray-700 text-sm leading-relaxed max-w-xs mx-auto">{plan.description}</p>
       </div>
 
-      <div className="space-y-2 mb-4">
-        <div className="flex items-center gap-2 text-sm text-gray-700">
-          <CalendarDaysIcon className="w-4 h-4 text-gray-600" />
-          {plan.date}
-        </div>
-        <div className="flex items-center gap-2 text-sm text-gray-700">
-          <ClockIcon className="w-4 h-4 text-gray-600" />
-          {plan.time}
-        </div>
-        {plan.location && (
-          <div className="flex items-center gap-2 text-sm text-gray-700">
-            <MapPinIcon className="w-4 h-4 text-gray-600" />
-            {plan.location}
+      {/* Status badge and favorite icon centered */}
+      <div className="flex justify-center items-center gap-3 mb-6">
+        <span className={`badge badge-${statusColor} text-white font-medium px-4 py-2`}>
+          {plan.status.toUpperCase()}
+        </span>
+        {plan.isFavorite && (
+          <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+            <StarIcon className="w-5 h-5 text-yellow-500 fill-current" />
           </div>
         )}
       </div>
 
-      <div className="flex items-center justify-between">
+      {/* Details section centered */}
+      <div className="space-y-3 mb-6 px-4">
+        <div className="flex items-center justify-center gap-3 text-sm text-gray-700">
+          <CalendarDaysIcon className="w-5 h-5 text-gray-600" />
+          <span className="font-medium">{plan.date}</span>
+        </div>
+        <div className="flex items-center justify-center gap-3 text-sm text-gray-700">
+          <ClockIcon className="w-5 h-5 text-gray-600" />
+          <span className="font-medium">{plan.time}</span>
+        </div>
+        {plan.location && (
+          <div className="flex items-center justify-center gap-3 text-sm text-gray-700">
+            <MapPinIcon className="w-5 h-5 text-gray-600" />
+            <span className="font-medium">{plan.location}</span>
+          </div>
+        )}
+      </div>
+
+      {/* Participants centered */}
+      <div className="flex justify-center mb-4">
         <div className="flex items-center gap-2">
-          <UserGroupIcon className="w-4 h-4 text-gray-600" />
-          <span className="text-sm text-gray-700">
+          <UserGroupIcon className="w-5 h-5 text-gray-600" />
+          <span className="text-sm text-gray-700 font-medium">
             {plan.participants.length} participants
           </span>
         </div>
-        <div className="flex gap-1">
-          {plan.tags.slice(0, 2).map((tag) => (
-            <span key={tag} className="badge badge-primary badge-sm text-white font-medium">
-              {tag.toUpperCase()}
-            </span>
-          ))}
-          {plan.tags.length > 2 && (
-            <span className="badge badge-secondary badge-sm text-white font-medium">
-              +{plan.tags.length - 2}
-            </span>
-          )}
-        </div>
+      </div>
+
+      {/* Tags centered */}
+      <div className="flex justify-center gap-2">
+        {plan.tags.slice(0, 2).map((tag) => (
+          <span key={tag} className="badge badge-primary badge-sm text-white font-medium">
+            {tag.toUpperCase()}
+          </span>
+        ))}
+        {plan.tags.length > 2 && (
+          <span className="badge badge-secondary badge-sm text-white font-medium">
+            +{plan.tags.length - 2}
+          </span>
+        )}
       </div>
     </motion.div>
   );
@@ -497,10 +502,10 @@ const ActivityPlannerPage: React.FC = () => {
         <button className="flex-1 py-2 px-4 rounded-md bg-primary text-white font-medium">
           Upcoming ({upcomingPlans.length})
         </button>
-        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors">
+        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors border border-gray-200 hover:border-primary/30">
           Completed ({completedPlans.length})
         </button>
-        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors">
+        <button className="flex-1 py-2 px-4 rounded-md text-secondary hover:text-primary transition-colors border border-gray-200 hover:border-primary/30">
           Idea Bin (0)
         </button>
       </div>
