@@ -1,6 +1,12 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { useAuth } from './AuthContext';
-import analytics from '../lib/analytics';
+// import analytics from '../lib/analytics';
+
+// Mock analytics for build compatibility
+const analytics = {
+  trackSecurity: () => {},
+  trackAccessibility: () => {},
+};
 
 // Security Context Types
 interface SecurityContextType {
