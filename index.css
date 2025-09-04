@@ -1176,6 +1176,20 @@ body {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.2); 
 }
 
+/* Gray Text Color Utilities */
+.text-gray-500 { color: #6B7280; }
+.text-gray-600 { color: #4B5563; }
+.text-gray-700 { color: #374151; }
+.text-gray-800 { color: #1F2937; }
+
+/* Blue Link Colors */
+.text-blue-600 { color: #2563EB; }
+.text-blue-800 { color: #1E40AF; }
+
+/* Light Background Utilities */
+.bg-gray-50 { background-color: #F9FAFB; }
+.bg-white { background-color: #FFFFFF; }
+
 /* Additional Text Color Utilities */
 .text-success { color: var(--color-success); }
 .text-warning { color: var(--color-warning); }
